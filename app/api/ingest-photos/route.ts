@@ -24,7 +24,8 @@ export const maxDuration = 60;
 
 interface Source {
   year: number;
-  query: string;   // "<make> <model>" used for the Commons search fallback
+  query: string;    // "<make> <model>" used for the Commons search fallback
+  alt?: string[];   // other names the same car sells under in other markets
   titles: string[]; // generation-specific articles, most-correct first
 }
 
@@ -37,9 +38,9 @@ const SOURCES: Record<string, Source> = {
   DV1006: { year: 2013, query: 'Honda Accord', titles: ['Honda_Accord_(ninth_generation)'] },
   DV1007: { year: 2015, query: 'Toyota Prius', titles: ['Toyota_Prius_(XW30)'] },
   DV1008: { year: 2014, query: 'Honda CR-V', titles: ['Honda_CR-V_(fourth_generation)'] },
-  DV1009: { year: 2016, query: 'Nissan Rogue', titles: ['Nissan_X-Trail_(T32)'] },
-  DV1010: { year: 2013, query: 'Ford Escape', titles: ['Ford_Escape_(third_generation)'] },
-  DV1011: { year: 2017, query: 'Kia Forte', titles: ['Kia_Forte_(YD)'] },
+  DV1009: { year: 2016, query: 'Nissan Rogue', alt: ['Nissan X-Trail', 'Nissan Rogue SV'], titles: ['Nissan_X-Trail_(T32)'] },
+  DV1010: { year: 2013, query: 'Ford Escape', alt: ['Ford Kuga', 'Ford Escape SE'], titles: ['Ford_Escape_(third_generation)'] },
+  DV1011: { year: 2017, query: 'Kia Forte', alt: ['Kia Cerato', 'Kia Forte sedan'], titles: ['Kia_Forte_(YD)'] },
   DV1012: { year: 2012, query: 'Honda Fit', titles: ['Honda_Fit_(second_generation)'] },
 };
 
@@ -198,10 +199,17 @@ export async function GET(request: Request) {
 
     if (!articleOk) {
       await new Promise((r) => setTimeout(r, 350));
-      const searched = await searchCommons(source.year, source.query);
-      if (searched) {
-        found = searched;
-        via = 'commons-search';
+      // Try the US name first, then the names the same car sells under in
+      // other markets — the Rogue is an X-Trail, the Escape a Kuga, the Forte
+      // a Cerato, and Commons is dominated by non-US photographers.
+      for (const q of [source.query, ...(source.alt ?? [])]) {
+        const searched = await searchCommons(source.year, q);
+        if (searched) {
+          found = searched;
+          via = 'commons-search';
+          break;
+        }
+        await new Promise((r) => setTimeout(r, 250));
       }
     }
 
