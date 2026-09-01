@@ -79,9 +79,10 @@ const PRODUCTION_URL = 'https://danvice-auto-rsm-lucrosai.vercel.app';
 
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : undefined) ??
+  // Deliberately NOT VERCEL_PROJECT_PRODUCTION_URL: on a team project that
+  // resolves to danvice-auto-rsm.vercel.app, which is not the alias this
+  // deployment actually serves on, so canonicals and sitemap URLs would point
+  // at a hostname that does not resolve.
   (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : PRODUCTION_URL)
 ).replace(/\/$/, '');
 
