@@ -59,6 +59,20 @@ function yearInFilename(name: string): number | null {
  * Wikimedia Commons for a file whose name carries the listing year.
  */
 async function searchCommons(year: number, query: string): Promise<Found | null> {
+  // Try the listing year first, then nearby years. Commons naming is
+  // inconsistent, and a 2016 car is frequently filed under 2015 or 2017.
+  for (const y of [year, year - 1, year + 1, year - 2, year + 2]) {
+    const hit = await searchCommonsYear(y, query, year);
+    if (hit) return hit;
+  }
+  return null;
+}
+
+async function searchCommonsYear(
+  year: number,
+  query: string,
+  listingYear: number,
+): Promise<Found | null> {
   const search = `${year} ${query}`;
   const api =
     'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*' +
@@ -86,7 +100,7 @@ async function searchCommons(year: number, query: string): Promise<Found | null>
       if (/\.svg$/i.test(title) || /logo|emblem|badge|interior|engine|dashboard/i.test(title)) continue;
 
       const found = yearInFilename(title);
-      if (found === null || Math.abs(found - year) > YEAR_TOLERANCE) continue;
+      if (found === null || Math.abs(found - listingYear) > YEAR_TOLERANCE) continue;
 
       return {
         title: `Commons search: ${search}`,
