@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getAllSlugs, getSimilar, getVehicleBySlug } from '@/lib/vehicles';
+import { getSimilar, getVehicleBySlug } from '@/lib/vehicles';
 import { formatPrice, label, vehicleTitle } from '@/lib/format';
 import { breadcrumbJsonLd, vehicleJsonLd } from '@/lib/seo';
 import { SITE } from '@/lib/site';
@@ -15,18 +15,19 @@ import { PaymentCalculator } from '@/components/vehicles/PaymentCalculator';
 import { VehicleGrid } from '@/components/vehicles/VehicleGrid';
 import { LeadFormModal } from '@/components/leads/LeadFormModal';
 
-// No route-level `revalidate`. With one, an unknown slug's notFound() result
-// gets stored in the ISR cache and replayed as HTTP 200 with the 404 body — a
-// soft 404. Freshness still comes from the data layer, whose unstable_cache
-// entries carry the 'vehicles' tag and are purged by /api/revalidate.
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  // Returns [] if the database is unreachable at build time; dynamicParams
-  // then renders each page on first request instead of failing the build.
-  const slugs = await getAllSlugs();
-  return slugs.map(({ slug }) => ({ slug }));
-}
+/**
+ * force-dynamic so an unknown slug returns a real HTTP 404.
+ *
+ * Under ISR, notFound() for an on-demand slug gets stored in the cache and
+ * replayed as 200 with the 404 body — a soft 404, which would let search
+ * engines index vehicles that do not exist once indexing is enabled. Removing
+ * the route-level revalidate alone did not fix it.
+ *
+ * This costs little: getVehicleBySlug is wrapped in unstable_cache with the
+ * 'vehicles' tag, so repeat views still serve from the data cache rather than
+ * hitting Postgres, and /api/revalidate purges it on inventory changes.
+ */
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
