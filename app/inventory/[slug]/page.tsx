@@ -15,7 +15,10 @@ import { PaymentCalculator } from '@/components/vehicles/PaymentCalculator';
 import { VehicleGrid } from '@/components/vehicles/VehicleGrid';
 import { LeadFormModal } from '@/components/leads/LeadFormModal';
 
-export const revalidate = 300;
+// No route-level `revalidate`. With one, an unknown slug's notFound() result
+// gets stored in the ISR cache and replayed as HTTP 200 with the 404 body — a
+// soft 404. Freshness still comes from the data layer, whose unstable_cache
+// entries carry the 'vehicles' tag and are purged by /api/revalidate.
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
