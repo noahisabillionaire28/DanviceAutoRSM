@@ -1,0 +1,41 @@
+'use client';
+
+import Link from 'next/link';
+import { SITE } from '@/lib/site';
+
+/**
+ * Fixed bottom bar, mobile only. The layout adds matching bottom padding so
+ * this never covers the footer, and pb-[env(safe-area-inset-bottom)] keeps the
+ * buttons clear of the iOS home indicator.
+ */
+export function MobileStickyBar() {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-navy-100 bg-bone-50/95 shadow-sticky-bar backdrop-blur-md md:hidden">
+      <div
+        className="flex items-center gap-3 px-4 py-3"
+        style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}
+      >
+        <a
+          href={`tel:${SITE.phone.tel}`}
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-gold-500 text-[0.9375rem] font-medium text-gold-ink transition-colors active:bg-gold-600"
+        >
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M5.5 1.5 7 4.5 5.5 6c.7 1.6 2.9 3.8 4.5 4.5L11.5 9l3 1.5v3c0 .6-.4 1-1 1C7 14.5 1.5 9 1.5 2.5c0-.6.4-1 1-1h3Z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Call now
+        </a>
+        <Link
+          href="/inventory"
+          className="inline-flex h-12 flex-1 items-center justify-center rounded-md border border-navy-200 bg-surface text-[0.9375rem] font-medium text-navy-900 transition-colors active:bg-bone-100"
+        >
+          Browse cars
+        </Link>
+      </div>
+    </div>
+  );
+}

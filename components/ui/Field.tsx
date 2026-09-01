@@ -1,0 +1,54 @@
+'use client';
+
+import { cn } from '@/lib/cn';
+import { useId, type ReactNode } from 'react';
+
+export function Field({
+  label,
+  hint,
+  error,
+  required,
+  children,
+  className,
+}: {
+  label: string;
+  hint?: string;
+  error?: string;
+  required?: boolean;
+  className?: string;
+  children: (props: {
+    id: string;
+    'aria-invalid': boolean;
+    'aria-describedby': string | undefined;
+  }) => ReactNode;
+}) {
+  const id = useId();
+  const hintId = hint ? `${id}-hint` : undefined;
+  const errorId = error ? `${id}-error` : undefined;
+  const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+
+  return (
+    <div className={cn('flex flex-col gap-1.5', className)}>
+      <label htmlFor={id} className="text-sm font-medium text-navy-800">
+        {label}
+        {required && <span className="ml-0.5 text-muted">*</span>}
+      </label>
+
+      {children({ id, 'aria-invalid': Boolean(error), 'aria-describedby': describedBy })}
+
+      {error && (
+        <p id={errorId} className="text-sm text-danger">
+          {error}
+        </p>
+      )}
+      {hint && !error && (
+        <p id={hintId} className="text-sm text-muted">
+          {hint}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export const controlClasses =
+  'h-11 w-full rounded-md border border-navy-200 bg-surface px-3.5 text-[0.9375rem] text-navy-900 placeholder:text-navy-300 transition-colors duration-200 hover:border-navy-300 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20 read-only:bg-bone-100';
