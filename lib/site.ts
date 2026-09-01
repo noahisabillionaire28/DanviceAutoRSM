@@ -69,8 +69,21 @@ export const SITE = {
   },
 } as const;
 
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'http://localhost:3000';
+/**
+ * Absolute origin used for canonical URLs, JSON-LD @id, OG tags, and sitemap
+ * entries — all of which must be absolute and must not leak "localhost" into
+ * production markup. Falls back to the known production origin rather than
+ * localhost, because Vercel env vars are not set for this project.
+ */
+const PRODUCTION_URL = 'https://danvice-auto-rsm-lucrosai.vercel.app';
+
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : undefined) ??
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : PRODUCTION_URL)
+).replace(/\/$/, '');
 
 export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true';
 
