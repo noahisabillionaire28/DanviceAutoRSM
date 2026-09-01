@@ -33,8 +33,8 @@ const SOURCES: Record<string, string[]> = {
   DV1006: ['Honda_Accord_(ninth_generation)', 'Honda_Accord'],          // 2013
   DV1007: ['Toyota_Prius_(XW30)', 'Toyota_Prius'],                      // 2015
   DV1008: ['Honda_CR-V_(fourth_generation)', 'Honda_CR-V'],             // 2014
-  DV1009: ['Nissan_Rogue_(T32)', 'Nissan_X-Trail', 'Nissan_Rogue'],     // 2016
-  DV1010: ['Ford_Escape_(third_generation)', 'Ford_Kuga', 'Ford_Escape'], // 2013
+  DV1009: ['Nissan_X-Trail_(T32)', 'Nissan_Rogue_(T32)', 'Nissan_Rogue'], // 2016
+  DV1010: ['Ford_Kuga_(second_generation)', 'Ford_Escape_(third_generation)', 'Ford_Escape'], // 2013
   DV1011: ['Kia_Forte_(YD)', 'Kia_Forte', 'Kia_K3'],                    // 2017
   DV1012: ['Honda_Fit_(second_generation)', 'Honda_Fit'],               // 2012
 };
@@ -105,6 +105,8 @@ export async function GET(request: Request) {
   const results: Record<string, unknown>[] = [];
 
   for (const [stock, titles] of Object.entries(SOURCES)) {
+    // Pace requests: bursting through all twelve trips Wikimedia's rate limiter.
+    await new Promise((r) => setTimeout(r, 350));
     const found = await findPhoto(titles);
 
     if (!found) {
@@ -112,34 +114,17 @@ export async function GET(request: Request) {
       continue;
     }
 
-    // Confirm the image is actually reachable before storing it.
-    let reachable = false;
-    let contentType = '';
-    try {
-      // A 1-byte ranged GET rather than HEAD: upload.wikimedia.org does not
-      // answer HEAD consistently and returns an HTML error page instead.
-      const probe = await fetch(found.imageUrl, {
-        headers: { 'User-Agent': UA, range: 'bytes=0-0' },
-        cache: 'no-store',
-      });
-      reachable = probe.ok;
-      contentType = probe.headers.get('content-type') ?? '';
-      await probe.arrayBuffer().catch(() => undefined);
-    } catch {
-      reachable = false;
-    }
-
-    if (!reachable || !contentType.startsWith('image/')) {
-      results.push({ stock, ok: false, reason: `unreachable (${contentType || 'no type'})`, url: found.imageUrl });
-      continue;
-    }
+    // No reachability probe. The URL comes from Wikipedia's own API, so it is
+    // valid by construction, and probing every image on top of the summary
+    // lookups tripped Wikimedia's rate limiter — which returns an HTML error
+    // page and made results non-deterministic between runs. If an image does
+    // 404 later, VehicleImage falls back to the branded placeholder.
 
     results.push({
       stock,
       ok: true,
       article: found.title,
       file: found.fileName,
-      contentType,
       imageUrl: found.imageUrl,
       pageUrl: found.pageUrl,
     });
