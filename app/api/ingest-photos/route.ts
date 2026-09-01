@@ -23,18 +23,20 @@ export const maxDuration = 60;
  */
 
 const SOURCES: Record<string, string[]> = {
-  DV1001: ['Honda_Civic_(eleventh_generation)', 'Honda_Civic_(tenth_generation)'],
-  DV1002: ['Toyota_Corolla_(E170)'],
-  DV1003: ['Toyota_Camry_(XV50)'],
-  DV1004: ['Hyundai_Elantra_(AD)'],
-  DV1005: ['Mazda3', 'Mazda_Mazda3'],
-  DV1006: ['Honda_Accord_(ninth_generation)'],
-  DV1007: ['Toyota_Prius_(XW30)', 'Toyota_Prius'],
-  DV1008: ['Honda_CR-V_(fourth_generation)'],
-  DV1009: ['Nissan_Rogue'],
-  DV1010: ['Ford_Escape_(third_generation)'],
-  DV1011: ['Kia_Forte'],
-  DV1012: ['Honda_Fit_(second_generation)', 'Honda_Fit'],
+  // Titles are generation-specific and ordered most-correct-first, so each
+  // listing gets a photo of the right model year rather than the current one.
+  DV1001: ['Honda_Civic_(tenth_generation)', 'Honda_Civic'],            // 2016
+  DV1002: ['Toyota_Corolla_(E170)', 'Toyota_Corolla'],                  // 2015
+  DV1003: ['Toyota_Camry_(XV50)', 'Toyota_Camry'],                      // 2014
+  DV1004: ['Hyundai_Elantra_(MD)', 'Hyundai_Elantra_(AD)', 'Hyundai_Elantra'], // 2017
+  DV1005: ['Mazda3_(BM)', 'Mazda3'],                                    // 2016
+  DV1006: ['Honda_Accord_(ninth_generation)', 'Honda_Accord'],          // 2013
+  DV1007: ['Toyota_Prius_(XW30)', 'Toyota_Prius'],                      // 2015
+  DV1008: ['Honda_CR-V_(fourth_generation)', 'Honda_CR-V'],             // 2014
+  DV1009: ['Nissan_Rogue_(T32)', 'Nissan_X-Trail', 'Nissan_Rogue'],     // 2016
+  DV1010: ['Ford_Escape_(third_generation)', 'Ford_Kuga', 'Ford_Escape'], // 2013
+  DV1011: ['Kia_Forte_(YD)', 'Kia_Forte', 'Kia_K3'],                    // 2017
+  DV1012: ['Honda_Fit_(second_generation)', 'Honda_Fit'],               // 2012
 };
 
 const UA = 'DanviceAutoDemo/1.0 (dealership demo site; contact via site)';
@@ -65,8 +67,11 @@ async function findPhoto(titles: string[]): Promise<Found | null> {
       const thumb = json.thumbnail?.source;
       if (!thumb) continue;
 
+      // Strip Wikipedia's analytics query string: left on, the reachability
+      // check comes back as text/html instead of the image.
+      const bare = thumb.split('?')[0];
       // Rewrite the rendered width upward: .../320px-Name.jpg -> .../1280px-Name.jpg
-      const imageUrl = thumb.replace(/\/\d+px-/, '/1280px-');
+      const imageUrl = bare.replace(/\/\d+px-/, '/1280px-');
       const fileName = decodeURIComponent(imageUrl.split('/').pop() ?? '');
 
       // Skip logos/badges that are not photographs of a car.
@@ -111,13 +116,15 @@ export async function GET(request: Request) {
     let reachable = false;
     let contentType = '';
     try {
-      const head = await fetch(found.imageUrl, {
-        method: 'HEAD',
-        headers: { 'User-Agent': UA },
+      // A 1-byte ranged GET rather than HEAD: upload.wikimedia.org does not
+      // answer HEAD consistently and returns an HTML error page instead.
+      const probe = await fetch(found.imageUrl, {
+        headers: { 'User-Agent': UA, range: 'bytes=0-0' },
         cache: 'no-store',
       });
-      reachable = head.ok;
-      contentType = head.headers.get('content-type') ?? '';
+      reachable = probe.ok;
+      contentType = probe.headers.get('content-type') ?? '';
+      await probe.arrayBuffer().catch(() => undefined);
     } catch {
       reachable = false;
     }
