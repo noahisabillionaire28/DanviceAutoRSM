@@ -1,7 +1,8 @@
 # Danvice Auto of RSM — demo site
 
 Stack: Next.js 15 (App Router) · TypeScript (strict) · Tailwind · Supabase (@supabase/ssr) · Vercel
-Dev: `npm run dev` → http://localhost:3000 · Build check: `npm run build`
+Dev: `npm run dev` → http://localhost:3000 · Build: `npm run build` · Logic checks: `npm run check`
+Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-auto-rsm` (us-west-1)
 
 ## Design rules
 - Palette: deep navy (`navy-*`), warm off-white (`bone-*`), ONE gold accent (`gold-*`).
@@ -16,3 +17,6 @@ Dev: `npm run dev` → http://localhost:3000 · Build check: `npm run build`
 - All vehicle images go through `<VehicleImage>`; it must never render a broken image.
 - `lib/site.ts` is the single source of truth for name/address/phone/hours.
 - Service-role key is server-only; `lib/supabase/server.ts` starts with `import 'server-only'`.
+- Reads use a cookie-less supabase-js client: `cookies()` cannot appear inside `unstable_cache`.
+- After changing vehicle rows, POST `/api/revalidate` or the site serves stale cached data.
+- Indexing is gated behind `NEXT_PUBLIC_ALLOW_INDEXING` (default off). Flip to `true` only when the owner approves.
