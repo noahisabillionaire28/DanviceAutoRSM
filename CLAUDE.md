@@ -20,3 +20,4 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 - Reads use a cookie-less supabase-js client: `cookies()` cannot appear inside `unstable_cache`.
 - After changing vehicle rows, POST `/api/revalidate` or the site serves stale cached data.
 - Indexing is gated behind `NEXT_PUBLIC_ALLOW_INDEXING` (default off). Flip to `true` only when the owner approves.
+- After every deployed change, end the reply with the live link: https://danvice-auto-rsm-lucrosai.vercel.app
