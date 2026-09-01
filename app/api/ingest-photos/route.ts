@@ -22,22 +22,84 @@ export const maxDuration = 60;
  * visitors never hit Wikimedia directly.
  */
 
-const SOURCES: Record<string, string[]> = {
-  // Titles are generation-specific and ordered most-correct-first, so each
-  // listing gets a photo of the right model year rather than the current one.
-  DV1001: ['Honda_Civic_(tenth_generation)', 'Honda_Civic'],            // 2016
-  DV1002: ['Toyota_Corolla_(E170)', 'Toyota_Corolla'],                  // 2015
-  DV1003: ['Toyota_Camry_(XV50)', 'Toyota_Camry'],                      // 2014
-  DV1004: ['Hyundai_Elantra_(MD)', 'Hyundai_Elantra_(AD)', 'Hyundai_Elantra'], // 2017
-  DV1005: ['Mazda3_(BM)', 'Mazda3'],                                    // 2016
-  DV1006: ['Honda_Accord_(ninth_generation)', 'Honda_Accord'],          // 2013
-  DV1007: ['Toyota_Prius_(XW30)', 'Toyota_Prius'],                      // 2015
-  DV1008: ['Honda_CR-V_(fourth_generation)', 'Honda_CR-V'],             // 2014
-  DV1009: ['Nissan_X-Trail_(T32)', 'Nissan_Rogue_(T32)', 'Nissan_Rogue'], // 2016
-  DV1010: ['Ford_Kuga_(second_generation)', 'Ford_Escape_(third_generation)', 'Ford_Escape'], // 2013
-  DV1011: ['Kia_Forte_(YD)', 'Kia_Forte', 'Kia_K3'],                    // 2017
-  DV1012: ['Honda_Fit_(second_generation)', 'Honda_Fit'],               // 2012
+interface Source {
+  year: number;
+  query: string;   // "<make> <model>" used for the Commons search fallback
+  titles: string[]; // generation-specific articles, most-correct first
+}
+
+const SOURCES: Record<string, Source> = {
+  DV1001: { year: 2016, query: 'Honda Civic', titles: ['Honda_Civic_(tenth_generation)'] },
+  DV1002: { year: 2015, query: 'Toyota Corolla', titles: ['Toyota_Corolla_(E170)'] },
+  DV1003: { year: 2014, query: 'Toyota Camry', titles: ['Toyota_Camry_(XV50)'] },
+  DV1004: { year: 2017, query: 'Hyundai Elantra', titles: ['Hyundai_Elantra_(AD)'] },
+  DV1005: { year: 2016, query: 'Mazda Mazda3', titles: ['Mazda3_(BM)'] },
+  DV1006: { year: 2013, query: 'Honda Accord', titles: ['Honda_Accord_(ninth_generation)'] },
+  DV1007: { year: 2015, query: 'Toyota Prius', titles: ['Toyota_Prius_(XW30)'] },
+  DV1008: { year: 2014, query: 'Honda CR-V', titles: ['Honda_CR-V_(fourth_generation)'] },
+  DV1009: { year: 2016, query: 'Nissan Rogue', titles: ['Nissan_X-Trail_(T32)'] },
+  DV1010: { year: 2013, query: 'Ford Escape', titles: ['Ford_Escape_(third_generation)'] },
+  DV1011: { year: 2017, query: 'Kia Forte', titles: ['Kia_Forte_(YD)'] },
+  DV1012: { year: 2012, query: 'Honda Fit', titles: ['Honda_Fit_(second_generation)'] },
 };
+
+/** Widest acceptable gap between the listing year and the photographed car. */
+const YEAR_TOLERANCE = 4;
+
+function yearInFilename(name: string): number | null {
+  const matches = name.match(/(19|20)\d{2}/g);
+  if (!matches) return null;
+  // Filenames often carry both a model year and a photo date; the earliest
+  // four-digit number is almost always the model year.
+  return Math.min(...matches.map(Number));
+}
+
+/**
+ * Fallback when the article's lead image is the wrong generation: search
+ * Wikimedia Commons for a file whose name carries the listing year.
+ */
+async function searchCommons(year: number, query: string): Promise<Found | null> {
+  const search = `${year} ${query}`;
+  const api =
+    'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*' +
+    '&generator=search&gsrnamespace=6&gsrlimit=12' +
+    `&gsrsearch=${encodeURIComponent(search)}` +
+    '&prop=imageinfo&iiprop=url&iiurlwidth=1280';
+
+  try {
+    const res = await fetch(api, { headers: { 'User-Agent': UA }, cache: 'no-store' });
+    if (!res.ok) return null;
+
+    const json = (await res.json()) as {
+      query?: { pages?: Record<string, {
+        title?: string;
+        imageinfo?: { thumburl?: string; url?: string; descriptionurl?: string }[];
+      }> };
+    };
+
+    const pages = Object.values(json.query?.pages ?? {});
+    for (const page of pages) {
+      const title = page.title ?? '';
+      const info = page.imageinfo?.[0];
+      const url = info?.thumburl ?? info?.url;
+      if (!url) continue;
+      if (/\.svg$/i.test(title) || /logo|emblem|badge|interior|engine|dashboard/i.test(title)) continue;
+
+      const found = yearInFilename(title);
+      if (found === null || Math.abs(found - year) > YEAR_TOLERANCE) continue;
+
+      return {
+        title: `Commons search: ${search}`,
+        imageUrl: url.split('?')[0],
+        fileName: title.replace(/^File:/, ''),
+        pageUrl: info?.descriptionurl ?? `https://commons.wikimedia.org/wiki/${encodeURIComponent(title)}`,
+      };
+    }
+  } catch {
+    // fall through
+  }
+  return null;
+}
 
 const UA = 'DanviceAutoDemo/1.0 (dealership demo site; contact via site)';
 
@@ -104,10 +166,30 @@ export async function GET(request: Request) {
 
   const results: Record<string, unknown>[] = [];
 
-  for (const [stock, titles] of Object.entries(SOURCES)) {
+  for (const [stock, source] of Object.entries(SOURCES)) {
     // Pace requests: bursting through all twelve trips Wikimedia's rate limiter.
     await new Promise((r) => setTimeout(r, 350));
-    const found = await findPhoto(titles);
+
+    let found = await findPhoto(source.titles);
+    let via = 'article';
+
+    // Verify the photo is actually of the right era. Cars without a
+    // generation-specific article fall back to the current model's lead image,
+    // which would put a 2023 Elantra on a 2017 listing.
+    const articleYear = found ? yearInFilename(found.fileName) : null;
+    const articleOk =
+      found !== null &&
+      articleYear !== null &&
+      Math.abs(articleYear - source.year) <= YEAR_TOLERANCE;
+
+    if (!articleOk) {
+      await new Promise((r) => setTimeout(r, 350));
+      const searched = await searchCommons(source.year, source.query);
+      if (searched) {
+        found = searched;
+        via = 'commons-search';
+      }
+    }
 
     if (!found) {
       results.push({ stock, ok: false, reason: 'no photo found' });
@@ -123,6 +205,9 @@ export async function GET(request: Request) {
     results.push({
       stock,
       ok: true,
+      listingYear: source.year,
+      photoYear: yearInFilename(found.fileName),
+      via,
       article: found.title,
       file: found.fileName,
       imageUrl: found.imageUrl,
