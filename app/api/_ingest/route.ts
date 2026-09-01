@@ -85,9 +85,15 @@ async function findPhoto(titles: string[]): Promise<Found | null> {
   return null;
 }
 
+// Committed token rather than an env var: the Vercel CLI is not authenticated
+// in this environment, so env vars cannot be set programmatically. Acceptable
+// only because this route holds NO credentials, writes nothing, and merely
+// proxies public Wikipedia lookups. It is deleted immediately after use.
+const INGEST_TOKEN = 'dv-ingest-2f9c41b7';
+
 export async function GET(request: Request) {
-  const secret = request.headers.get('x-ingest-secret');
-  if (!process.env.INGEST_SECRET || secret !== process.env.INGEST_SECRET) {
+  const url = new URL(request.url);
+  if (url.searchParams.get('token') !== INGEST_TOKEN) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 

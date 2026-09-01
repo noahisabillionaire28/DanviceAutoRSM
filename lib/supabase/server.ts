@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from './config';
 import type { Database } from './database.types';
 
 /**
@@ -14,11 +15,9 @@ import type { Database } from './database.types';
  * The security boundary is RLS, not key secrecy: the anon key is public by design.
  */
 function anonClient() {
-  return createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return createSupabaseClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }
 
 export async function createClient() {
@@ -33,9 +32,7 @@ export function createAdminClient() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
 
-  return createSupabaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    key,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  );
+  return createSupabaseClient<Database>(SUPABASE_URL, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }
