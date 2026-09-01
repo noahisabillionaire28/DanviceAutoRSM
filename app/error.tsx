@@ -19,7 +19,7 @@ export default function Error({
   return (
     <Container className="flex flex-1 flex-col items-center justify-center py-28 text-center md:py-36">
       <p className="eyebrow">Something broke</p>
-      <h1 className="mt-5 max-w-lg text-display-md text-navy-900">
+      <h1 className="mt-5 max-w-lg text-display-md text-maroon-900">
         Sorry — that did not load
       </h1>
       <p className="mt-4 max-w-md text-lede text-muted">

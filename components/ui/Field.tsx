@@ -29,7 +29,7 @@ export function Field({
 
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
-      <label htmlFor={id} className="text-sm font-medium text-navy-800">
+      <label htmlFor={id} className="text-sm font-medium text-maroon-800">
         {label}
         {required && <span className="ml-0.5 text-muted">*</span>}
       </label>
@@ -51,4 +51,4 @@ export function Field({
 }
 
 export const controlClasses =
-  'h-11 w-full rounded-md border border-navy-200 bg-surface px-3.5 text-[0.9375rem] text-navy-900 placeholder:text-navy-300 transition-colors duration-200 hover:border-navy-300 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20 read-only:bg-bone-100';
+  'h-11 w-full rounded-md border border-maroon-200 bg-surface px-3.5 text-[0.9375rem] text-maroon-900 placeholder:text-maroon-300 transition-colors duration-200 hover:border-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20 read-only:bg-cream-100';

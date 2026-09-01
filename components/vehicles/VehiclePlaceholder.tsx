@@ -17,7 +17,7 @@ export function VehiclePlaceholder({
   return (
     <div
       className={cn(
-        'relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-bone-100',
+        'relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-cream-100',
         className,
       )}
       role="img"
@@ -34,7 +34,7 @@ export function VehiclePlaceholder({
 
       <svg
         viewBox="0 0 120 44"
-        className="relative w-[44%] max-w-[168px] text-navy-300"
+        className="relative w-[44%] max-w-[168px] text-maroon-300"
         fill="none"
         aria-hidden="true"
       >
@@ -49,11 +49,11 @@ export function VehiclePlaceholder({
       </svg>
 
       {label && (
-        <p className="relative mt-4 max-w-[85%] text-center font-display text-sm text-navy-700">
+        <p className="relative mt-4 max-w-[85%] text-center font-display text-sm text-maroon-700">
           {label}
         </p>
       )}
-      <p className="relative mt-1 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-400">
+      <p className="relative mt-1 text-[0.6875rem] uppercase tracking-[0.16em] text-maroon-400">
         Photo coming soon
       </p>
     </div>

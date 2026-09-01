@@ -21,10 +21,10 @@ const POINTS = [
 export default function SellYourCarPage() {
   return (
     <>
-      <section className="border-b border-navy-100 bg-bone-100">
+      <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 md:py-20">
           <p className="eyebrow eyebrow-rule">Sell your car</p>
-          <h1 className="mt-5 max-w-2xl text-display-lg text-navy-900">
+          <h1 className="mt-5 max-w-2xl text-display-lg text-maroon-900">
             We will make you an offer, even if you are not buying
           </h1>
           <p className="mt-4 max-w-prose text-lede text-muted">
@@ -41,7 +41,7 @@ export default function SellYourCarPage() {
             <dl className="mt-10 space-y-8">
               {POINTS.map((p) => (
                 <div key={p.t}>
-                  <dt className="font-display text-lg text-navy-900">{p.t}</dt>
+                  <dt className="font-display text-lg text-maroon-900">{p.t}</dt>
                   <dd className="mt-2 leading-relaxed text-muted">{p.b}</dd>
                 </div>
               ))}
@@ -49,8 +49,8 @@ export default function SellYourCarPage() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-navy-100/70 md:p-8">
-              <h2 className="font-display text-2xl text-navy-900">Tell us about your car</h2>
+            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-maroon-100/70 md:p-8">
+              <h2 className="font-display text-2xl text-maroon-900">Tell us about your car</h2>
               <p className="mt-2 text-muted">
                 The more you tell us, the closer our first number will be.
               </p>

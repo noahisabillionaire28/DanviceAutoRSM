@@ -35,14 +35,14 @@ export function PaymentCalculator({
   return (
     <div
       className={cn(
-        variant === 'card' && 'rounded-xl bg-surface p-6 shadow-card ring-1 ring-navy-100/70',
+        variant === 'card' && 'rounded-xl bg-surface p-6 shadow-card ring-1 ring-maroon-100/70',
         className,
       )}
     >
-      <h3 className="font-display text-lg text-navy-900">Estimate your payment</h3>
+      <h3 className="font-display text-lg text-maroon-900">Estimate your payment</h3>
 
       <div className="mt-5 flex items-baseline gap-2">
-        <span className="tnum font-display text-4xl text-navy-900">
+        <span className="tnum font-display text-4xl text-maroon-900">
           ${estimate.monthly}
         </span>
         <span className="text-muted">/month est.</span>
@@ -51,10 +51,10 @@ export function PaymentCalculator({
       <div className="mt-6 space-y-5">
         <div>
           <div className="flex items-center justify-between">
-            <label htmlFor="down" className="text-sm font-medium text-navy-800">
+            <label htmlFor="down" className="text-sm font-medium text-maroon-800">
               Down payment
             </label>
-            <span className="tnum text-sm text-navy-900">{formatPrice(down)}</span>
+            <span className="tnum text-sm text-maroon-900">{formatPrice(down)}</span>
           </div>
           <input
             id="down"
@@ -64,12 +64,12 @@ export function PaymentCalculator({
             step={100}
             value={down}
             onChange={(e) => setDown(Number(e.target.value))}
-            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-navy-100 accent-navy-900"
+            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-maroon-100 accent-maroon-900"
           />
         </div>
 
         <div>
-          <span className="text-sm font-medium text-navy-800">Term</span>
+          <span className="text-sm font-medium text-maroon-800">Term</span>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {TERMS.map((t) => (
               <button
@@ -80,8 +80,8 @@ export function PaymentCalculator({
                 className={cn(
                   'tnum h-10 rounded-md text-sm transition-colors duration-200',
                   term === t
-                    ? 'bg-navy-900 text-bone-50'
-                    : 'bg-navy-50 text-navy-700 hover:bg-navy-100',
+                    ? 'bg-maroon-900 text-cream-50'
+                    : 'bg-maroon-50 text-maroon-700 hover:bg-maroon-100',
                 )}
               >
                 {t} mo
@@ -92,10 +92,10 @@ export function PaymentCalculator({
 
         <div>
           <div className="flex items-center justify-between">
-            <label htmlFor="apr" className="text-sm font-medium text-navy-800">
+            <label htmlFor="apr" className="text-sm font-medium text-maroon-800">
               Estimated APR
             </label>
-            <span className="tnum text-sm text-navy-900">{apr.toFixed(1)}%</span>
+            <span className="tnum text-sm text-maroon-900">{apr.toFixed(1)}%</span>
           </div>
           <input
             id="apr"
@@ -105,19 +105,19 @@ export function PaymentCalculator({
             step={0.1}
             value={apr}
             onChange={(e) => setApr(Number(e.target.value))}
-            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-navy-100 accent-navy-900"
+            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-maroon-100 accent-maroon-900"
           />
         </div>
       </div>
 
-      <dl className="mt-6 space-y-2 border-t border-navy-100 pt-5 text-sm">
+      <dl className="mt-6 space-y-2 border-t border-maroon-100 pt-5 text-sm">
         <div className="flex justify-between">
           <dt className="text-muted">Amount financed</dt>
-          <dd className="tnum text-navy-900">{formatPrice(estimate.amountFinanced)}</dd>
+          <dd className="tnum text-maroon-900">{formatPrice(estimate.amountFinanced)}</dd>
         </div>
         <div className="flex justify-between">
           <dt className="text-muted">Total interest</dt>
-          <dd className="tnum text-navy-900">{formatPrice(estimate.totalInterest)}</dd>
+          <dd className="tnum text-maroon-900">{formatPrice(estimate.totalInterest)}</dd>
         </div>
       </dl>
 

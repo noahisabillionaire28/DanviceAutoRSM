@@ -158,7 +158,7 @@ export function FilterPanel({
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-navy-900">{title}</legend>
+      <legend className="mb-3 text-sm font-semibold text-maroon-900">{title}</legend>
       {children}
     </fieldset>
   );
@@ -176,12 +176,12 @@ function Check({
   onChange: () => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-3 rounded-md py-1.5 text-[0.9375rem] text-navy-700 transition-colors hover:text-navy-900">
+    <label className="flex cursor-pointer items-center gap-3 rounded-md py-1.5 text-[0.9375rem] text-maroon-700 transition-colors hover:text-maroon-900">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded-sm border-navy-300 text-navy-900 focus:ring-gold-400"
+        className="h-4 w-4 rounded-sm border-maroon-300 text-maroon-900 focus:ring-brand-400"
       />
       <span className="flex-1 capitalize">{text}</span>
       {count !== undefined && <span className="tnum text-xs text-muted">{count}</span>}
@@ -209,7 +209,7 @@ function NumberInput({
       onKeyDown={(e) => {
         if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
       }}
-      className="h-10 w-full rounded-md border border-navy-200 bg-surface px-3 text-sm text-navy-900 placeholder:text-navy-300 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
+      className="h-10 w-full rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 placeholder:text-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
     />
   );
 }

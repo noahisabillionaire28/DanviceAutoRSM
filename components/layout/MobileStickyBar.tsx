@@ -10,14 +10,14 @@ import { SITE } from '@/lib/site';
  */
 export function MobileStickyBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-navy-100 bg-bone-50/95 shadow-sticky-bar backdrop-blur-md md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-maroon-100 bg-cream-50/95 shadow-sticky-bar backdrop-blur-md md:hidden">
       <div
         className="flex items-center gap-3 px-4 py-3"
         style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}
       >
         <a
           href={`tel:${SITE.phone.tel}`}
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-gold-500 text-[0.9375rem] font-medium text-gold-ink transition-colors active:bg-gold-600"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-brand-500 text-[0.9375rem] font-medium text-brand-ink transition-colors active:bg-brand-600"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
@@ -31,7 +31,7 @@ export function MobileStickyBar() {
         </a>
         <Link
           href="/inventory"
-          className="inline-flex h-12 flex-1 items-center justify-center rounded-md border border-navy-200 bg-surface text-[0.9375rem] font-medium text-navy-900 transition-colors active:bg-bone-100"
+          className="inline-flex h-12 flex-1 items-center justify-center rounded-md border border-maroon-200 bg-surface text-[0.9375rem] font-medium text-maroon-900 transition-colors active:bg-cream-100"
         >
           Browse cars
         </Link>

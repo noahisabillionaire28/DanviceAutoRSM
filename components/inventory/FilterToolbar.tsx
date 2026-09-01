@@ -30,9 +30,9 @@ export function FilterToolbar({
   }
 
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-navy-100 pb-4">
+    <div className="flex items-center justify-between gap-4 border-b border-maroon-100 pb-4">
       <p className="tnum text-sm text-muted">
-        <span className="font-medium text-navy-900">{resultCount}</span>{' '}
+        <span className="font-medium text-maroon-900">{resultCount}</span>{' '}
         {resultCount === 1 ? 'vehicle' : 'vehicles'}
       </p>
 
@@ -42,7 +42,7 @@ export function FilterToolbar({
           id="sort"
           value={current.sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="h-10 rounded-md border border-navy-200 bg-surface px-3 text-sm text-navy-900 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
+          className="h-10 rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
         >
           {Object.entries(SORT_LABELS).map(([value, text]) => (
             <option key={value} value={value}>{text}</option>
@@ -53,11 +53,11 @@ export function FilterToolbar({
           <Dialog.Trigger asChild>
             <button
               type="button"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-navy-200 bg-surface px-3.5 text-sm font-medium text-navy-900 transition-colors hover:bg-bone-100 lg:hidden"
+              className="inline-flex h-10 items-center gap-2 rounded-md border border-maroon-200 bg-surface px-3.5 text-sm font-medium text-maroon-900 transition-colors hover:bg-cream-100 lg:hidden"
             >
               Filters
               {activeCount > 0 && (
-                <span className="tnum inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-navy-900 px-1.5 text-xs text-bone-50">
+                <span className="tnum inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-maroon-900 px-1.5 text-xs text-cream-50">
                   {activeCount}
                 </span>
               )}
@@ -65,13 +65,13 @@ export function FilterToolbar({
           </Dialog.Trigger>
 
           <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-navy-950/50 backdrop-blur-sm lg:hidden" />
-            <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] animate-sheet-up flex-col rounded-t-2xl bg-bone-50 shadow-modal lg:hidden">
-              <div className="flex items-center justify-between border-b border-navy-100 px-5 py-4">
-                <Dialog.Title className="font-display text-lg text-navy-900">Filters</Dialog.Title>
+            <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-maroon-950/50 backdrop-blur-sm lg:hidden" />
+            <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] animate-sheet-up flex-col rounded-t-2xl bg-cream-50 shadow-modal lg:hidden">
+              <div className="flex items-center justify-between border-b border-maroon-100 px-5 py-4">
+                <Dialog.Title className="font-display text-lg text-maroon-900">Filters</Dialog.Title>
                 <Dialog.Close
                   aria-label="Close filters"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-md text-navy-600 hover:bg-navy-50"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md text-maroon-600 hover:bg-maroon-50"
                 >
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.75" />

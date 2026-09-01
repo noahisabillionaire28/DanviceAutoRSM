@@ -21,7 +21,7 @@ export function VehicleCard({
   return (
     <article
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-lg bg-surface shadow-card ring-1 ring-navy-100/70 transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:shadow-card-hover',
+        'group relative flex flex-col overflow-hidden rounded-lg bg-surface shadow-card ring-1 ring-maroon-100/70 transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:shadow-card-hover',
         className,
       )}
     >
@@ -41,7 +41,7 @@ export function VehicleCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg leading-snug text-navy-900">
+        <h3 className="font-display text-lg leading-snug text-maroon-900">
           <Link href={`/inventory/${vehicle.slug}`} className="after:absolute after:inset-0">
             {title}
           </Link>
@@ -55,12 +55,12 @@ export function VehicleCard({
             <dt className="sr-only">Mileage</dt>
             <dd className="tnum">{formatMileage(vehicle.mileage)}</dd>
           </div>
-          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-navy-200" />
+          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-maroon-200" />
           <div>
             <dt className="sr-only">Transmission</dt>
             <dd>{label(vehicle.transmission)}</dd>
           </div>
-          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-navy-200" />
+          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-maroon-200" />
           <div>
             <dt className="sr-only">Drivetrain</dt>
             <dd>{label(vehicle.drivetrain)}</dd>
@@ -74,7 +74,7 @@ export function VehicleCard({
                 {formatPrice(vehicle.previous_price!)}
               </p>
             )}
-            <p className="tnum font-display text-2xl text-navy-900">
+            <p className="tnum font-display text-2xl text-maroon-900">
               {formatPrice(vehicle.price)}
             </p>
           </div>

@@ -31,15 +31,15 @@ const FAQS = [
 export default function FinancingPage() {
   return (
     <>
-      <section className="bg-navy-900 text-bone-50">
+      <section className="bg-maroon-900 text-cream-50">
         <Container className="py-20 md:py-28">
           <div className="max-w-2xl">
-            <p className="text-eyebrow uppercase text-gold-400">Financing</p>
-            <div aria-hidden="true" className="mt-3 h-px w-10 bg-gold-500" />
-            <h1 className="mt-7 text-display-lg text-bone-50">
+            <p className="text-eyebrow uppercase text-brand-400">Financing</p>
+            <div aria-hidden="true" className="mt-3 h-px w-10 bg-brand-500" />
+            <h1 className="mt-7 text-display-lg text-cream-50">
               Credit is a starting point, not a verdict
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-bone-50/70">
+            <p className="mt-6 text-lg leading-relaxed text-cream-50/70">
               A lot of people walk in here having been told no somewhere else. First
               car, first job, a rough couple of years — none of that is unusual, and
               none of it is disqualifying on its own.
@@ -49,7 +49,7 @@ export default function FinancingPage() {
                 leadType="financing"
                 sourcePage="/financing"
                 submitLabel="Start my application"
-                trigger={<Button size="lg">Get pre-qualified</Button>}
+                trigger={<Button variant="cream" size="lg">Get pre-qualified</Button>}
               />
             </div>
           </div>
@@ -62,8 +62,8 @@ export default function FinancingPage() {
           <ol className="mt-12 grid gap-10 md:grid-cols-3">
             {STEPS.map((s) => (
               <li key={s.n}>
-                <span className="tnum font-display text-4xl text-gold-600/40">{s.n}</span>
-                <h3 className="mt-4 font-display text-xl text-navy-900">{s.t}</h3>
+                <span className="tnum font-display text-4xl text-brand-600/40">{s.n}</span>
+                <h3 className="mt-4 font-display text-xl text-maroon-900">{s.t}</h3>
                 <p className="mt-3 leading-relaxed text-muted">{s.b}</p>
               </li>
             ))}
@@ -71,7 +71,7 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      <section className="border-y border-navy-100 bg-bone-100 py-20 md:py-28">
+      <section className="border-y border-maroon-100 bg-cream-100 py-20 md:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
@@ -84,7 +84,7 @@ export default function FinancingPage() {
                 Prefer to talk it through?{' '}
                 <a
                   href={`tel:${SITE.phone.tel}`}
-                  className="tnum text-navy-900 underline decoration-navy-300 underline-offset-4 hover:decoration-gold-500"
+                  className="tnum text-maroon-900 underline decoration-maroon-300 underline-offset-4 hover:decoration-brand-500"
                 >
                   {SITE.phone.display}
                 </a>
@@ -100,8 +100,8 @@ export default function FinancingPage() {
           <SectionHeading eyebrow="Questions" title="The things people actually ask" />
           <div className="mt-12 max-w-prose">
             {FAQS.map((f) => (
-              <details key={f.q} className="group border-b border-navy-100 py-5">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-lg text-navy-900 marker:content-['']">
+              <details key={f.q} className="group border-b border-maroon-100 py-5">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-lg text-maroon-900 marker:content-['']">
                   {f.q}
                   <span
                     aria-hidden="true"

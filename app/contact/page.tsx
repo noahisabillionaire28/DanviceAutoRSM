@@ -21,10 +21,10 @@ function formatHour(t: string) {
 export default function ContactPage() {
   return (
     <>
-      <section className="border-b border-navy-100 bg-bone-100">
+      <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 md:py-20">
           <p className="eyebrow eyebrow-rule">Contact</p>
-          <h1 className="mt-5 text-display-lg text-navy-900">Come by, or just call</h1>
+          <h1 className="mt-5 text-display-lg text-maroon-900">Come by, or just call</h1>
           <p className="mt-4 max-w-prose text-lede text-muted">
             We are on Santa Margarita Parkway, open seven days a week. No appointment
             needed to look at anything on the lot.
@@ -35,8 +35,8 @@ export default function ContactPage() {
       <Container className="py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <h2 className="font-display text-2xl text-navy-900">Visit the lot</h2>
-            <address className="mt-5 not-italic text-lg leading-relaxed text-navy-800">
+            <h2 className="font-display text-2xl text-maroon-900">Visit the lot</h2>
+            <address className="mt-5 not-italic text-lg leading-relaxed text-maroon-800">
               {SITE.address.street} {SITE.address.unit}
               <br />
               {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
@@ -44,21 +44,21 @@ export default function ContactPage() {
 
             <a
               href={`tel:${SITE.phone.tel}`}
-              className="tnum mt-6 inline-block font-display text-3xl text-navy-900 transition-colors hover:text-navy-600"
+              className="tnum mt-6 inline-block font-display text-3xl text-maroon-900 transition-colors hover:text-maroon-600"
             >
               {SITE.phone.display}
             </a>
 
             <div className="mt-6">
-              <ButtonLink href={mapsUrl()} variant="navy">Get directions</ButtonLink>
+              <ButtonLink href={mapsUrl()} variant="maroon">Get directions</ButtonLink>
             </div>
 
-            <h2 className="mt-12 font-display text-2xl text-navy-900">Hours</h2>
-            <dl className="mt-5 divide-y divide-navy-100 border-y border-navy-100">
+            <h2 className="mt-12 font-display text-2xl text-maroon-900">Hours</h2>
+            <dl className="mt-5 divide-y divide-maroon-100 border-y border-maroon-100">
               {SITE.hours.map((h) => (
                 <div key={h.day} className="flex items-center justify-between py-3">
-                  <dt className="text-navy-700">{h.day}</dt>
-                  <dd className="tnum text-navy-900">
+                  <dt className="text-maroon-700">{h.day}</dt>
+                  <dd className="tnum text-maroon-900">
                     {formatHour(h.open)} – {formatHour(h.close)}
                   </dd>
                 </div>
@@ -67,8 +67,8 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-navy-100/70 md:p-8">
-              <h2 className="font-display text-2xl text-navy-900">Send us a message</h2>
+            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-maroon-100/70 md:p-8">
+              <h2 className="font-display text-2xl text-maroon-900">Send us a message</h2>
               <p className="mt-2 text-muted">
                 We answer these ourselves, usually within a business hour.
               </p>

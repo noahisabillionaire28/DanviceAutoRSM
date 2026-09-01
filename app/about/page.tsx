@@ -21,10 +21,10 @@ const VALUES = [
 export default function AboutPage() {
   return (
     <>
-      <section className="border-b border-navy-100 bg-bone-100">
+      <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 md:py-20">
           <p className="eyebrow eyebrow-rule">About</p>
-          <h1 className="mt-5 max-w-2xl text-display-lg text-navy-900">
+          <h1 className="mt-5 max-w-2xl text-display-lg text-maroon-900">
             A small lot that sells cars it would put its own family in
           </h1>
         </Container>
@@ -62,32 +62,32 @@ export default function AboutPage() {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-xl bg-navy-900 p-8 text-bone-50">
+            <div className="rounded-xl bg-maroon-900 p-8 text-cream-50">
               <h2 className="font-display text-xl">Where we are</h2>
-              <address className="mt-4 not-italic leading-relaxed text-bone-50/75">
+              <address className="mt-4 not-italic leading-relaxed text-cream-50/75">
                 {SITE.address.street} {SITE.address.unit}
                 <br />
                 {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
               </address>
               <a
                 href={`tel:${SITE.phone.tel}`}
-                className="tnum mt-5 inline-block font-display text-2xl transition-colors hover:text-gold-400"
+                className="tnum mt-5 inline-block font-display text-2xl transition-colors hover:text-brand-400"
               >
                 {SITE.phone.display}
               </a>
-              <p className="mt-6 text-sm leading-relaxed text-bone-50/60">
+              <p className="mt-6 text-sm leading-relaxed text-cream-50/60">
                 Serving {SITE.areaServed.join(', ')}.
               </p>
             </div>
           </div>
         </div>
 
-        <section className="mt-20 border-t border-navy-100 pt-16">
+        <section className="mt-20 border-t border-maroon-100 pt-16">
           <SectionHeading eyebrow="How we work" title="Three things we actually hold to" />
           <dl className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((v) => (
               <div key={v.t}>
-                <dt className="font-display text-xl text-navy-900">{v.t}</dt>
+                <dt className="font-display text-xl text-maroon-900">{v.t}</dt>
                 <dd className="mt-3 leading-relaxed text-muted">{v.b}</dd>
               </div>
             ))}

@@ -14,34 +14,37 @@ const config: Config = {
     },
     extend: {
       colors: {
-        navy: {
-          50: '#EEF2F9',
-          100: '#E2E8F2',
-          200: '#BFCADD',
-          300: '#8CA0C4',
-          400: '#5B76A6',
-          500: '#3A5688',
-          600: '#27406D',
-          700: '#1B2E52',
-          800: '#12203C',
-          900: '#0A1428',
-          950: '#060B18',
+        // Sampled from the Danvice badge: a single red family plus its cream.
+        // `maroon` carries structure (dark sections, body text), `cream` is the
+        // light ground, `brand` is the signature red reserved for CTAs.
+        maroon: {
+          50: '#FCF3F2',
+          100: '#F8E5E4',
+          200: '#EFC8C7',
+          300: '#DC9C9A',
+          400: '#C1615F',
+          500: '#9E2B2B',
+          600: '#7E0A11',
+          700: '#68080E',
+          800: '#4E060A',
+          900: '#360407',
+          950: '#220205',
         },
-        bone: {
-          50: '#FDFBF7',
-          100: '#F7F3EB',
-          200: '#EFE8DC',
-          300: '#E3D9C7',
-          400: '#CFC2A9',
+        cream: {
+          50: '#FCF6EA',
+          100: '#F7EDDC',
+          200: '#F1E1C9',
+          300: '#E6CFAE',
+          400: '#D6B68C',
         },
-        gold: {
-          300: '#F0CB87',
-          400: '#E8B563',
-          500: '#D69E3F',
-          600: '#B8802A',
-          700: '#8F6218',
+        brand: {
+          300: '#E4666C',
+          400: '#D42630',
+          500: '#C1121C',
+          600: '#A50E18',
+          700: '#870B13',
         },
-        'gold-ink': '#2A1D06',
+        'brand-ink': '#FDF7EC',
         success: '#2E7D5B',
         danger: '#B3392F',
 
@@ -76,12 +79,12 @@ const config: Config = {
       },
       boxShadow: {
         // Navy-tinted, never black — the biggest premium-vs-template tell.
-        xs: '0 1px 2px 0 rgb(10 20 40 / 0.04)',
-        card: '0 1px 2px rgb(10 20 40 / 0.04), 0 4px 12px -2px rgb(10 20 40 / 0.06)',
-        'card-hover': '0 2px 4px rgb(10 20 40 / 0.05), 0 12px 28px -6px rgb(10 20 40 / 0.12)',
-        raised: '0 8px 24px -8px rgb(10 20 40 / 0.14)',
-        modal: '0 24px 64px -16px rgb(6 11 24 / 0.35)',
-        'sticky-bar': '0 -8px 24px -12px rgb(6 11 24 / 0.22)',
+        xs: '0 1px 2px 0 rgb(54 4 7 / 0.04)',
+        card: '0 1px 2px rgb(54 4 7 / 0.04), 0 4px 12px -2px rgb(54 4 7 / 0.06)',
+        'card-hover': '0 2px 4px rgb(54 4 7 / 0.05), 0 12px 28px -6px rgb(54 4 7 / 0.12)',
+        raised: '0 8px 24px -8px rgb(54 4 7 / 0.14)',
+        modal: '0 24px 64px -16px rgb(34 2 5 / 0.35)',
+        'sticky-bar': '0 -8px 24px -12px rgb(34 2 5 / 0.22)',
         'gold-focus': '0 0 0 3px rgb(232 181 99 / 0.45)',
       },
       transitionTimingFunction: {

@@ -42,7 +42,7 @@ export function VehicleGallery({
               aria-current={i === active}
               className={cn(
                 'overflow-hidden rounded-md ring-2 transition-all duration-200',
-                i === active ? 'ring-navy-900' : 'ring-transparent hover:ring-navy-200',
+                i === active ? 'ring-maroon-900' : 'ring-transparent hover:ring-maroon-200',
               )}
             >
               <VehicleImage

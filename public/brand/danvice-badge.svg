@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" role="img" aria-label="Danvice Group, California">
+  <title>Danvice Group — California</title>
+  <defs>
+    <linearGradient id="dvField" x1="0.18" y1="0.05" x2="0.82" y2="0.98">
+      <stop offset="0%" stop-color="#C8151F"/>
+      <stop offset="42%" stop-color="#B31018"/>
+      <stop offset="100%" stop-color="#7E0A11"/>
+    </linearGradient>
+    <linearGradient id="dvMedal" x1="0.2" y1="0.08" x2="0.8" y2="0.95">
+      <stop offset="0%" stop-color="#CE1721"/>
+      <stop offset="55%" stop-color="#B31018"/>
+      <stop offset="100%" stop-color="#8A0C13"/>
+    </linearGradient>
+    <linearGradient id="dvSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <path id="dvBadge" d="M74 86 H326 L390 168 L306 258 L200 286 L94 258 L10 168 Z"/>
+  </defs>
+
+  <!-- outer rim -->
+  <use href="#dvBadge" fill="#9C0D15" stroke="#9C0D15" stroke-width="26" stroke-linejoin="round"/>
+  <!-- cream keyline + red field -->
+  <use href="#dvBadge" fill="url(#dvField)" stroke="#F2E3CB" stroke-width="7" stroke-linejoin="round"/>
+  <!-- inner hairline -->
+  <use href="#dvBadge" fill="none" stroke="#F2E3CB" stroke-opacity="0.5" stroke-width="1.5"
+       stroke-linejoin="round" transform="translate(200 186) scale(0.9) translate(-200 -186)"/>
+  <use href="#dvBadge" fill="url(#dvSheen)" stroke="none"/>
+
+  <text x="200" y="176" text-anchor="middle" fill="#F4E7D2"
+        font-family="Georgia, 'Times New Roman', serif" font-size="41" letter-spacing="1.5">DANVICE GROUP</text>
+
+  <g stroke="#F2E3CB" stroke-opacity="0.75" stroke-width="1.6">
+    <line x1="86" y1="203" x2="185" y2="203"/>
+    <line x1="215" y1="203" x2="314" y2="203"/>
+  </g>
+  <path d="M193 203 L200 197 L207 203 L200 209 Z" fill="#F2E3CB" fill-opacity="0.85"/>
+
+  <text x="200" y="243" text-anchor="middle" fill="#F0DFC4"
+        font-family="Georgia, 'Times New Roman', serif" font-size="19" letter-spacing="7.5">CALIFORNIA</text>
+
+  <g stroke="#F2E3CB" stroke-opacity="0.6" stroke-width="1.3">
+    <line x1="150" y1="259" x2="188" y2="259"/>
+    <line x1="212" y1="259" x2="250" y2="259"/>
+  </g>
+  <path d="M195 259 L200 254 L205 259 L200 264 Z" fill="#F2E3CB" fill-opacity="0.75"/>
+
+  <!-- medallion -->
+  <circle cx="200" cy="86" r="60" fill="#9C0D15"/>
+  <circle cx="200" cy="86" r="53" fill="url(#dvMedal)" stroke="#F2E3CB" stroke-width="3"/>
+  <circle cx="200" cy="86" r="45" fill="none" stroke="#F2E3CB" stroke-opacity="0.55" stroke-width="1.4"/>
+  <text x="200" y="104" text-anchor="middle" fill="#F4E7D2"
+        font-family="Georgia, 'Times New Roman', serif" font-size="52" letter-spacing="-1">DG</text>
+</svg>

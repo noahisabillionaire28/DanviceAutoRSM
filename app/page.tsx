@@ -36,7 +36,7 @@ export default function HomePage() {
       <Hero />
 
       {/* Trust strip — typographic, no stock photography. */}
-      <section className="border-b border-navy-100 bg-bone-100">
+      <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4 md:py-14">
           {[
             { t: 'One price, plainly listed', b: 'The number on the listing is the number you pay, minus tax and fees.' },
@@ -45,7 +45,7 @@ export default function HomePage() {
             { t: 'Family run, local', b: 'We live here too. You will see us at the same Trader Joe’s.' },
           ].map((item) => (
             <div key={item.t}>
-              <h3 className="font-display text-lg text-navy-900">{item.t}</h3>
+              <h3 className="font-display text-lg text-maroon-900">{item.t}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{item.b}</p>
             </div>
           ))}
@@ -72,7 +72,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="border-y border-navy-100 bg-bone-100 py-20 md:py-28">
+      <section className="border-y border-maroon-100 bg-cream-100 py-20 md:py-28">
         <Container>
           <SectionHeading
             eyebrow="How it works"
@@ -82,8 +82,8 @@ export default function HomePage() {
           <ol className="mt-12 grid gap-8 md:grid-cols-3 md:gap-10">
             {STEPS.map((s) => (
               <li key={s.n}>
-                <span className="tnum font-display text-4xl text-gold-600/40">{s.n}</span>
-                <h3 className="mt-4 font-display text-xl text-navy-900">{s.title}</h3>
+                <span className="tnum font-display text-4xl text-brand-600/40">{s.n}</span>
+                <h3 className="mt-4 font-display text-xl text-maroon-900">{s.title}</h3>
                 <p className="mt-3 leading-relaxed text-muted">{s.body}</p>
               </li>
             ))}
@@ -93,14 +93,14 @@ export default function HomePage() {
 
       <section className="py-20 md:py-28">
         <Container>
-          <div className="grid items-center gap-12 rounded-2xl bg-navy-900 p-8 text-bone-50 md:grid-cols-2 md:gap-16 md:p-14">
+          <div className="grid items-center gap-12 rounded-2xl bg-maroon-900 p-8 text-cream-50 md:grid-cols-2 md:gap-16 md:p-14">
             <div>
-              <p className="text-eyebrow uppercase text-gold-400">Financing</p>
-              <div aria-hidden="true" className="mt-3 h-px w-10 bg-gold-500" />
-              <h2 className="mt-6 text-display-md text-bone-50">
+              <p className="text-eyebrow uppercase text-brand-400">Financing</p>
+              <div aria-hidden="true" className="mt-3 h-px w-10 bg-brand-500" />
+              <h2 className="mt-6 text-display-md text-cream-50">
                 Turned down somewhere else?
               </h2>
-              <p className="mt-4 max-w-md leading-relaxed text-bone-50/70">
+              <p className="mt-4 max-w-md leading-relaxed text-cream-50/70">
                 We work with lenders who actually look at your situation rather than
                 just a number. First-time buyers, students on part-time income, and
                 rebuilt credit are all normal here.
@@ -109,13 +109,13 @@ export default function HomePage() {
                 <LeadFormModal
                   leadType="financing"
                   sourcePage="/"
-                  trigger={<Button size="lg">Get pre-qualified</Button>}
+                  trigger={<Button variant="cream" size="lg">Get pre-qualified</Button>}
                 />
                 <ButtonLink
                   href="/financing"
                   variant="outline"
                   size="lg"
-                  className="border-bone-50/25 bg-transparent text-bone-50 hover:border-bone-50/40 hover:bg-bone-50/5"
+                  className="border-cream-50/25 bg-transparent text-cream-50 hover:border-cream-50/40 hover:bg-cream-50/5"
                 >
                   How financing works
                 </ButtonLink>
@@ -129,9 +129,9 @@ export default function HomePage() {
                 'Co-signers welcome, and often not required',
                 'We explain the whole payment, not just the monthly',
               ].map((point) => (
-                <li key={point} className="flex gap-3.5 text-bone-50/85">
+                <li key={point} className="flex gap-3.5 text-cream-50/85">
                   <svg
-                    className="mt-1 h-4 w-4 shrink-0 text-gold-400"
+                    className="mt-1 h-4 w-4 shrink-0 text-brand-400"
                     viewBox="0 0 16 16"
                     fill="none"
                     aria-hidden="true"
@@ -146,18 +146,18 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="border-t border-navy-100 bg-bone-100 py-20 md:py-28">
+      <section className="border-t border-maroon-100 bg-cream-100 py-20 md:py-28">
         <Container>
           <div className="grid gap-12 md:grid-cols-2 md:gap-16">
             <div>
               <SectionHeading eyebrow="Find us" title="Come by the lot" />
-              <address className="mt-8 not-italic text-lg leading-relaxed text-navy-800">
+              <address className="mt-8 not-italic text-lg leading-relaxed text-maroon-800">
                 {SITE.address.street} {SITE.address.unit}
                 <br />
                 {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
               </address>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href={mapsUrl()} variant="navy">
+                <ButtonLink href={mapsUrl()} variant="maroon">
                   Get directions
                 </ButtonLink>
                 <ButtonLink href="/contact" variant="outline">
@@ -170,13 +170,13 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="rounded-xl bg-surface p-8 shadow-card ring-1 ring-navy-100/70">
-              <h3 className="font-display text-xl text-navy-900">Opening hours</h3>
-              <dl className="mt-6 divide-y divide-navy-100">
+            <div className="rounded-xl bg-surface p-8 shadow-card ring-1 ring-maroon-100/70">
+              <h3 className="font-display text-xl text-maroon-900">Opening hours</h3>
+              <dl className="mt-6 divide-y divide-maroon-100">
                 {SITE.hours.map((h) => (
                   <div key={h.day} className="flex items-center justify-between py-3">
-                    <dt className="text-navy-700">{h.day}</dt>
-                    <dd className="tnum text-navy-900">
+                    <dt className="text-maroon-700">{h.day}</dt>
+                    <dd className="tnum text-maroon-900">
                       {h.open} – {h.close}
                     </dd>
                   </div>
@@ -186,7 +186,7 @@ export default function HomePage() {
                 Prefer to talk?{' '}
                 <Link
                   href={`tel:${SITE.phone.tel}`}
-                  className="text-navy-900 underline decoration-navy-300 underline-offset-4 hover:decoration-gold-500"
+                  className="text-maroon-900 underline decoration-maroon-300 underline-offset-4 hover:decoration-brand-500"
                 >
                   {SITE.phone.display}
                 </Link>

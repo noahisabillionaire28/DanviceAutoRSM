@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --bg: 253 251 247;
+  --bg: 252 246 234;          /* cream-50  */
   --surface: 255 255 255;
-  --surface-raised: 247 243 235;
-  --fg: 10 20 40;
-  --fg-muted: 39 64 109;
-  --line: 227 217 199;
-  --accent: 214 158 63;
-  --accent-fg: 42 29 6;
+  --surface-raised: 247 237 220; /* cream-100 */
+  --fg: 34 2 5;               /* maroon-950 — 17:1 on cream, well past AA */
+  --fg-muted: 122 81 77;      /* warm neutral, 6:1 on cream */
+  --line: 230 207 174;        /* cream-300 */
+  --accent: 193 18 28;        /* brand-500 */
+  --accent-fg: 253 247 236;   /* brand-ink */
 }
 
 @layer base {
@@ -38,11 +38,11 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-gold-400 ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-background;
   }
 
   ::selection {
-    @apply bg-navy-900 text-bone-50;
+    @apply bg-maroon-900 text-cream-50;
   }
 }
 
@@ -54,11 +54,11 @@
   /* Gold hairline under section eyebrows — one of the four sanctioned gold uses. */
   .eyebrow-rule::after {
     content: '';
-    @apply mt-3 block h-px w-10 bg-gold-500;
+    @apply mt-3 block h-px w-10 bg-brand-500;
   }
 
   .shimmer {
-    @apply relative overflow-hidden bg-navy-100/60;
+    @apply relative overflow-hidden bg-maroon-100/60;
   }
 
   .shimmer::after {

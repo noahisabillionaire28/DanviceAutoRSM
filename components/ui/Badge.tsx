@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 
 // Navy, never gold: gold is reserved for CTAs.
 const tones = {
-  navy: 'bg-navy-900/90 text-bone-50 backdrop-blur',
-  soft: 'bg-navy-50 text-navy-700 ring-1 ring-inset ring-navy-100',
+  navy: 'bg-maroon-900/90 text-cream-50 backdrop-blur',
+  soft: 'bg-maroon-50 text-maroon-700 ring-1 ring-inset ring-maroon-100',
   success: 'bg-success/10 text-success ring-1 ring-inset ring-success/20',
 };
 

@@ -79,11 +79,11 @@ export default async function VehicleDetailPage({
       <Container className="py-8 md:py-12">
         <nav aria-label="Breadcrumb" className="mb-8 text-sm">
           <ol className="flex flex-wrap items-center gap-2 text-muted">
-            <li><Link href="/" className="hover:text-navy-900">Home</Link></li>
+            <li><Link href="/" className="hover:text-maroon-900">Home</Link></li>
             <li aria-hidden="true">/</li>
-            <li><Link href="/inventory" className="hover:text-navy-900">Inventory</Link></li>
+            <li><Link href="/inventory" className="hover:text-maroon-900">Inventory</Link></li>
             <li aria-hidden="true">/</li>
-            <li className="text-navy-900">{fullTitle}</li>
+            <li className="text-maroon-900">{fullTitle}</li>
           </ol>
         </nav>
 
@@ -103,12 +103,12 @@ export default async function VehicleDetailPage({
               </Badge>
             )}
 
-            <h1 className="font-display text-display-md text-navy-900">{title}</h1>
+            <h1 className="font-display text-display-md text-maroon-900">{title}</h1>
             {vehicle.trim_level && (
               <p className="mt-1 text-lg text-muted">{vehicle.trim_level}</p>
             )}
 
-            <p className="tnum mt-6 font-display text-4xl text-navy-900">
+            <p className="tnum mt-6 font-display text-4xl text-maroon-900">
               {formatPrice(vehicle.price)}
             </p>
 
@@ -152,14 +152,14 @@ export default async function VehicleDetailPage({
 
         <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            <h2 className="font-display text-2xl text-navy-900">Specifications</h2>
+            <h2 className="font-display text-2xl text-maroon-900">Specifications</h2>
             <div className="mt-6">
               <VehicleSpecs vehicle={vehicle} />
             </div>
 
             {vehicle.features.length > 0 && (
               <>
-                <h2 className="mt-12 font-display text-2xl text-navy-900">Features</h2>
+                <h2 className="mt-12 font-display text-2xl text-maroon-900">Features</h2>
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {vehicle.features.map((f) => (
                     <li key={f}>
@@ -193,8 +193,8 @@ export default async function VehicleDetailPage({
         </div>
 
         {similar.length > 0 && (
-          <section className="mt-20 border-t border-navy-100 pt-16">
-            <h2 className="font-display text-2xl text-navy-900">Similar cars on the lot</h2>
+          <section className="mt-20 border-t border-maroon-100 pt-16">
+            <h2 className="font-display text-2xl text-maroon-900">Similar cars on the lot</h2>
             <div className="mt-8">
               <VehicleGrid vehicles={similar} />
             </div>

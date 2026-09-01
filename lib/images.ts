@@ -63,7 +63,7 @@ export function usableImages(images: string[] | null | undefined): string[] {
 export const BLUR_DATA_URL =
   'data:image/svg+xml;base64,' +
   Buffer.from(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="6"><rect width="8" height="6" fill="#12203C"/></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="6"><rect width="8" height="6" fill="#4E060A"/></svg>',
   ).toString('base64');
 
 export const DEFAULT_CARD_SIZES =

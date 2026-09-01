@@ -25,7 +25,7 @@ export function Pagination({
         <Link
           href={href(page - 1)}
           rel="prev"
-          className="inline-flex h-10 items-center rounded-md border border-navy-200 px-4 text-sm text-navy-900 transition-colors hover:bg-bone-100"
+          className="inline-flex h-10 items-center rounded-md border border-maroon-200 px-4 text-sm text-maroon-900 transition-colors hover:bg-cream-100"
         >
           Previous
         </Link>
@@ -39,8 +39,8 @@ export function Pagination({
           className={cn(
             'tnum inline-flex h-10 w-10 items-center justify-center rounded-md text-sm transition-colors',
             p === page
-              ? 'bg-navy-900 text-bone-50'
-              : 'border border-navy-200 text-navy-900 hover:bg-bone-100',
+              ? 'bg-maroon-900 text-cream-50'
+              : 'border border-maroon-200 text-maroon-900 hover:bg-cream-100',
           )}
         >
           {p}
@@ -51,7 +51,7 @@ export function Pagination({
         <Link
           href={href(page + 1)}
           rel="next"
-          className="inline-flex h-10 items-center rounded-md border border-navy-200 px-4 text-sm text-navy-900 transition-colors hover:bg-bone-100"
+          className="inline-flex h-10 items-center rounded-md border border-maroon-200 px-4 text-sm text-maroon-900 transition-colors hover:bg-cream-100"
         >
           Next
         </Link>

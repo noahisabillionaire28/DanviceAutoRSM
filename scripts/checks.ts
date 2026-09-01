@@ -2,6 +2,11 @@ import { LeadSchema } from '@/lib/schemas/lead';
 import { estimateMonthlyPayment } from '@/lib/payment';
 import { parseFilters, serializeFilters } from '@/lib/filters';
 import { resolveVehicleImage } from '@/lib/images';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 let pass = 0, fail = 0;
 const check = (name: string, cond: boolean, extra = '') => {
@@ -79,6 +84,84 @@ check('unknown host rejected', resolveVehicleImage('https://evil.example.com/x.j
 check('null rejected', resolveVehicleImage(null).kind === 'invalid');
 check('protocol-relative rejected', resolveVehicleImage('//evil.com/x.jpg').kind === 'invalid');
 check('garbage rejected', resolveVehicleImage('not a url').kind === 'invalid');
+
+
+// ---------------------------------------------------------------------------
+// Colour contrast. The brand palette is red-on-cream, where it is easy to pick
+// a tone that looks right and fails WCAG. These assert the real pairs used in
+// the UI, read from tailwind.config.ts and globals.css so the check cannot
+// silently drift from the palette it is meant to guard.
+// ---------------------------------------------------------------------------
+
+function srgbToLinear(c: number): number {
+  const v = c / 255;
+  return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+}
+
+function luminance(hex: string): number {
+  const h = hex.replace('#', '');
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+  return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+}
+
+function contrast(a: string, b: string): number {
+  const [x, y] = [luminance(a), luminance(b)].sort((m, n) => n - m);
+  return (x + 0.05) / (y + 0.05);
+}
+
+/** CSS custom props in globals.css are "R G B" triples. */
+function varHex(name: string): string {
+  const css = readFileSync(join(ROOT, 'app/globals.css'), 'utf8');
+  const m = css.match(new RegExp(`--${name}:\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)`));
+  if (!m) throw new Error(`--${name} not found in globals.css`);
+  return '#' + [m[1], m[2], m[3]].map((n) => Number(n).toString(16).padStart(2, '0')).join('');
+}
+
+function tokenHex(path: string): string {
+  const cfg = readFileSync(join(ROOT, 'tailwind.config.ts'), 'utf8');
+  const [group, shade] = path.split('.');
+  const block = shade
+    ? cfg.slice(cfg.indexOf(`${group}: {`))
+    : cfg;
+  const needle = shade ? new RegExp(`\\b${shade}:\\s*'(#[0-9A-Fa-f]{6})'`) : new RegExp(`'${group}':\\s*'(#[0-9A-Fa-f]{6})'`);
+  const m = block.match(needle);
+  if (!m) throw new Error(`token ${path} not found in tailwind.config.ts`);
+  return m[1];
+}
+
+console.log('\nColour contrast (WCAG AA: 4.5 normal text, 3.0 large/UI)');
+
+const bg = varHex('bg');
+const surface = varHex('surface');
+const fg = varHex('fg');
+const fgMuted = varHex('fg-muted');
+const accent = varHex('accent');
+const accentFg = varHex('accent-fg');
+
+const pairs: [string, string, string, number][] = [
+  ['body text on page background', fg, bg, 4.5],
+  ['muted text on page background', fgMuted, bg, 4.5],
+  ['body text on card surface', fg, surface, 4.5],
+  ['muted text on card surface', fgMuted, surface, 4.5],
+  ['CTA label on CTA fill', accentFg, accent, 4.5],
+  ['CTA label on CTA hover fill', tokenHex('brand-ink'), tokenHex('brand.600'), 4.5],
+  ['cream text on darkest section', tokenHex('cream.50'), tokenHex('maroon.900'), 4.5],
+  ['cream text on deep section', tokenHex('cream.50'), tokenHex('maroon.700'), 4.5],
+  ['heading on tinted panel', tokenHex('maroon.900'), tokenHex('cream.100'), 4.5],
+  // Dark sections invert to a cream CTA: red-on-red only reaches 2.86:1.
+  ['inverted CTA fill against darkest section', tokenHex('cream.50'), tokenHex('maroon.900'), 3.0],
+  ['inverted CTA label on its fill', tokenHex('maroon.900'), tokenHex('cream.50'), 4.5],
+  ['red CTA fill against page background', accent, bg, 3.0],
+];
+
+for (const [name, fgHex, bgHex, min] of pairs) {
+  const ratio = contrast(fgHex, bgHex);
+  check(
+    `${name} (${fgHex} on ${bgHex}) = ${ratio.toFixed(2)}:1`,
+    ratio >= min,
+    `needs >= ${min}:1`,
+  );
+}
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

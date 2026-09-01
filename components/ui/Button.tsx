@@ -2,22 +2,27 @@ import Link from 'next/link';
 import { cn } from '@/lib/cn';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
-type Variant = 'primary' | 'navy' | 'outline' | 'ghost' | 'link';
+type Variant = 'primary' | 'cream' | 'maroon' | 'outline' | 'ghost' | 'link';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-all duration-200 ease-brand disabled:pointer-events-none disabled:opacity-55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
+  'inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-all duration-200 ease-brand disabled:pointer-events-none disabled:opacity-55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 const variants: Record<Variant, string> = {
-  // Gold is reserved for primary CTAs — see CLAUDE.md.
+  // brand red is reserved for CTAs — see CLAUDE.md.
   primary:
-    'rounded-md bg-gold-500 text-gold-ink shadow-xs hover:bg-gold-400 hover:shadow-card active:bg-gold-600',
-  navy:
-    'rounded-md bg-navy-900 text-bone-50 shadow-xs hover:bg-navy-800 hover:shadow-card active:bg-navy-950',
+    'rounded-md bg-brand-500 text-brand-ink shadow-xs hover:bg-brand-400 hover:shadow-card active:bg-brand-600',
+  // For a CTA sitting ON a deep red section. Red-on-red only reaches 2.86:1
+  // against maroon-900, so dark sections invert to cream — the same
+  // relationship the badge itself uses. Enforced by scripts/checks.ts.
+  cream:
+    'rounded-md bg-cream-50 text-maroon-900 shadow-xs hover:bg-cream-100 hover:shadow-card active:bg-cream-200',
+  maroon:
+    'rounded-md bg-maroon-900 text-cream-50 shadow-xs hover:bg-maroon-800 hover:shadow-card active:bg-maroon-950',
   outline:
-    'rounded-md border border-navy-200 bg-surface text-navy-900 hover:border-navy-300 hover:bg-bone-100',
-  ghost: 'rounded-md text-navy-700 hover:bg-navy-50 hover:text-navy-900',
-  link: 'text-navy-900 underline decoration-navy-300 underline-offset-4 hover:decoration-gold-500',
+    'rounded-md border border-maroon-200 bg-surface text-maroon-900 hover:border-maroon-300 hover:bg-cream-100',
+  ghost: 'rounded-md text-maroon-700 hover:bg-maroon-50 hover:text-maroon-900',
+  link: 'text-maroon-900 underline decoration-maroon-300 underline-offset-4 hover:decoration-brand-500',
 };
 
 const sizes: Record<Size, string> = {

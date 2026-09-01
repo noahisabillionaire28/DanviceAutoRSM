@@ -39,10 +39,10 @@ export default async function InventoryPage({
         ])}
       />
 
-      <section className="border-b border-navy-100 bg-bone-100">
+      <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 md:py-20">
           <p className="eyebrow eyebrow-rule">Inventory</p>
-          <h1 className="mt-5 text-display-lg text-navy-900">
+          <h1 className="mt-5 text-display-lg text-maroon-900">
             Every car we have, with the price on it
           </h1>
           <p className="mt-4 max-w-prose text-lede text-muted">
