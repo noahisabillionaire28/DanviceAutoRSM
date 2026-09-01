@@ -1,8 +1,11 @@
 import { cn } from '@/lib/cn';
 
 /**
- * Rendered whenever a vehicle has no usable photo. Deliberately designed
- * rather than an error state — the demo must never look broken.
+ * Rendered whenever a vehicle has no usable photo. Deliberately designed rather
+ * than an error state — the demo must never look broken.
+ *
+ * Sits on the same warm off-white panel as a real photo so a grid mixing the
+ * two still reads as one set, instead of a few dark tiles among light ones.
  */
 export function VehiclePlaceholder({
   label,
@@ -14,7 +17,7 @@ export function VehiclePlaceholder({
   return (
     <div
       className={cn(
-        'relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-navy-900',
+        'relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-bone-100',
         className,
       )}
       role="img"
@@ -22,16 +25,16 @@ export function VehiclePlaceholder({
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        className="pointer-events-none absolute inset-0 opacity-[0.55]"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 30% 20%, #E8B563 0%, transparent 45%), radial-gradient(circle at 78% 82%, #3A5688 0%, transparent 55%)',
+            'radial-gradient(ellipse 70% 60% at 50% 35%, rgba(255,255,255,0.9) 0%, transparent 70%)',
         }}
       />
 
       <svg
         viewBox="0 0 120 44"
-        className="relative w-[46%] max-w-[180px] text-bone-50/25"
+        className="relative w-[44%] max-w-[168px] text-navy-300"
         fill="none"
         aria-hidden="true"
       >
@@ -46,11 +49,11 @@ export function VehiclePlaceholder({
       </svg>
 
       {label && (
-        <p className="relative mt-4 max-w-[85%] text-center font-display text-sm text-bone-50/70">
+        <p className="relative mt-4 max-w-[85%] text-center font-display text-sm text-navy-700">
           {label}
         </p>
       )}
-      <p className="relative mt-1 text-[0.6875rem] uppercase tracking-[0.16em] text-bone-50/35">
+      <p className="relative mt-1 text-[0.6875rem] uppercase tracking-[0.16em] text-navy-400">
         Photo coming soon
       </p>
     </div>

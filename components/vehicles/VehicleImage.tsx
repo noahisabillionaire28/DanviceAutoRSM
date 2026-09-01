@@ -6,7 +6,13 @@ import { cn } from '@/lib/cn';
 import { BLUR_DATA_URL, DEFAULT_CARD_SIZES, resolveVehicleImage } from '@/lib/images';
 import { VehiclePlaceholder } from './VehiclePlaceholder';
 
+/**
+ * 3/2 is the house ratio: it is what most vehicle photography is actually shot
+ * at, so a contained photo leaves the least empty space. Every skeleton that
+ * stands in for an image must use the same ratio or the swap causes CLS.
+ */
 const ASPECTS = {
+  '3/2': 'aspect-[3/2]',
   '4/3': 'aspect-[4/3]',
   '16/9': 'aspect-[16/9]',
   '1/1': 'aspect-square',
@@ -32,7 +38,7 @@ export function VehicleImage({
   images,
   index = 0,
   alt,
-  aspect = '4/3',
+  aspect = '3/2',
   sizes = DEFAULT_CARD_SIZES,
   priority = false,
   quality = 78,
@@ -54,7 +60,10 @@ export function VehicleImage({
   return (
     <div
       className={cn(
-        'relative overflow-hidden bg-navy-900',
+        // Warm off-white panel, slightly tinted from the white card body, so a
+        // contained photo reads as a framed product shot rather than as a
+        // letterboxed video.
+        'relative overflow-hidden bg-bone-100',
         ASPECTS[aspect],
         className,
       )}
@@ -74,7 +83,10 @@ export function VehicleImage({
           onError={() => setFailed(true)}
           onLoad={() => setLoaded(true)}
           className={cn(
-            'object-cover transition-opacity duration-500 ease-brand',
+            // object-contain, never object-cover: cover crops to fill the box,
+            // which cut the front or rear off cars whose native ratio differs
+            // from the frame. Padding keeps the car off the panel edges.
+            'object-contain p-3 transition-opacity duration-500 ease-brand',
             loaded ? 'opacity-100' : 'opacity-0',
             imageClassName,
           )}

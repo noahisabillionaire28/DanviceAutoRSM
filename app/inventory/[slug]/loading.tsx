@@ -7,10 +7,10 @@ export default function VehicleLoading() {
       <Skeleton className="mb-8 h-5 w-64" />
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <Skeleton className="aspect-[4/3] w-full rounded-xl" />
+          <Skeleton className="aspect-[3/2] w-full rounded-xl" />
           <div className="mt-3 grid grid-cols-5 gap-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} className="aspect-[4/3] rounded-md" />
+              <Skeleton key={i} className="aspect-[3/2] rounded-md" />
             ))}
           </div>
         </div>

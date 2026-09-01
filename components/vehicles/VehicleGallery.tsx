@@ -22,12 +22,13 @@ export function VehicleGallery({
       <VehicleImage
         src={usable[active] ?? null}
         alt={usable.length ? `${alt} — photo ${active + 1} of ${usable.length}` : alt}
-        aspect="4/3"
+        aspect="3/2"
         priority
         sizes="(min-width:1024px) 60vw, 100vw"
         quality={85}
         placeholderLabel={placeholderLabel}
         className="rounded-xl"
+        imageClassName="p-5 md:p-8"
       />
 
       {usable.length > 1 && (
@@ -47,9 +48,10 @@ export function VehicleGallery({
               <VehicleImage
                 src={src}
                 alt=""
-                aspect="4/3"
+                aspect="3/2"
                 sizes="18vw"
                 quality={50}
+                imageClassName="p-1"
               />
             </button>
           ))}

@@ -29,10 +29,9 @@ export function VehicleCard({
         <VehicleImage
           images={vehicle.images}
           alt={`${title} ${vehicle.trim_level ?? ''}`.trim()}
-          aspect="4/3"
+          aspect="3/2"
           priority={priority}
           placeholderLabel={title}
-          imageClassName="transition-transform duration-500 ease-brand group-hover:scale-[1.03]"
         />
         {hasDrop && (
           <div className="absolute left-3 top-3">

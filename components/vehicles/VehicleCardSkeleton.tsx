@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 export function VehicleCardSkeleton() {
   return (
     <div className="flex flex-col overflow-hidden rounded-lg bg-surface shadow-card ring-1 ring-navy-100/70">
-      <Skeleton className="aspect-[4/3] w-full rounded-none" />
+      <Skeleton className="aspect-[3/2] w-full rounded-none" />
       <div className="flex flex-1 flex-col p-5">
         <Skeleton className="h-[1.75rem] w-4/5" />
         <Skeleton className="mt-[0.125rem] h-5 w-1/3" />
