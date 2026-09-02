@@ -3,6 +3,7 @@ import { ButtonLink, Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Hero } from '@/components/home/Hero';
+import { LotVideo } from '@/components/home/LotVideo';
 import { FeaturedVehicles } from '@/components/home/FeaturedVehicles';
 import { Testimonials } from '@/components/home/Testimonials';
 import { VehicleGridSkeleton } from '@/components/vehicles/VehicleCardSkeleton';
@@ -39,6 +40,12 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      <section className="pt-12 md:pt-16">
+        <Container>
+          <LotVideo />
+        </Container>
+      </section>
 
       {/* The product. Highest-intent action on the page, so it comes first. */}
       <section className="py-20 md:py-28">
