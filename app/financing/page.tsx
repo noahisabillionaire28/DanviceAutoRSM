@@ -58,7 +58,14 @@ export default function FinancingPage() {
                 leadType="financing"
                 sourcePage="/financing"
                 submitLabel="Start my application"
-                trigger={<Button variant="cream" size="lg">Get pre-qualified</Button>}
+                trigger={
+                  <Button
+                    variant="link"
+                    className="text-cream-50 decoration-cream-50/40 hover:decoration-cream-50"
+                  >
+                    Get pre-qualified
+                  </Button>
+                }
               />
             </div>
           </div>
@@ -128,9 +135,9 @@ export default function FinancingPage() {
             <LeadFormModal
               leadType="financing"
               sourcePage="/financing"
-              trigger={<Button size="lg">Get pre-qualified</Button>}
+              trigger={<Button variant="link">Get pre-qualified</Button>}
             />
-            <ButtonLink href="/inventory" variant="outline" size="lg">
+            <ButtonLink href="/inventory" variant="link">
               Browse the lot first
             </ButtonLink>
           </div>

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { SITE } from '@/lib/site';
 import { formatPrice } from '@/lib/format';
-import { ButtonLink } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import { Container } from '@/components/ui/Container';
 
 /**
@@ -77,18 +77,9 @@ export function Hero() {
             same whether you haggle or not.
           </p>
 
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href="/inventory" variant="cream" size="lg">
-              Browse the lot
-            </ButtonLink>
-            <ButtonLink
-              href={`tel:${SITE.phone.tel}`}
-              variant="outline"
-              size="lg"
-              className="border-white/30 bg-transparent text-white hover:border-white/50 hover:bg-white/10"
-            >
-              Call {SITE.phone.display}
-            </ButtonLink>
+          {/* One action, not two competing ones. */}
+          <div className="mt-10 flex justify-center">
+            <CallButton showNumber />
           </div>
 
           <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/70">

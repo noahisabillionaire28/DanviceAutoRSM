@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { SORT_LABELS, countActiveFilters, parseFilters, serializeFilters } from '@/lib/filters';
 import type { InventoryFacets, SortKey } from '@/lib/types';
+import { Button } from '@/components/ui/Button';
 import { FilterPanel } from './FilterPanel';
 
 export function FilterToolbar({
@@ -91,12 +92,9 @@ export function FilterToolbar({
                 style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
               >
                 <Dialog.Close asChild>
-                  <button
-                    type="button"
-                    className="inline-flex h-12 w-full items-center justify-center rounded-md bg-brand-500 text-base font-medium text-brand-ink transition-colors active:bg-brand-600"
-                  >
+                  <Button size="lg" className="w-full">
                     Show {resultCount} {resultCount === 1 ? 'result' : 'results'}
-                  </button>
+                  </Button>
                 </Dialog.Close>
               </div>
             </Dialog.Content>

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/cn';
 import { SITE } from '@/lib/site';
-import { ButtonLink } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import { Container } from '@/components/ui/Container';
 import { Logo } from './Logo';
 import { MobileNavDrawer } from './MobileNavDrawer';
@@ -72,25 +72,10 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <a
-            href={`tel:${SITE.phone.tel}`}
-            className={cn(
-              'tnum inline-flex min-h-[44px] items-center px-1 text-[0.9375rem] font-medium transition-colors',
-              transparent
-                ? 'text-white hover:text-white/80'
-                : 'text-brand-600 hover:text-brand-700',
-            )}
-          >
-            {SITE.phone.display}
-          </a>
-          <ButtonLink
-            href="/inventory"
-            variant={transparent ? 'cream' : 'primary'}
-            size="sm"
-          >
-            Browse inventory
-          </ButtonLink>
+        {/* One CTA, and it carries the number — a separate bare phone link beside
+            a Call button would be two affordances for the same action. */}
+        <div className="hidden items-center md:flex">
+          <CallButton showNumber size="sm" />
         </div>
 
         <MobileNavDrawer tone={transparent ? 'cream' : 'brand'} />

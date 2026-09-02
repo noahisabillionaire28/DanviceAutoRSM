@@ -1,6 +1,6 @@
 import { Container } from '@/components/ui/Container';
 import { ButtonLink } from '@/components/ui/Button';
-import { SITE } from '@/lib/site';
+import { CallButton } from '@/components/ui/CallButton';
 
 export default function NotFound() {
   return (
@@ -13,11 +13,9 @@ export default function NotFound() {
         The link may be old, or the car may have sold. Either way, here is what we
         have on the lot right now.
       </p>
-      <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-        <ButtonLink href="/inventory" size="lg">Browse inventory</ButtonLink>
-        <ButtonLink href={`tel:${SITE.phone.tel}`} variant="outline" size="lg">
-          Call {SITE.phone.display}
-        </ButtonLink>
+      <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row">
+        <CallButton showNumber />
+        <ButtonLink href="/inventory" variant="link">Browse inventory</ButtonLink>
       </div>
     </Container>
   );

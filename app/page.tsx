@@ -47,7 +47,7 @@ export default function HomePage() {
             eyebrow="On the lot"
             title={<>Cars we&rsquo;d put a friend in</>}
             action={
-              <ButtonLink href="/inventory" variant="outline">
+              <ButtonLink href="/inventory" variant="link">
                 See all 12 cars
               </ButtonLink>
             }
@@ -90,12 +90,17 @@ export default function HomePage() {
               credit score.
             </p>
 
+            {/* No button here: the homepage carries exactly one CTA and it is the
+                hero's Call now. These stay reachable as quiet links. */}
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <LeadFormModal
                 leadType="financing"
                 sourcePage="/"
                 trigger={
-                  <Button variant="cream" size="lg">
+                  <Button
+                    variant="link"
+                    className="text-cream-50 decoration-cream-50/40 hover:decoration-cream-50"
+                  >
                     Get pre-qualified
                   </Button>
                 }

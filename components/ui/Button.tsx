@@ -2,25 +2,23 @@ import Link from 'next/link';
 import { cn } from '@/lib/cn';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
-type Variant = 'primary' | 'cream' | 'maroon' | 'outline' | 'ghost' | 'link';
+type Variant = 'primary' | 'ghost' | 'link';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
   'inline-flex items-center justify-center gap-2 font-medium tracking-tight transition-all duration-200 ease-brand disabled:pointer-events-none disabled:opacity-55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 const variants: Record<Variant, string> = {
-  // brand red is reserved for CTAs — see CLAUDE.md.
+  // The site has exactly one button appearance: white fill, maroon label.
+  //
+  // The border is load-bearing, not decoration. White on the cream page ground
+  // is 1.08:1 — the control would have no perceivable edge at all. maroon-400
+  // is the lightest step clearing WCAG's 3:1 for a control boundary (3.79 on
+  // cream-50, 3.52 on cream-100). The same white button reads 17.84:1 against
+  // the deep-red sections, so one style serves light and dark alike, which is
+  // what lets a single CTA be literally consistent. Asserted in scripts/checks.ts.
   primary:
-    'rounded-md bg-brand-500 text-brand-ink shadow-xs hover:bg-brand-400 hover:shadow-card active:bg-brand-600',
-  // For a CTA sitting ON a deep red section. Red-on-red only reaches 2.86:1
-  // against maroon-900, so dark sections invert to cream — the same
-  // relationship the badge itself uses. Enforced by scripts/checks.ts.
-  cream:
-    'rounded-md bg-cream-50 text-maroon-900 shadow-xs hover:bg-cream-100 hover:shadow-card active:bg-cream-200',
-  maroon:
-    'rounded-md bg-maroon-900 text-cream-50 shadow-xs hover:bg-maroon-800 hover:shadow-card active:bg-maroon-950',
-  outline:
-    'rounded-md border border-maroon-200 bg-surface text-maroon-900 hover:border-maroon-300 hover:bg-cream-100',
+    'rounded-md border border-maroon-400 bg-white text-maroon-900 shadow-xs hover:bg-cream-50 hover:shadow-card active:bg-cream-100',
   ghost: 'rounded-md text-maroon-700 hover:bg-maroon-50 hover:text-maroon-900',
   link: 'text-maroon-900 underline decoration-maroon-300 underline-offset-4 hover:decoration-brand-500',
 };

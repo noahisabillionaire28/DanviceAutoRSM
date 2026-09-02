@@ -1,5 +1,5 @@
 import { SITE } from '@/lib/site';
-import { ButtonLink } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import type { LeadType } from '@/lib/supabase/database.types';
 
 /** Each path gets its own promise — a seller and a buyer are owed different things. */
@@ -42,9 +42,7 @@ export function LeadSuccess({
         {COPY[leadType]} If you&rsquo;d rather talk now, give us a call.
       </p>
 
-      <ButtonLink href={`tel:${SITE.phone.tel}`} className="mt-6" size="lg">
-        Call {SITE.phone.display}
-      </ButtonLink>
+      <CallButton showNumber className="mt-6" />
     </div>
   );
 }

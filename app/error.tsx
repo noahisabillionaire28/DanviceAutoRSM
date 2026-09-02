@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { SITE } from '@/lib/site';
-import { Button, ButtonLink } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import { Container } from '@/components/ui/Container';
 
 export default function Error({
@@ -28,9 +29,7 @@ export default function Error({
       </p>
       <div className="mt-9 flex flex-col gap-3 sm:flex-row">
         <Button size="lg" onClick={reset}>Try again</Button>
-        <ButtonLink href={`tel:${SITE.phone.tel}`} variant="outline" size="lg">
-          Call {SITE.phone.display}
-        </ButtonLink>
+        <CallButton showNumber />
       </div>
     </Container>
   );

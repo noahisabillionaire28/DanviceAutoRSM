@@ -6,7 +6,10 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 
 ## Design rules
 - Palette from the Danvice badge: deep red (`maroon-*`), warm cream (`cream-*`), signature red (`brand-*`).
-- `brand-*` red is for CTAs only. On deep-red sections invert to the `cream` button variant: red-on-red is 2.86:1 and fails AA.
+- One CTA site-wide: the white `CallButton`. Every call to action is Call now — never a second competing button.
+- Buttons have exactly one appearance: white fill, `maroon-900` label, `maroon-400` border. The border is required, not decorative: white on cream is 1.08:1 and would have no visible edge.
+- Secondary actions are the `link` variant, never a button. `Button` has only `primary | ghost | link`.
+- `brand-*` red is no longer used on CTAs. It survives only in eyebrow rules, focus rings and the hero divider.
 - Fonts: Fraunces (display) + Inter (body) via next/font. Prices and specs use `tabular-nums`.
 - Shadows are maroon-tinted, never black. Whitespace: `py-20 md:py-28` per section.
 - Mobile-first. Skeletons must be box-model-identical to real content (zero CLS).

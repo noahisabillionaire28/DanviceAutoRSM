@@ -3,6 +3,7 @@ import { SITE } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ButtonLink } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import { breadcrumbJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
@@ -103,8 +104,9 @@ export default function AboutPage() {
           </dl>
 
           <div className="mt-14 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/inventory" size="lg">See what we have</ButtonLink>
-            <ButtonLink href="/contact" variant="outline" size="lg">Come visit</ButtonLink>
+            <CallButton showNumber />
+            <ButtonLink href="/inventory" variant="link">See what we have</ButtonLink>
+            <ButtonLink href="/contact" variant="link">Come visit</ButtonLink>
           </div>
         </section>
       </Container>

@@ -7,7 +7,8 @@ import { SITE } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 import { Badge } from '@/components/ui/Badge';
-import { Button, ButtonLink } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
+import { CallButton } from '@/components/ui/CallButton';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { VehicleGallery } from '@/components/vehicles/VehicleGallery';
 import { VehicleSpecs } from '@/components/vehicles/VehicleSpecs';
@@ -116,23 +117,21 @@ export default async function VehicleDetailPage({
               ))}
             </ul>
 
-            <div className="mt-8 flex flex-col gap-3">
+            {/* Call is the action; the enquiry form stays one tap away beneath it. */}
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <CallButton full showNumber />
               <LeadFormModal
                 leadType="vehicle_inquiry"
                 sourcePage={`/inventory/${vehicle.slug}`}
                 vehicleId={vehicle.id}
                 vehicleTitle={fullTitle}
                 submitLabel="Send inquiry"
-                trigger={<Button size="lg" className="w-full">Ask about this car</Button>}
+                trigger={
+                  <Button variant="link" className="text-sm text-muted">
+                    or ask about this car
+                  </Button>
+                }
               />
-              <ButtonLink
-                href={`tel:${SITE.phone.tel}`}
-                variant="outline"
-                size="lg"
-                className="w-full"
-              >
-                Call {SITE.phone.display}
-              </ButtonLink>
             </div>
 
             {vehicle.description && (
@@ -175,7 +174,7 @@ export default async function VehicleDetailPage({
                     leadType="financing"
                     sourcePage={`/inventory/${vehicle.slug}`}
                     vehicleId={vehicle.id}
-                    trigger={<Button className="w-full">Get pre-qualified</Button>}
+                    trigger={<Button variant="link" className="text-sm">Get pre-qualified</Button>}
                   />
                 }
               />

@@ -143,15 +143,19 @@ const pairs: [string, string, string, number][] = [
   ['muted text on page background', fgMuted, bg, 4.5],
   ['body text on card surface', fg, surface, 4.5],
   ['muted text on card surface', fgMuted, surface, 4.5],
-  ['CTA label on CTA fill', accentFg, accent, 4.5],
-  ['CTA label on CTA hover fill', tokenHex('brand-ink'), tokenHex('brand.600'), 4.5],
   ['cream text on darkest section', tokenHex('cream.50'), tokenHex('maroon.900'), 4.5],
   ['cream text on deep section', tokenHex('cream.50'), tokenHex('maroon.700'), 4.5],
   ['heading on tinted panel', tokenHex('maroon.900'), tokenHex('cream.100'), 4.5],
-  // Dark sections invert to a cream CTA: red-on-red only reaches 2.86:1.
-  ['inverted CTA fill against darkest section', tokenHex('cream.50'), tokenHex('maroon.900'), 3.0],
-  ['inverted CTA label on its fill', tokenHex('maroon.900'), tokenHex('cream.50'), 4.5],
-  ['red CTA fill against page background', accent, bg, 3.0],
+
+  // The one CTA: white fill, maroon-900 label, maroon-400 border. The same
+  // button serves light and dark sections, which is what makes a single CTA
+  // literally consistent rather than approximately so.
+  ['CTA label on the white CTA', tokenHex('maroon.900'), '#ffffff', 4.5],
+  ['white CTA against the darkest section', '#ffffff', tokenHex('maroon.900'), 3.0],
+  // Without a border the CTA has NO perceivable edge on light ground (1.08:1),
+  // so the border carries the whole control boundary — WCAG 1.4.11 wants 3:1.
+  ['CTA border against the page ground', tokenHex('maroon.400'), bg, 3.0],
+  ['CTA border against the tinted band', tokenHex('maroon.400'), tokenHex('cream.100'), 3.0],
 ];
 
 for (const [name, fgHex, bgHex, min] of pairs) {
@@ -356,6 +360,64 @@ check('filter sheet does not close on each filter change',
   '<- committing a filter must not dismiss the sheet');
 const toolbarSrc = readFileSync(join(ROOT, 'components/inventory/FilterToolbar.tsx'), 'utf8');
 check('filter sheet offers an explicit way out', toolbarSrc.includes('Show {resultCount}'));
+
+console.log('\nOne CTA, everywhere');
+
+// The site previously carried eight CTA labels across five button variants.
+// These guard the single-CTA rule structurally, because a convention drifts.
+const buttonSrc2 = readFileSync(join(ROOT, 'components/ui/Button.tsx'), 'utf8');
+for (const dead of ['cream', 'maroon', 'outline']) {
+  check(`Button no longer defines a '${dead}' variant`,
+    !new RegExp(`^\\s*${dead}:`, 'm').test(buttonSrc2));
+}
+check('the one button is white with a maroon label',
+  /bg-white/.test(buttonSrc2) && /text-maroon-900/.test(buttonSrc2));
+check('the button carries its load-bearing border',
+  /border-maroon-400/.test(buttonSrc2),
+  '<- without it the CTA is 1.08:1 against the page and has no visible edge');
+
+const pageFiles2 = readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })
+  .filter((f) => f.endsWith('page.tsx'));
+const componentFiles = readdirSync(join(ROOT, 'components'), { recursive: true, encoding: 'utf8' })
+  .filter((f) => f.endsWith('.tsx'));
+
+for (const f of pageFiles2) {
+  const src = readFileSync(join(ROOT, 'app', f), 'utf8');
+  const route = `/${f.replace(/\/?page\.tsx$/, '')}`;
+  check(`${route} uses no deleted button variant`,
+    !/variant="(cream|maroon|outline)"/.test(src));
+}
+
+// Exactly one button on the homepage, and it is the Call CTA.
+const homeSrc = readFileSync(join(ROOT, 'app/page.tsx'), 'utf8');
+const heroSrc2 = readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8');
+const homeButtons = [...homeSrc.matchAll(/<Button(?:Link)?\b(?![^>]*variant="link")/g)].length;
+check(`homepage body has no button outside the hero (found ${homeButtons})`, homeButtons === 0,
+  '<- the homepage carries exactly one CTA and it is the hero Call now');
+check('the hero CTA is the shared CallButton', /<CallButton/.test(heroSrc2));
+check('the hero has no second competing CTA',
+  [...heroSrc2.matchAll(/<(?:CallButton|ButtonLink|Button)\b/g)].length === 1);
+
+// Every phone CTA routes through the one component; bare tel: text links are fine.
+for (const f of componentFiles.concat(pageFiles2.map((p) => `../app/${p}`))) {
+  const path = f.startsWith('../app/')
+    ? join(ROOT, 'app', f.slice(7))
+    : join(ROOT, 'components', f);
+  const src = readFileSync(path, 'utf8');
+  if (!src.includes('tel:') || path.endsWith('CallButton.tsx')) continue;
+  const buttonish = /href={`tel:[^`]*`}[^>]*className="[^"]*(?:rounded-md|bg-brand)/s.test(src);
+  check(`${f.replace('../app/', 'app/')} has no hand-rolled phone button`, !buttonish,
+    '<- phone CTAs must render CallButton so label, icon and href cannot drift');
+}
+
+// Red is accent-only now: eyebrow rules, focus rings, hover tints. A solid
+// bg-brand-500 fill means a button slipped back to red.
+for (const f of componentFiles) {
+  const src = readFileSync(join(ROOT, 'components', f), 'utf8');
+  const redFill = /className="[^"]*\bbg-brand-500\b(?!\/)/.test(src);
+  check(`${f} has no red-filled button`, !redFill,
+    '<- every button is the white CTA; red is reserved for rules and rings');
+}
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

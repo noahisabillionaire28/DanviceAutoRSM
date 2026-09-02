@@ -59,7 +59,7 @@ export default function ContactPage() {
             </a>
 
             <div className="mt-6">
-              <ButtonLink href={mapsUrl()} variant="maroon">Get directions</ButtonLink>
+              <ButtonLink href={mapsUrl()}>Get directions</ButtonLink>
             </div>
 
             {/* A walk-in lot needs a map, not just an address. Uses the
