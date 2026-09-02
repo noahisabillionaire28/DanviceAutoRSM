@@ -2,7 +2,7 @@ import { LeadSchema } from '@/lib/schemas/lead';
 import { estimateMonthlyPayment } from '@/lib/payment';
 import { parseFilters, serializeFilters } from '@/lib/filters';
 import { resolveVehicleImage } from '@/lib/images';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -260,6 +260,35 @@ check(`nav after scroll: brand-600 on white = ${navScrolled.toFixed(2)}:1`, navS
 // Links sit at 85% white on the red bar; that is the real rendered colour.
 const navTopMuted = contrast(compositeOver('#ffffff', 0.85, tokenHex('maroon.900')), tokenHex('maroon.900'));
 check(`nav link at rest (white/85 on maroon-900) = ${navTopMuted.toFixed(2)}:1`, navTopMuted >= 4.5);
+
+console.log('\nEvery page can get back to the homepage');
+
+// The site once had exactly one link to '/' anywhere: the header logo. The
+// footer had none at all. This asserts every page except the homepage itself
+// renders the breadcrumb strip, so a new page cannot ship as a dead end.
+const pageFiles = readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })
+  .filter((f) => f.endsWith('page.tsx'))
+  .filter((f) => f !== 'page.tsx');
+
+check('found the app pages to audit', pageFiles.length >= 6, `<- found ${pageFiles.length}`);
+for (const f of pageFiles) {
+  const src = readFileSync(join(ROOT, 'app', f), 'utf8');
+  check(`/${f.replace(/\/?page\.tsx$/, '')} renders a Breadcrumb`, src.includes('<Breadcrumb'));
+}
+
+// The two chrome surfaces a visitor reaches for when the breadcrumb is scrolled
+// past. Both linked nowhere before this.
+for (const [label, file] of [
+  ['footer', 'components/layout/SiteFooter.tsx'],
+  ['mobile drawer', 'components/layout/MobileNavDrawer.tsx'],
+] as const) {
+  const src = readFileSync(join(ROOT, file), 'utf8');
+  check(`${label} links home`, /href="\/"/.test(src));
+}
+
+// Home is prepended by the Breadcrumb component, so no caller can omit it.
+const crumbSrc = readFileSync(join(ROOT, 'components/ui/Breadcrumb.tsx'), 'utf8');
+check('breadcrumb always prepends Home', /name: 'Home', href: '\/'/.test(crumbSrc));
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

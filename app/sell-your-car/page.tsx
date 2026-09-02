@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LeadForm } from '@/components/leads/LeadForm';
+import { breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 
 export const dynamic = 'force-static';
 
@@ -18,9 +21,15 @@ const POINTS = [
   { t: 'Paid the same day', b: 'If we agree on a price, we handle the DMV paperwork and you leave with payment in hand.' },
 ];
 
+// One array drives both the visible breadcrumb and its structured data.
+const TRAIL = [{ name: 'Sell Your Car', href: '/sell-your-car' }];
+
 export default function SellYourCarPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
+      <Breadcrumb trail={TRAIL} />
+
       <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 text-center md:py-20">
           <p className="eyebrow eyebrow-rule [&::after]:mx-auto">Sell your car</p>

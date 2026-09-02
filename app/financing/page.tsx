@@ -5,6 +5,9 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { PaymentCalculator } from '@/components/vehicles/PaymentCalculator';
 import { LeadFormModal } from '@/components/leads/LeadFormModal';
+import { breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 
 export const dynamic = 'force-static';
 
@@ -28,9 +31,15 @@ const FAQS = [
   { q: 'Can I pay it off early?', a: 'Yes, and we will tell you before you sign whether your specific loan has any prepayment penalty. Most of the loans we write do not.' },
 ];
 
+// One array drives both the visible breadcrumb and its structured data.
+const TRAIL = [{ name: 'Financing', href: '/financing' }];
+
 export default function FinancingPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
+      <Breadcrumb trail={TRAIL} />
+
       <section className="bg-maroon-900 text-cream-50">
         <Container className="py-20 text-center md:py-28">
           <div className="mx-auto max-w-2xl">

@@ -17,7 +17,9 @@ export function SiteFooter() {
       <Container className="py-16 pb-[calc(4.5rem+2rem)] md:py-20 md:pb-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-4">
-            <Logo tone="cream" />
+            <Link href="/" aria-label={`${SITE.name} — home`} className="inline-block">
+              <Logo tone="cream" />
+            </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-50/65">
               {SITE.tagline}
             </p>
@@ -69,6 +71,14 @@ export function SiteFooter() {
               Explore
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
+              <li>
+                <Link
+                  href="/"
+                  className="text-cream-50/75 transition-colors hover:text-cream-50"
+                >
+                  Home
+                </Link>
+              </li>
               {SITE.nav.map((item) => (
                 <li key={item.href}>
                   <Link

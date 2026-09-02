@@ -5,6 +5,7 @@ import { getFacets, getVehicles } from '@/lib/vehicles';
 import { breadcrumbJsonLd } from '@/lib/seo';
 import { Container } from '@/components/ui/Container';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 import { FilterPanel } from '@/components/inventory/FilterPanel';
 import { FilterToolbar } from '@/components/inventory/FilterToolbar';
 import { ActiveFilterChips } from '@/components/inventory/ActiveFilterChips';
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
   description:
     'Browse every car on the lot — all between $5,000 and $15,000, inspected, and priced up front. Filter by make, body style, price, and mileage.',
 };
+
+// One array drives both the visible breadcrumb and its structured data.
+const TRAIL = [{ name: 'Inventory', href: '/inventory' }];
 
 export default async function InventoryPage({
   searchParams,
@@ -33,12 +37,8 @@ export default async function InventoryPage({
 
   return (
     <>
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: 'Home', href: '/' },
-          { name: 'Inventory', href: '/inventory' },
-        ])}
-      />
+      <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
+      <Breadcrumb trail={TRAIL} />
 
       <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 md:py-20">

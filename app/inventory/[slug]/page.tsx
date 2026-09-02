@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getSimilar, getVehicleBySlug } from '@/lib/vehicles';
 import { formatPrice, label, vehicleTitle } from '@/lib/format';
 import { breadcrumbJsonLd, vehicleJsonLd } from '@/lib/seo';
 import { SITE } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 import { Badge } from '@/components/ui/Badge';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -62,31 +62,22 @@ export default async function VehicleDetailPage({
 
   const title = vehicleTitle(vehicle);
   const fullTitle = vehicleTitle(vehicle, true);
+  // One array drives both the visible breadcrumb and its structured data.
+  const trail = [
+    { name: 'Inventory', href: '/inventory' },
+    { name: fullTitle, href: `/inventory/${vehicle.slug}` },
+  ];
   const similar = await getSimilar(vehicle.id, vehicle.body_type, vehicle.price);
   const hasDrop = vehicle.previous_price != null && vehicle.previous_price > vehicle.price;
 
   return (
     <>
       <JsonLd data={vehicleJsonLd(vehicle)} />
-      <JsonLd
-        data={breadcrumbJsonLd([
-          { name: 'Home', href: '/' },
-          { name: 'Inventory', href: '/inventory' },
-          { name: fullTitle, href: `/inventory/${vehicle.slug}` },
-        ])}
-      />
+      <JsonLd data={breadcrumbJsonLd(withHome(trail))} />
 
-      <Container className="py-8 md:py-12">
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm">
-          <ol className="flex flex-wrap items-center gap-2 text-muted">
-            <li><Link href="/" className="hover:text-maroon-900">Home</Link></li>
-            <li aria-hidden="true">/</li>
-            <li><Link href="/inventory" className="hover:text-maroon-900">Inventory</Link></li>
-            <li aria-hidden="true">/</li>
-            <li className="text-maroon-900">{fullTitle}</li>
-          </ol>
-        </nav>
+      <Breadcrumb trail={trail} />
 
+      <Container className="pb-8 pt-2 md:pb-12 md:pt-4">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
             <VehicleGallery

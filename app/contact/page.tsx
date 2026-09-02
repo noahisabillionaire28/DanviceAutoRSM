@@ -3,6 +3,9 @@ import { SITE, formattedAddress, mapsUrl } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { ButtonLink } from '@/components/ui/Button';
 import { LeadForm } from '@/components/leads/LeadForm';
+import { breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 
 export const dynamic = 'force-static';
 
@@ -18,9 +21,15 @@ function formatHour(t: string) {
   return m === 0 ? `${hour}${period}` : `${hour}:${String(m).padStart(2, '0')}${period}`;
 }
 
+// One array drives both the visible breadcrumb and its structured data.
+const TRAIL = [{ name: 'Contact', href: '/contact' }];
+
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
+      <Breadcrumb trail={TRAIL} />
+
       <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 text-center md:py-20">
           <p className="eyebrow eyebrow-rule [&::after]:mx-auto">Contact</p>

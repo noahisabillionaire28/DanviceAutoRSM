@@ -3,6 +3,9 @@ import { SITE } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ButtonLink } from '@/components/ui/Button';
+import { breadcrumbJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumb, withHome } from '@/components/ui/Breadcrumb';
 
 export const dynamic = 'force-static';
 
@@ -18,9 +21,15 @@ const VALUES = [
   { t: 'Inspections are welcome', b: 'Take any car to your own mechanic before you buy it. We have never refused, and if a shop finds something we missed we want to know.' },
 ];
 
+// One array drives both the visible breadcrumb and its structured data.
+const TRAIL = [{ name: 'About', href: '/about' }];
+
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
+      <Breadcrumb trail={TRAIL} />
+
       <section className="border-b border-maroon-100 bg-cream-100">
         <Container className="py-14 text-center md:py-20">
           <p className="eyebrow eyebrow-rule [&::after]:mx-auto">About</p>

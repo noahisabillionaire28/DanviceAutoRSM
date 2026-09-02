@@ -34,7 +34,9 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
 
           <div className="flex h-16 items-center justify-between border-b border-maroon-100 px-5">
-            <Logo />
+            <Link href="/" aria-label={`${SITE.name} — home`}>
+              <Logo />
+            </Link>
             <Dialog.Close
               aria-label="Close menu"
               className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-maroon-700 hover:bg-maroon-50"
@@ -47,6 +49,14 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
 
           <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-6">
             <ul className="flex flex-col gap-1">
+              <li>
+                <Link
+                  href="/"
+                  className="block rounded-md px-3 py-3 font-display text-xl text-maroon-900 transition-colors hover:bg-maroon-50"
+                >
+                  Home
+                </Link>
+              </li>
               {SITE.nav.map((item) => (
                 <li key={item.href}>
                   <Link
