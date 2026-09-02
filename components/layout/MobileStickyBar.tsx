@@ -7,7 +7,7 @@ import { SITE } from '@/lib/site';
  * Fixed bottom bar, mobile only. SiteFooter — the last element in flow —
  * carries matching bottom padding so this never covers it, and the inline
  * env(safe-area-inset-bottom) keeps the buttons clear of the home indicator.
- * Change this bar's height and the footer's pb-[calc(...)] must follow.
+ * Change this bar's height and the footer's bottom padding must follow.
  */
 export function MobileStickyBar() {
   return (
