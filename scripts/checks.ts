@@ -204,5 +204,38 @@ const financingNoContact = LeadSchema.safeParse({
 });
 check('financing still requires email or phone', !financingNoContact.success);
 
+
+console.log('\nHero video scrim (text sits over uncontrolled footage)');
+
+/** Composite a translucent scrim over a backdrop, per channel. */
+function compositeOver(scrim: string, alpha: number, backdrop: string): string {
+  const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const [sr, sg, sb] = hex(scrim);
+  const [br, bg, bb] = hex(backdrop);
+  const mix = (a: number, b: number) => Math.round(a * alpha + b * (1 - alpha));
+  return (
+    '#' +
+    [mix(sr, br), mix(sg, bg), mix(sb, bb)]
+      .map((n) => n.toString(16).padStart(2, '0'))
+      .join('')
+  );
+}
+
+// Worst case is a blank white video frame. If the copy stays readable against
+// that, it stays readable against every frame.
+const SCRIM_ALPHA = 0.75; // keep in sync with bg-maroon-950/75 in Hero.tsx
+const worstCase = compositeOver(tokenHex('maroon.950'), SCRIM_ALPHA, '#ffffff');
+const heroText = tokenHex('cream.50');
+const heroRatio = contrast(heroText, worstCase);
+
+check(
+  `hero copy over a white video frame (${heroText} on ${worstCase}) = ${heroRatio.toFixed(2)}:1`,
+  heroRatio >= 4.5,
+  'lower the scrim opacity and the headline becomes unreadable on bright footage',
+);
+
+const heroMuted = contrast('#FCF6EA', worstCase);
+check('hero supporting text clears large-text AA', heroMuted >= 3.0);
+
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);
