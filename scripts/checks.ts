@@ -225,17 +225,41 @@ function compositeOver(scrim: string, alpha: number, backdrop: string): string {
 // that, it stays readable against every frame.
 const SCRIM_ALPHA = 0.75; // keep in sync with bg-maroon-950/75 in Hero.tsx
 const worstCase = compositeOver(tokenHex('maroon.950'), SCRIM_ALPHA, '#ffffff');
-const heroText = tokenHex('cream.50');
-const heroRatio = contrast(heroText, worstCase);
 
+// The hero copy is pure white, not cream-50: it sits next to the white nav bar
+// at the top of the page, and warm off-white reads dingy beside it.
+const heroSrc = readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8');
+check('hero copy is pure white, not cream-50', !/text-cream-50/.test(heroSrc),
+  '<- the assertions below guard white; cream would go unchecked');
+
+const heroText = '#ffffff';
+const heroRatio = contrast(heroText, worstCase);
 check(
   `hero copy over a white video frame (${heroText} on ${worstCase}) = ${heroRatio.toFixed(2)}:1`,
   heroRatio >= 4.5,
   'lower the scrim opacity and the headline becomes unreadable on bright footage',
 );
 
-const heroMuted = contrast('#FCF6EA', worstCase);
-check('hero supporting text clears large-text AA', heroMuted >= 3.0);
+console.log('\nScroll-aware header (two inverted states)');
+
+// At the top of the homepage the bar wears the hero's own background colour;
+// past 80px it flips to white with red text. Both states carry live text, so
+// both need to clear AA, and the classes are read back out of the component so
+// a restyle cannot quietly outrun these numbers.
+const headerSrc = readFileSync(join(ROOT, 'components/layout/SiteHeader.tsx'), 'utf8');
+check('header top state uses the hero background', headerSrc.includes('bg-maroon-900'));
+check('header scrolled state is white', headerSrc.includes('bg-white'));
+check('header scrolled links are brand red', headerSrc.includes('text-brand-600'));
+
+const navTop = contrast('#ffffff', tokenHex('maroon.900'));
+check(`nav at top: white on maroon-900 = ${navTop.toFixed(2)}:1`, navTop >= 4.5);
+
+const navScrolled = contrast(tokenHex('brand.600'), '#ffffff');
+check(`nav after scroll: brand-600 on white = ${navScrolled.toFixed(2)}:1`, navScrolled >= 4.5);
+
+// Links sit at 85% white on the red bar; that is the real rendered colour.
+const navTopMuted = contrast(compositeOver('#ffffff', 0.85, tokenHex('maroon.900')), tokenHex('maroon.900'));
+check(`nav link at rest (white/85 on maroon-900) = ${navTopMuted.toFixed(2)}:1`, navTopMuted >= 4.5);
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

@@ -13,7 +13,7 @@ import { Container } from '@/components/ui/Container';
  *
  * The scrim is doing real work, not decoration. Text sits over moving footage
  * whose brightness we do not control, so the worst case is a blank-white
- * frame. At 75% maroon-950 the composite floor is ~8.6:1 against cream text
+ * frame. At 75% maroon-950 the composite floor is ~9.0:1 against white text
  * even then — asserted in scripts/checks.ts so lowering the opacity fails the
  * build rather than quietly making the headline unreadable.
  */
@@ -37,7 +37,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative isolate flex min-h-[92svh] items-center overflow-hidden bg-maroon-900 text-cream-50">
+    <section className="relative isolate flex min-h-[92svh] items-center overflow-hidden bg-maroon-900 text-white">
       <video
         ref={videoRef}
         className="absolute inset-0 -z-20 h-full w-full object-cover"
@@ -63,16 +63,16 @@ export function Hero() {
 
       <Container className="relative py-24 text-center md:py-28">
         <div className="mx-auto max-w-3xl">
-          <p className="text-eyebrow uppercase text-cream-50/70">
+          <p className="text-eyebrow uppercase text-white/70">
             {SITE.address.city}
           </p>
           <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-brand-400" />
 
-          <h1 className="mt-8 text-balance text-display-xl text-cream-50">
+          <h1 className="mt-8 text-balance text-display-xl text-white">
             Honest cars for real budgets.
           </h1>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-cream-50/85">
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/85">
             Every car on our lot is inspected before it&rsquo;s listed and priced the
             same whether you haggle or not.
           </p>
@@ -85,19 +85,19 @@ export function Hero() {
               href={`tel:${SITE.phone.tel}`}
               variant="outline"
               size="lg"
-              className="border-cream-50/30 bg-transparent text-cream-50 hover:border-cream-50/50 hover:bg-cream-50/10"
+              className="border-white/30 bg-transparent text-white hover:border-white/50 hover:bg-white/10"
             >
               Call {SITE.phone.display}
             </ButtonLink>
           </div>
 
-          <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-cream-50/70">
+          <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/70">
             <span className="tnum">
               {formatPrice(SITE.priceRange.min)}&ndash;{formatPrice(SITE.priceRange.max)}, every car
             </span>
-            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-cream-50/40" />
+            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/40" />
             <span>150-point inspection</span>
-            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-cream-50/40" />
+            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/40" />
             <span>Open seven days</span>
           </p>
         </div>

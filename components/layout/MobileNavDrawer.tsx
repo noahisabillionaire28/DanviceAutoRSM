@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { SITE, formattedAddress } from '@/lib/site';
 import { Logo } from './Logo';
 
-export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream' }) {
+export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream' | 'brand' }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -20,7 +20,7 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
         <button
           type="button"
           aria-label="Open menu"
-          className={`-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:hidden ${tone === 'cream' ? 'text-cream-50 hover:bg-cream-50/10' : 'text-maroon-800 hover:bg-maroon-50'}`}
+          className={`-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:hidden ${tone === 'cream' ? 'text-white hover:bg-white/10' : tone === 'brand' ? 'text-brand-600 hover:bg-brand-500/10' : 'text-maroon-800 hover:bg-maroon-50'}`}
         >
           <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
             <path d="M0 1h20M0 7h20M0 13h14" stroke="currentColor" strokeWidth="1.75" />

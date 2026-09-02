@@ -11,12 +11,16 @@ import { Logo } from './Logo';
 import { MobileNavDrawer } from './MobileNavDrawer';
 
 /**
- * Transparent over the homepage's video hero, solid everywhere else.
+ * Scroll-aware header with two inverted states.
  *
- * It has to solidify on scroll rather than stay transparent: past the hero the
- * nav would sit over cream page background, where cream-on-cream links are
- * invisible. The switch happens well inside the hero's 92svh, so the two
- * states never disagree about what is behind them.
+ *   at the top of the homepage : maroon-900 bar (the hero's own red) + white
+ *   scrolled / every other page: white bar + red text
+ *
+ * The top state uses the hero's exact background colour so the bar and the
+ * hero read as one continuous field rather than a stripe laid over it. The
+ * switch fires at 80px, well inside the hero's 92svh, so the two states never
+ * disagree about what is behind them. Both pairings are contrast-checked in
+ * scripts/checks.ts.
  */
 export function SiteHeader() {
   const pathname = usePathname();
@@ -39,8 +43,8 @@ export function SiteHeader() {
       className={cn(
         'sticky top-0 z-40 transition-colors duration-300 ease-brand',
         transparent
-          ? 'border-b border-transparent bg-transparent'
-          : 'border-b border-maroon-100/80 bg-cream-50/85 backdrop-blur-md',
+          ? 'border-b border-white/10 bg-maroon-900'
+          : 'border-b border-maroon-100/80 bg-white',
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6 md:h-20">
@@ -57,8 +61,8 @@ export function SiteHeader() {
                   className={cn(
                     'inline-flex min-h-[44px] items-center rounded-md px-3.5 py-2.5 text-[0.9375rem] transition-colors duration-200',
                     transparent
-                      ? 'text-cream-50/85 hover:bg-cream-50/10 hover:text-cream-50'
-                      : 'text-maroon-700 hover:bg-maroon-50 hover:text-maroon-900',
+                      ? 'text-white/85 hover:bg-white/10 hover:text-white'
+                      : 'text-brand-600 hover:bg-brand-500/10 hover:text-brand-700',
                   )}
                 >
                   {item.label}
@@ -74,8 +78,8 @@ export function SiteHeader() {
             className={cn(
               'tnum inline-flex min-h-[44px] items-center px-1 text-[0.9375rem] font-medium transition-colors',
               transparent
-                ? 'text-cream-50 hover:text-cream-50/80'
-                : 'text-maroon-900 hover:text-maroon-600',
+                ? 'text-white hover:text-white/80'
+                : 'text-brand-600 hover:text-brand-700',
             )}
           >
             {SITE.phone.display}
@@ -89,7 +93,7 @@ export function SiteHeader() {
           </ButtonLink>
         </div>
 
-        <MobileNavDrawer tone={transparent ? 'cream' : 'maroon'} />
+        <MobileNavDrawer tone={transparent ? 'cream' : 'brand'} />
       </Container>
     </header>
   );
