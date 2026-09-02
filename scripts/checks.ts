@@ -337,8 +337,14 @@ check('sliders no longer rely on inert accent-color', !calcSrc.includes('accent-
   '<- accent-color does nothing once appearance is none');
 
 // Every control in the inventory browsing UI was 34-40px. Guard the floor.
-for (const f of ['FilterPanel', 'FilterToolbar', 'ActiveFilterChips', 'Pagination']) {
-  const src = readFileSync(join(ROOT, `components/inventory/${f}.tsx`), 'utf8');
+for (const f of [
+  'inventory/FilterPanel', 'inventory/FilterToolbar', 'inventory/ActiveFilterChips',
+  'inventory/Pagination',
+  // The payment calculator's term buttons sit between the two sliders, and the
+  // lead modal is a bottom sheet on mobile — both are thumb targets too.
+  'vehicles/PaymentCalculator', 'leads/LeadFormModal',
+]) {
+  const src = readFileSync(join(ROOT, `components/${f}.tsx`), 'utf8');
   check(`${f} has no sub-44px control`, !/\bh-(?:8|9|10)\b/.test(src),
     '<- h-8/h-9/h-10 is under the 44px touch minimum');
 }

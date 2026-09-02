@@ -64,7 +64,7 @@ export function LeadFormModal({
 
           <Dialog.Close
             aria-label="Close"
-            className="absolute right-5 top-5 inline-flex h-9 w-9 items-center justify-center rounded-md text-maroon-500 transition-colors hover:bg-maroon-50 hover:text-maroon-900"
+            className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-md text-maroon-500 transition-colors hover:bg-maroon-50 hover:text-maroon-900"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.75" />

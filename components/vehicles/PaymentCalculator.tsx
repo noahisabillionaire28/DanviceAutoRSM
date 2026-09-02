@@ -78,7 +78,7 @@ export function PaymentCalculator({
                 onClick={() => setTerm(t)}
                 aria-pressed={term === t}
                 className={cn(
-                  'tnum h-10 rounded-md text-sm transition-colors duration-200',
+                  'tnum h-11 rounded-md text-sm transition-colors duration-200',
                   term === t
                     ? 'bg-maroon-900 text-cream-50'
                     : 'bg-maroon-50 text-maroon-700 hover:bg-maroon-100',
