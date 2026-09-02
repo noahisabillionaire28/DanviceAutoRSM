@@ -261,6 +261,14 @@ const cssFile = readFileSync(join(ROOT, 'app/globals.css'), 'utf8');
 // hero's veil supplies the colour and runs on past the bar instead.
 check('header is transparent over the hero', /transparent\s*\n?\s*\?\s*'bg-transparent'/.test(headerSrc),
   '<- an opaque bar reintroduces the seam');
+
+// usePathname reads the ambient request URL. An ISR regeneration triggered by
+// revalidateTag renders this page inside the triggering request, so the
+// inventory webhook once cached a homepage header that believed it was on
+// /api/revalidate. The selected segment follows the route being rendered.
+check('header detects the homepage by layout segment, not pathname',
+  headerSrc.includes('useSelectedLayoutSegment()') && !/\busePathname\(/.test(headerSrc),
+  '<- usePathname here lets a revalidate request poison the cached header');
 check('header draws no rule across the seam', !headerSrc.includes('border-white/10'));
 check('the hero veil supplies the colour behind it', cssFile.includes('.hero-veil'));
 check('the hero runs up under the header', /-mt-16[\s\S]*md:-mt-20/.test(heroFile),

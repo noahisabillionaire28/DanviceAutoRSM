@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useSelectedLayoutSegment } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/cn';
 import { SITE } from '@/lib/site';
@@ -25,10 +25,17 @@ import { MobileNavDrawer } from './MobileNavDrawer';
  * contrast-checked in scripts/checks.ts.
  */
 export function SiteHeader() {
-  const pathname = usePathname();
+  // useSelectedLayoutSegment, NOT usePathname. usePathname reads the ambient
+  // request URL, and an ISR regeneration triggered by revalidateTag re-renders
+  // this page inside the *triggering* request — so a POST to /api/revalidate
+  // (the Supabase webhook the owner's inventory edits fire) baked a header
+  // that thought it was on /api/revalidate and cached the wrong state onto the
+  // homepage. The selected segment comes from the layout tree of the route
+  // actually being rendered, so it is null on / no matter what asked for it.
+  const segment = useSelectedLayoutSegment();
   const [scrolled, setScrolled] = useState(false);
 
-  const overHero = pathname === '/';
+  const overHero = segment === null;
 
   useEffect(() => {
     if (!overHero) return;
