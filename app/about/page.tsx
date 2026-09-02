@@ -9,11 +9,11 @@ export const dynamic = 'force-static';
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    'Danvice Auto of RSM is a family-run used car lot in Rancho Santa Margarita specialising in dependable vehicles between $5,000 and $15,000.',
+    'Danvice Auto of RSM is a family-run used car lot in Rancho Santa Margarita specializing in dependable vehicles between $5,000 and $15,000.',
 };
 
 const VALUES = [
-  { t: 'One price, on the listing', b: 'We price cars where we think they should sell and leave them there. You are not penalised for being bad at haggling, and nobody who walks in gets a different number than the person before them.' },
+  { t: 'One price, on the listing', b: 'We price cars where we think they should sell and leave them there. You are not penalized for being bad at haggling, and nobody who walks in gets a different number than the person before them.' },
   { t: 'We say no to cars', b: 'Most of what comes through auction does not make it onto this lot. If a car needs work we cannot stand behind, we pass rather than list it cheap and hope.' },
   { t: 'Inspections are welcome', b: 'Take any car to your own mechanic before you buy it. We have never refused, and if a shop finds something we missed we want to know.' },
 ];
@@ -22,9 +22,9 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-b border-maroon-100 bg-cream-100">
-        <Container className="py-14 md:py-20">
-          <p className="eyebrow eyebrow-rule">About</p>
-          <h1 className="mt-5 max-w-2xl text-display-lg text-maroon-900">
+        <Container className="py-14 text-center md:py-20">
+          <p className="eyebrow eyebrow-rule [&::after]:mx-auto">About</p>
+          <h1 className="mx-auto mt-5 max-w-2xl text-balance text-display-lg text-maroon-900">
             A small lot that sells cars it would put its own family in
           </h1>
         </Container>
@@ -40,7 +40,7 @@ export default function AboutPage() {
                 how we do things more than any policy would.
               </p>
               <p>
-                We specialise deliberately: dependable cars between{' '}
+                We specialize deliberately: dependable cars between{' '}
                 <span className="tnum">$5,000</span> and{' '}
                 <span className="tnum">$15,000</span>. That is the range where a
                 first car, a student car, or a reliable second family car lives, and
@@ -65,7 +65,7 @@ export default function AboutPage() {
             <div className="rounded-xl bg-maroon-900 p-8 text-cream-50">
               <h2 className="font-display text-xl">Where we are</h2>
               <address className="mt-4 not-italic leading-relaxed text-cream-50/75">
-                {SITE.address.street} {SITE.address.unit}
+                {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
                 <br />
                 {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
               </address>

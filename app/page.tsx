@@ -4,6 +4,7 @@ import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Hero } from '@/components/home/Hero';
 import { FeaturedVehicles } from '@/components/home/FeaturedVehicles';
+import { Testimonials } from '@/components/home/Testimonials';
 import { VehicleGridSkeleton } from '@/components/vehicles/VehicleCardSkeleton';
 import { LeadFormModal } from '@/components/leads/LeadFormModal';
 
@@ -61,7 +62,7 @@ export default function HomePage() {
 
       {/* Compressed to a single quiet band — supporting evidence, not a headline act. */}
       <section className="border-y border-maroon-100 bg-cream-100">
-        <Container className="grid gap-8 py-14 md:grid-cols-3 md:gap-12">
+        <Container className="grid gap-8 py-16 md:grid-cols-3 md:gap-12 md:py-20">
           {PROOF.map((item) => (
             <div key={item.t}>
               <h2 className="font-display text-lg text-maroon-900">{item.t}</h2>
@@ -70,6 +71,8 @@ export default function HomePage() {
           ))}
         </Container>
       </section>
+
+      <Testimonials />
 
       {/* The second conversion path, reduced to one claim and one action. */}
       <section className="py-20 md:py-28">

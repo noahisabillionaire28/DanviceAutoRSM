@@ -29,7 +29,7 @@ export function Hero() {
         </p>
         <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-brand-400" />
 
-        <h1 className="mx-auto mt-8 max-w-3xl text-display-xl text-cream-50">
+        <h1 className="mx-auto mt-8 max-w-3xl text-balance text-display-xl text-cream-50">
           Honest cars for real budgets.
         </h1>
 

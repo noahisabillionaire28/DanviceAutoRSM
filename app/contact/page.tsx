@@ -22,10 +22,10 @@ export default function ContactPage() {
   return (
     <>
       <section className="border-b border-maroon-100 bg-cream-100">
-        <Container className="py-14 md:py-20">
-          <p className="eyebrow eyebrow-rule">Contact</p>
-          <h1 className="mt-5 text-display-lg text-maroon-900">Come by, or just call</h1>
-          <p className="mt-4 max-w-prose text-lede text-muted">
+        <Container className="py-14 text-center md:py-20">
+          <p className="eyebrow eyebrow-rule [&::after]:mx-auto">Contact</p>
+          <h1 className="mx-auto mt-5 max-w-2xl text-balance text-display-lg text-maroon-900">Come by, or just call</h1>
+          <p className="mx-auto mt-4 max-w-prose text-lede text-muted">
             We are on Santa Margarita Parkway, open seven days a week. No appointment
             needed to look at anything on the lot.
           </p>
@@ -37,7 +37,7 @@ export default function ContactPage() {
           <div className="lg:col-span-5">
             <h2 className="font-display text-2xl text-maroon-900">Visit the lot</h2>
             <address className="mt-5 not-italic text-lg leading-relaxed text-maroon-800">
-              {SITE.address.street} {SITE.address.unit}
+              {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
               <br />
               {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
             </address>
@@ -51,6 +51,20 @@ export default function ContactPage() {
 
             <div className="mt-6">
               <ButtonLink href={mapsUrl()} variant="maroon">Get directions</ButtonLink>
+            </div>
+
+            {/* A walk-in lot needs a map, not just an address. Uses the
+                keyless Maps embed so there is no API key to leak or expire. */}
+            <div className="mt-8 overflow-hidden rounded-xl shadow-card ring-1 ring-maroon-100/70">
+              <iframe
+                title={`Map to ${SITE.name}`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  `${SITE.address.street} ${SITE.address.unit}, ${SITE.address.city}, ${SITE.address.state} ${SITE.address.zip}`,
+                )}&output=embed`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-[300px] w-full border-0"
+              />
             </div>
 
             <h2 className="mt-12 font-display text-2xl text-maroon-900">Hours</h2>

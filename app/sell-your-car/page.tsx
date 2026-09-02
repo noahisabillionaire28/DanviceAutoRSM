@@ -22,12 +22,12 @@ export default function SellYourCarPage() {
   return (
     <>
       <section className="border-b border-maroon-100 bg-cream-100">
-        <Container className="py-14 md:py-20">
-          <p className="eyebrow eyebrow-rule">Sell your car</p>
-          <h1 className="mt-5 max-w-2xl text-display-lg text-maroon-900">
+        <Container className="py-14 text-center md:py-20">
+          <p className="eyebrow eyebrow-rule [&::after]:mx-auto">Sell your car</p>
+          <h1 className="mx-auto mt-5 max-w-2xl text-balance text-display-lg text-maroon-900">
             We will make you an offer, even if you are not buying
           </h1>
-          <p className="mt-4 max-w-prose text-lede text-muted">
+          <p className="mx-auto mt-4 max-w-prose text-lede text-muted">
             Tell us what you have. We will look it up, check what it is actually
             worth in South County right now, and come back with a number.
           </p>

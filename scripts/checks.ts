@@ -163,5 +163,46 @@ for (const [name, fgHex, bgHex, min] of pairs) {
   );
 }
 
+
+console.log('\nUser-facing validation messages (no raw Zod internals)');
+
+// Regression guard: an untouched <select> posts '', and .optional() alone let
+// Zod leak "Invalid enum value. Expected 'excellent' | 'good' | ..." into the UI.
+const emptyFinancing = LeadSchema.safeParse({
+  name: '', email: '', phone: '', lead_type: 'financing',
+  source_page: '/financing', consent: 'on', credit_band: '', down_payment: '',
+});
+const emptySell = LeadSchema.safeParse({
+  name: '', phone: '', lead_type: 'sell_your_car',
+  source_page: '/sell-your-car', consent: 'on',
+  v_year: '', v_make: '', v_model: '', v_mileage: '', v_condition: '',
+});
+
+const allMessages = [emptyFinancing, emptySell]
+  .filter((r) => !r.success)
+  .flatMap((r) => (r as { error: { issues: { message: string }[] } }).error.issues.map((i) => i.message));
+
+check('empty submits produce at least one error', allMessages.length > 0);
+for (const m of allMessages) {
+  check(
+    `message is human-readable: "${m.slice(0, 52)}"`,
+    !m.includes('|') && !m.includes('Expected') && !m.includes('Invalid enum') && !m.includes('nan'),
+    '<- raw Zod internals leaking to the user',
+  );
+}
+
+const validFinancing = LeadSchema.safeParse({
+  name: 'Ana Reyes', phone: '9495550134', lead_type: 'financing',
+  source_page: '/financing', consent: 'on', credit_band: '', down_payment: '',
+});
+check('financing accepts an untouched credit-situation select', validFinancing.success,
+  JSON.stringify(validFinancing.error?.issues?.[0]?.message));
+
+const financingNoContact = LeadSchema.safeParse({
+  name: 'Ana Reyes', email: '', phone: '', lead_type: 'financing',
+  source_page: '/financing', consent: 'on', credit_band: '',
+});
+check('financing still requires email or phone', !financingNoContact.success);
+
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

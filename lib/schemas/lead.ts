@@ -55,19 +55,38 @@ export const LeadSchema = z
     z.object({
       ...base,
       lead_type: z.literal('financing'),
+      // '' is what an untouched <select> posts. .optional() only permits
+      // undefined, so without the .or() below Zod leaked its raw enum message
+      // ("Invalid enum value. Expected 'excellent' | ...") straight to the user.
       credit_band: z
-        .enum(['excellent', 'good', 'fair', 'rebuilding', 'first_time'])
-        .optional(),
+        .enum(['excellent', 'good', 'fair', 'rebuilding', 'first_time'], {
+          message: 'Please choose a credit situation.',
+        })
+        .optional()
+        .or(z.literal('').transform(() => undefined)),
       down_payment: z.coerce.number().min(0).max(100000).optional(),
     }),
     z.object({
       ...base,
       lead_type: z.literal('sell_your_car'),
-      v_year: z.coerce.number().int().min(1980).max(2100),
-      v_make: z.string().trim().min(1, 'Required.').max(40),
-      v_model: z.string().trim().min(1, 'Required.').max(40),
-      v_mileage: z.coerce.number().int().min(0).max(999999),
-      v_condition: z.enum(['excellent', 'good', 'fair', 'rough']).optional(),
+      v_year: z.coerce
+        .number({ message: 'Enter the year.' })
+        .int('Enter the year.')
+        .min(1980, 'Enter a year from 1980 or later.')
+        .max(2100, 'Check the year.'),
+      v_make: z.string().trim().min(1, 'Enter the make, e.g. Toyota.').max(40),
+      v_model: z.string().trim().min(1, 'Enter the model, e.g. Camry.').max(40),
+      v_mileage: z.coerce
+        .number({ message: 'Enter the mileage.' })
+        .int('Enter the mileage.')
+        .min(0, 'Mileage cannot be negative.')
+        .max(999999, 'Check the mileage.'),
+      v_condition: z
+        .enum(['excellent', 'good', 'fair', 'rough'], {
+          message: 'Please choose a condition.',
+        })
+        .optional()
+        .or(z.literal('').transform(() => undefined)),
     }),
     z.object({
       ...base,

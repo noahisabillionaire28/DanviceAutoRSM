@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useRef, useState } from 'react';
+import { useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import { submitLead } from '@/app/actions/leads';
 import { CONDITIONS, CREDIT_BANDS } from '@/lib/schemas/lead';
 import type { LeadFormState } from '@/lib/types';
@@ -33,7 +33,29 @@ export function LeadForm({
   // Set once on mount: the timing trap measures how long the form was open.
   const [renderedAt] = useState(() => Date.now());
 
-  const errors = state.status === 'error' ? state.fieldErrors : undefined;
+  // Errors returned by the action are the starting point, but a field's error
+  // must disappear the moment the user fixes it — otherwise "Please enter your
+  // name" stays on screen next to a filled-in name.
+  const serverErrors = state.status === 'error' ? state.fieldErrors : undefined;
+  const [cleared, setCleared] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setCleared(new Set());
+  }, [state]);
+
+  const clearField = useCallback((name: string) => {
+    setCleared((prev) => {
+      if (prev.has(name)) return prev;
+      const next = new Set(prev);
+      next.add(name);
+      return next;
+    });
+  }, []);
+
+  const errorFor = (name: string): string | undefined =>
+    cleared.has(name) ? undefined : serverErrors?.[name]?.[0];
+
+  const errors = serverErrors;
 
   useEffect(() => {
     if (state.status === 'error') errorRef.current?.focus();
@@ -41,7 +63,7 @@ export function LeadForm({
   }, [state, onSuccess]);
 
   if (state.status === 'success') {
-    return <LeadSuccess firstName={state.firstName} />;
+    return <LeadSuccess firstName={state.firstName} leadType={leadType} />;
   }
 
   return (
@@ -75,30 +97,30 @@ export function LeadForm({
         </p>
       )}
 
-      <Field label="Your name" required error={errors?.name?.[0]}>
+      <Field label="Your name" required error={errorFor('name')}>
         {(p) => (
-          <input {...p} name="name" type="text" autoComplete="name" className={controlClasses} />
+          <input {...p} name="name" onInput={() => clearField('name')} type="text" autoComplete="name" className={controlClasses} />
         )}
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Email" error={errors?.email?.[0]}>
+        <Field label="Email" error={errorFor('email')}>
           {(p) => (
-            <input {...p} name="email" type="email" autoComplete="email" className={controlClasses} />
+            <input {...p} name="email" onInput={() => clearField('email')} type="email" autoComplete="email" className={controlClasses} />
           )}
         </Field>
-        <Field label="Phone" error={errors?.phone?.[0]}>
+        <Field label="Phone" error={errorFor('phone')}>
           {(p) => (
-            <input {...p} name="phone" type="tel" autoComplete="tel" className={controlClasses} />
+            <input {...p} name="phone" onInput={() => clearField('phone')} type="tel" autoComplete="tel" className={controlClasses} />
           )}
         </Field>
       </div>
 
       {leadType === 'financing' && (
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Credit situation" error={errors?.credit_band?.[0]}>
+          <Field label="Credit situation" error={errorFor('credit_band')}>
             {(p) => (
-              <select {...p} name="credit_band" className={controlClasses} defaultValue="">
+              <select {...p} name="credit_band" onChange={() => clearField('credit_band')} className={controlClasses} defaultValue="">
                 <option value="">Prefer not to say</option>
                 {CREDIT_BANDS.map((b) => (
                   <option key={b.value} value={b.value}>{b.label}</option>
@@ -106,9 +128,9 @@ export function LeadForm({
               </select>
             )}
           </Field>
-          <Field label="Down payment" hint="Roughly, in dollars" error={errors?.down_payment?.[0]}>
+          <Field label="Down payment" hint="Roughly, in dollars" error={errorFor('down_payment')}>
             {(p) => (
-              <input {...p} name="down_payment" type="number" min={0} step={100} className={controlClasses} />
+              <input {...p} name="down_payment" onInput={() => clearField('down_payment')} type="number" min={0} step={100} className={controlClasses} />
             )}
           </Field>
         </div>
@@ -117,23 +139,23 @@ export function LeadForm({
       {leadType === 'sell_your_car' && (
         <>
           <div className="grid gap-4 sm:grid-cols-3">
-            <Field label="Year" required error={errors?.v_year?.[0]}>
-              {(p) => <input {...p} name="v_year" type="number" min={1980} max={2100} className={controlClasses} />}
+            <Field label="Year" required error={errorFor('v_year')}>
+              {(p) => <input {...p} name="v_year" onInput={() => clearField('v_year')} type="number" min={1980} max={2100} className={controlClasses} />}
             </Field>
-            <Field label="Make" required error={errors?.v_make?.[0]}>
-              {(p) => <input {...p} name="v_make" type="text" className={controlClasses} />}
+            <Field label="Make" required error={errorFor('v_make')}>
+              {(p) => <input {...p} name="v_make" onInput={() => clearField('v_make')} type="text" className={controlClasses} />}
             </Field>
-            <Field label="Model" required error={errors?.v_model?.[0]}>
-              {(p) => <input {...p} name="v_model" type="text" className={controlClasses} />}
+            <Field label="Model" required error={errorFor('v_model')}>
+              {(p) => <input {...p} name="v_model" onInput={() => clearField('v_model')} type="text" className={controlClasses} />}
             </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Mileage" required error={errors?.v_mileage?.[0]}>
-              {(p) => <input {...p} name="v_mileage" type="number" min={0} className={controlClasses} />}
+            <Field label="Mileage" required error={errorFor('v_mileage')}>
+              {(p) => <input {...p} name="v_mileage" onInput={() => clearField('v_mileage')} type="number" min={0} className={controlClasses} />}
             </Field>
-            <Field label="Condition" error={errors?.v_condition?.[0]}>
+            <Field label="Condition" error={errorFor('v_condition')}>
               {(p) => (
-                <select {...p} name="v_condition" className={controlClasses} defaultValue="good">
+                <select {...p} name="v_condition" onChange={() => clearField('v_condition')} className={controlClasses} defaultValue="good">
                   {CONDITIONS.map((c) => (
                     <option key={c.value} value={c.value}>{c.label}</option>
                   ))}
@@ -144,11 +166,12 @@ export function LeadForm({
         </>
       )}
 
-      <Field label="Message" error={errors?.message?.[0]}>
+      <Field label="Message" error={errorFor('message')}>
         {(p) => (
           <textarea
             {...p}
             name="message"
+            onInput={() => clearField('message')}
             rows={4}
             placeholder={messagePlaceholder}
             className={`${controlClasses} h-auto py-3 leading-relaxed`}
@@ -165,7 +188,7 @@ export function LeadForm({
           className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border-maroon-300 text-maroon-900 focus:ring-brand-400"
         />
         <span>
-          It&rsquo;s OK to contact me about this enquiry by phone, text, or email.
+          It&rsquo;s OK to contact me about this inquiry by phone, text, or email.
         </span>
       </label>
 

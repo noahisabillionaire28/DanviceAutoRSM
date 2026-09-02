@@ -131,7 +131,7 @@ export default async function VehicleDetailPage({
                 sourcePage={`/inventory/${vehicle.slug}`}
                 vehicleId={vehicle.id}
                 vehicleTitle={fullTitle}
-                submitLabel="Send enquiry"
+                submitLabel="Send inquiry"
                 trigger={<Button size="lg" className="w-full">Ask about this car</Button>}
               />
               <ButtonLink

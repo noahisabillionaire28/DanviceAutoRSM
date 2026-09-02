@@ -19,7 +19,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-md px-3.5 py-2 text-[0.9375rem] text-maroon-700 transition-colors duration-200 hover:bg-maroon-50 hover:text-maroon-900"
+                  className="inline-flex min-h-[44px] items-center rounded-md px-3.5 py-2.5 text-[0.9375rem] text-maroon-700 transition-colors duration-200 hover:bg-maroon-50 hover:text-maroon-900"
                 >
                   {item.label}
                 </Link>
@@ -31,7 +31,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 md:flex">
           <a
             href={`tel:${SITE.phone.tel}`}
-            className="tnum text-[0.9375rem] font-medium text-maroon-900 transition-colors hover:text-maroon-600"
+            className="tnum inline-flex min-h-[44px] items-center px-1 text-[0.9375rem] font-medium text-maroon-900 transition-colors hover:text-maroon-600"
           >
             {SITE.phone.display}
           </a>

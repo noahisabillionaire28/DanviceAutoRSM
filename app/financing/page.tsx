@@ -16,12 +16,12 @@ export const metadata: Metadata = {
 
 const STEPS = [
   { n: '01', t: 'Tell us where you stand', b: 'Income, rough credit picture, and what you can put down. It takes about three minutes and starts with a soft pull that does not affect your score.' },
-  { n: '02', t: 'We shop it to our lenders', b: 'We work with several lenders rather than one, including a few who specialise in thin or rebuilt credit files. Most decisions come back the same day.' },
+  { n: '02', t: 'We shop it to our lenders', b: 'We work with several lenders rather than one, including a few who specialize in thin or rebuilt credit files. Most decisions come back the same day.' },
   { n: '03', t: 'You see the whole number', b: 'Not just the monthly payment — the rate, the term, the total, and what it costs if you pay it off early. Then you decide.' },
 ];
 
 const FAQS = [
-  { q: 'I have never had a car loan. Can I get approved?', a: 'Often yes. First-time buyer programmes exist specifically for this, and steady income matters more than length of credit history. A co-signer helps but is not always required.' },
+  { q: 'I have never had a car loan. Can I get approved?', a: 'Often yes. First-time buyer programs exist specifically for this, and steady income matters more than length of credit history. A co-signer helps but is not always required.' },
   { q: 'Does applying hurt my credit score?', a: 'Starting does not. We begin with a soft credit check, which is invisible to other lenders and does not affect your score. A hard pull only happens if you decide to move forward.' },
   { q: 'How much do I need to put down?', a: 'It varies by lender and by the car, but for vehicles in our price range a common range is $1,000 to $2,500. More down means a lower payment and usually a better rate.' },
   { q: 'What if I have been turned down before?', a: 'Come talk to us anyway. A decline from one lender is one lender’s policy, not a verdict. We regularly place people who were turned away somewhere else.' },
@@ -32,11 +32,11 @@ export default function FinancingPage() {
   return (
     <>
       <section className="bg-maroon-900 text-cream-50">
-        <Container className="py-20 md:py-28">
-          <div className="max-w-2xl">
+        <Container className="py-20 text-center md:py-28">
+          <div className="mx-auto max-w-2xl">
             <p className="text-eyebrow uppercase text-brand-400">Financing</p>
             <div aria-hidden="true" className="mt-3 h-px w-10 bg-brand-500" />
-            <h1 className="mt-7 text-display-lg text-cream-50">
+            <h1 className="mt-7 text-balance text-display-lg text-cream-50">
               Credit is a starting point, not a verdict
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-cream-50/70">
@@ -44,7 +44,7 @@ export default function FinancingPage() {
               car, first job, a rough couple of years — none of that is unusual, and
               none of it is disqualifying on its own.
             </p>
-            <div className="mt-9">
+            <div className="mt-9 flex justify-center">
               <LeadFormModal
                 leadType="financing"
                 sourcePage="/financing"

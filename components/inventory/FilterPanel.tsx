@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useTransition } from 'react';
+import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 import { cn } from '@/lib/cn';
 import { formatPrice, label } from '@/lib/format';
 import { parseFilters, serializeFilters } from '@/lib/filters';
@@ -29,11 +29,29 @@ export function FilterPanel({
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const current = parseFilters(Object.fromEntries(searchParams.entries()));
+  const fromUrl = parseFilters(Object.fromEntries(searchParams.entries()));
+
+  // The URL is still the source of truth, but it lags: commit() runs inside a
+  // transition, so searchParams does not change until the server round-trip
+  // lands. Deriving `checked` straight from it made a click look like it did
+  // nothing for a beat. This local mirror paints the new state immediately and
+  // reconciles whenever the URL actually changes.
+  const [current, setCurrent] = useState<VehicleFilters>(fromUrl);
+  const urlKey = serializeFilters(fromUrl);
+  const lastUrlKey = useRef(urlKey);
+
+  useEffect(() => {
+    if (lastUrlKey.current !== urlKey) {
+      lastUrlKey.current = urlKey;
+      setCurrent(fromUrl);
+    }
+  }, [urlKey, fromUrl]);
 
   const commit = useCallback(
     (next: VehicleFilters) => {
+      setCurrent(next);
       const qs = serializeFilters({ ...next, page: 1 });
+      lastUrlKey.current = qs;
       startTransition(() => {
         router.push(qs ? `/inventory?${qs}` : '/inventory', { scroll: false });
         onApply?.();
@@ -197,12 +215,25 @@ function NumberInput({
   defaultValue?: number;
   onCommit: (v: number | undefined) => void;
 } & Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue' | 'onChange'>) {
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+
   return (
     <input
       {...props}
       type="number"
       defaultValue={defaultValue ?? ''}
+      onChange={(e) => {
+        // Apply as the user types (debounced) rather than only on Enter —
+        // typing a price and tabbing away used to look like nothing happened.
+        const raw = e.target.value.trim();
+        if (timer.current) clearTimeout(timer.current);
+        timer.current = setTimeout(() => {
+          onCommit(raw === '' ? undefined : Number(raw));
+        }, 400);
+      }}
       onBlur={(e) => {
+        if (timer.current) clearTimeout(timer.current);
         const raw = e.target.value.trim();
         onCommit(raw === '' ? undefined : Number(raw));
       }}

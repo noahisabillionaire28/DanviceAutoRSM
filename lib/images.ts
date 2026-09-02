@@ -13,7 +13,7 @@ const INVALID: ResolvedImage = { kind: 'invalid', url: null };
  * This exists because next/image THROWS a hard runtime error for a remote host
  * that is missing from next.config remotePatterns — and onError cannot catch
  * that, because the failure happens while constructing the element rather than
- * while loading it. So an unrecognised host must be rejected here, before
+ * while loading it. So an unrecognized host must be rejected here, before
  * <Image> is ever rendered. See components/vehicles/VehicleImage.tsx.
  */
 export function resolveVehicleImage(ref: string | null | undefined): ResolvedImage {

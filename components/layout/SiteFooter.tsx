@@ -34,7 +34,7 @@ export function SiteFooter() {
               Visit us
             </h2>
             <address className="mt-4 not-italic text-sm leading-relaxed text-cream-50/75">
-              {SITE.address.street} {SITE.address.unit}
+              {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
               <br />
               {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
             </address>

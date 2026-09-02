@@ -47,7 +47,6 @@ export function VehicleImage({
   placeholderLabel,
 }: VehicleImageProps) {
   const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   const ref = src ?? images?.[index] ?? null;
   const resolved = resolveVehicleImage(ref);
@@ -81,13 +80,21 @@ export function VehicleImage({
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
           onError={() => setFailed(true)}
-          onLoad={() => setLoaded(true)}
           className={cn(
+            // No JS opacity gate here, deliberately. This used to render at
+            // opacity-0 until an onLoad handler flipped state — but if the
+            // image finishes loading BEFORE React attaches that handler,
+            // onLoad never fires and the image stays invisible forever. The
+            // detail-page hero passes `priority`, so Next preloads it and it
+            // is reliably complete before hydration: the highest-intent photo
+            // on the site rendered as an empty box. next/image's blur
+            // placeholder already provides the fade, so the gate bought
+            // nothing and cost the hero image.
+            //
             // object-contain, never object-cover: cover crops to fill the box,
             // which cut the front or rear off cars whose native ratio differs
             // from the frame. Padding keeps the car off the panel edges.
-            'object-contain p-3 transition-opacity duration-500 ease-brand',
-            loaded ? 'opacity-100' : 'opacity-0',
+            'object-contain p-3',
             imageClassName,
           )}
         />

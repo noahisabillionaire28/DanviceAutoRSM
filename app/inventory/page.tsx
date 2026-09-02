@@ -7,6 +7,7 @@ import { Container } from '@/components/ui/Container';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { FilterPanel } from '@/components/inventory/FilterPanel';
 import { FilterToolbar } from '@/components/inventory/FilterToolbar';
+import { ActiveFilterChips } from '@/components/inventory/ActiveFilterChips';
 import { VehicleGridSkeleton } from '@/components/vehicles/VehicleCardSkeleton';
 import { VehicleResults } from './vehicle-results';
 
@@ -63,6 +64,7 @@ export default async function InventoryPage({
 
           <div className="lg:col-span-9">
             <FilterToolbar facets={facets} resultCount={total} />
+            <ActiveFilterChips />
 
             <div className="mt-8">
               {/* The key is load-bearing: changing it tears down and re-suspends
