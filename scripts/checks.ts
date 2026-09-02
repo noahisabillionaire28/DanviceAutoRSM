@@ -476,5 +476,35 @@ check('the mobile menu carries the Call CTA', /<CallButton/.test(drawerSrc),
 const footSrc = readFileSync(join(ROOT, 'components/layout/SiteFooter.tsx'), 'utf8');
 check('the footer no longer reserves space for a bar', !/4\.5rem/.test(footSrc));
 
+console.log('\nHTML caching (no page older than the current deploy)');
+
+// next.config lists page routes by hand, which is the safe choice against a
+// regex that could catch /_next/static — but a new page would silently miss the
+// header and could then be served stale from a phone mid-demo.
+const configSrc = readFileSync(join(ROOT, 'next.config.mjs'), 'utf8');
+const declaredRoutes = [...(configSrc.match(/const PAGE_ROUTES = \[([\s\S]*?)\]/)?.[1] ?? '')
+  .matchAll(/'([^']+)'/g)].map((m) => m[1]);
+
+const actualRoutes = readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })
+  .filter((f) => f.endsWith('page.tsx'))
+  .map((f) => '/' + f.replace(/\/?page\.tsx$/, ''))
+  .map((r) => r.replace(/\[(\w+)\]/g, ':$1'))
+  .map((r) => (r === '/' ? '/' : r.replace(/\/$/, '')));
+
+check(`found the page routes to cover (${actualRoutes.length})`, actualRoutes.length >= 7);
+for (const route of actualRoutes) {
+  check(`${route} is covered by the HTML cache header`, declaredRoutes.includes(route),
+    '<- add it to PAGE_ROUTES in next.config.mjs or it can be served stale');
+}
+// Read the constant's value, not the file: the comment above it necessarily
+// spells out the directives it is explaining.
+const cacheValue = configSrc.match(/HTML_CACHE_CONTROL =\s*\n?\s*'([^']+)'/)?.[1] ?? '';
+check(`the cache header is set (${cacheValue || 'NOT FOUND'})`, cacheValue.length > 0);
+check('the header forces the browser to revalidate',
+  /max-age=0/.test(cacheValue) && /must-revalidate/.test(cacheValue),
+  '<- without it a phone can show a page from before the deploy');
+check('the edge still caches', /s-maxage=\d+/.test(cacheValue),
+  '<- dropping s-maxage would make every request hit the origin');
+
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);
