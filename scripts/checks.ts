@@ -265,6 +265,14 @@ check('header draws no rule across the seam', !headerSrc.includes('border-white/
 check('the hero veil supplies the colour behind it', cssFile.includes('.hero-veil'));
 check('the hero runs up under the header', /-mt-16[\s\S]*md:-mt-20/.test(heroFile),
   '<- without the pull-up the video starts below the bar again');
+
+// The hero starts at the very top of the viewport, so any height short of a
+// full one leaves the next section's cream ground as a band across the fold.
+check('the hero fills the whole viewport', /min-h-svh/.test(heroFile),
+  '<- a fractional height shows cream at the bottom of the screen');
+check('the hero height is not a fraction of the viewport',
+  !/min-h-\[\d+(?:\.\d+)?(?:svh|vh|dvh|lvh)\]/.test(heroFile),
+  '<- e.g. min-h-[92svh] leaves 8% of the fold showing the section below');
 check('header scrolled state is white', headerSrc.includes('bg-white'));
 check('header scrolled links are brand red', headerSrc.includes('text-brand-600'));
 

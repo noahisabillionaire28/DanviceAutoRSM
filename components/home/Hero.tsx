@@ -41,7 +41,12 @@ export function Hero() {
     // h-16 mobile, md:h-20 desktop — so the footage runs behind the nav rather
     // than starting beneath it. The Container adds the same amount back as top
     // padding so the copy stays optically centred.
-    <section className="relative isolate -mt-16 flex min-h-[92svh] items-center overflow-hidden bg-maroon-900 text-white md:-mt-20">
+    //
+    // min-h-svh, not a fraction of it: because the hero starts at the very top
+    // of the viewport, anything less leaves the next section's cream ground
+    // showing as a band across the fold. svh measures against mobile browser
+    // chrome at its largest, so it still fills the screen with the URL bar up.
+    <section className="relative isolate -mt-16 flex min-h-svh items-center overflow-hidden bg-maroon-900 text-white md:-mt-20">
       <video
         ref={videoRef}
         className="absolute inset-0 -z-20 h-full w-full object-cover"

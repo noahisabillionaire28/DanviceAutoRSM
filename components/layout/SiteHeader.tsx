@@ -13,14 +13,16 @@ import { MobileNavDrawer } from './MobileNavDrawer';
 /**
  * Scroll-aware header with two inverted states.
  *
- *   at the top of the homepage : maroon-900 bar (the hero's own red) + white
+ *   at the top of the homepage : no background at all + white labels
  *   scrolled / every other page: white bar + red text
  *
- * The top state uses the hero's exact background colour so the bar and the
- * hero read as one continuous field rather than a stripe laid over it. The
- * switch fires at 80px, well inside the hero's 92svh, so the two states never
- * disagree about what is behind them. Both pairings are contrast-checked in
- * scripts/checks.ts.
+ * The top state paints nothing. An opaque bar can only ever approximate the
+ * scrimmed video beneath it, and the mismatch showed as a seam across the
+ * fold; the hero's own .hero-veil supplies the red instead and runs on past
+ * the bar, so there is no edge for two colours to disagree at. The switch
+ * fires at 80px, well inside the hero's full viewport height, so the two
+ * states never disagree about what is behind them. Both pairings are
+ * contrast-checked in scripts/checks.ts.
  */
 export function SiteHeader() {
   const pathname = usePathname();
