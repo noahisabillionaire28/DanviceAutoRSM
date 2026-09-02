@@ -44,14 +44,19 @@ const config: Config = {
           300: '#CBD3DF',
           400: '#A9B4C6',
         },
+        // 500 is the logo orange exactly and stays the brand accent — rules,
+        // eyebrows on the dark field, the logo itself. The CTA lives lower down
+        // the ramp: its label is white, and white does not clear AA until the
+        // fill reaches 700 (5.05:1). 500 with a white label is 2.74:1.
         orange: {
           300: '#F8B67F',
           400: '#F4954A',
           500: '#F07D22',
           600: '#D2620F',
-          700: '#A94D0B',
+          700: '#B35309',
+          800: '#9C470A',
+          900: '#833C08',
         },
-        'orange-ink': '#0B1826',
         success: '#2E7D5B',
         danger: '#B3392F',
 

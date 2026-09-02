@@ -13,18 +13,17 @@ const variants: Record<Variant, string> = {
   // white button on the white header or the light page nearly vanishes, and the
   // 1px hairline it relied on was all that separated them.
   //
-  // Light grounds get the logo orange with a near-black label. White on
-  // orange-500 is only 2.74:1 — the label has to be dark, which is what the
-  // logo itself does. The border is load-bearing here and must not be removed:
-  // the fill is 2.58:1 against the page, under the 3:1 a control edge needs, so
-  // orange-600 at 3.60:1 is the only thing giving the button a boundary.
+  // Light grounds get a deepened orange with a white label. It is not the logo
+  // orange: white on orange-500 is 2.74:1 and fails outright, and white does
+  // not clear AA until orange-700 (5.05:1). The logo orange stays the brand
+  // accent everywhere else — rules, eyebrows, the mark.
   //
-  // It brightens on hover instead of darkening, which is backwards on purpose.
-  // Darkening drops the label to 4.07:1 on orange-600 and 2.78:1 on orange-700,
-  // both failing AA. Going lighter keeps it legible: 6.53 at rest, 7.88 on
-  // hover, 4.68 on the brief active state. Do not "fix" this to darken.
+  // No border. At 5.05:1 against the page the fill carries its own edge; the
+  // border existed only because the lighter orange-500 fill was 2.58:1 and had
+  // none. Darkening on hover is the correct direction here precisely because
+  // the label is white — the inverse of what a dark label would need.
   primary:
-    'rounded-md border border-orange-600 bg-orange-500 text-orange-ink shadow-xs hover:bg-orange-400 hover:shadow-card active:bg-orange-600',
+    'rounded-md bg-orange-700 text-white shadow-xs hover:bg-orange-800 hover:shadow-card active:bg-orange-900',
   // Dark grounds keep the white button. Used in exactly two places — the hero,
   // and the header while it is transparent over the hero. The border IS still
   // load-bearing here too: the footage behind it can go bright, and the border

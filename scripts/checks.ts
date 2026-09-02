@@ -152,21 +152,22 @@ const pairs: [string, string, string, number][] = [
   // AA — so it cannot be used for text. blue-700 is the text-safe step down.
   ['nav link on the white header', tokenHex('blue.700'), '#ffffff', 4.5],
   ['link text on the page ground', tokenHex('blue.700'), bg, 4.5],
-  // The logo orange is 3.82:1 on white at its darkest usable step, so it is
-  // never text. This guards the temptation to make nav links match the CTA.
-  ['orange is not used for body text (orange-600 on white)', tokenHex('orange.600'), '#ffffff', 3.0],
-
-  // The CTA inverts with its ground. On light pages it is an orange fill with
-  // a near-black label: white on orange-500 is only 2.74:1 and fails outright.
-  ['CTA label on the orange CTA', tokenHex('orange-ink'), tokenHex('orange.500'), 4.5],
-  ['CTA label on the orange CTA hover', tokenHex('orange-ink'), tokenHex('orange.400'), 4.5],
-  ['CTA label on the orange CTA active', tokenHex('orange-ink'), tokenHex('orange.600'), 4.5],
-  // The orange fill is 2.58:1 against the page, under the 3:1 a control edge
-  // needs, so the border is what gives the button a boundary. If this fails,
-  // the button has lost its edge — do not "fix" it by deleting the assertion.
-  ['CTA border against the white header', tokenHex('orange.600'), '#ffffff', 3.0],
-  ['CTA border against the page ground', tokenHex('orange.600'), bg, 3.0],
-  ['CTA border against the tinted band', tokenHex('orange.600'), tokenHex('neutral.100'), 3.0],
+  // The CTA inverts with its ground. On light pages it is a deepened orange
+  // with a white label — which is why it is orange-700 and not the logo orange:
+  // white on orange-500 is 2.74:1 and on orange-600 still only 3.82:1.
+  ['CTA label on the orange CTA', accentFg, tokenHex('orange.700'), 4.5],
+  ['CTA label on the orange CTA hover', accentFg, tokenHex('orange.800'), 4.5],
+  ['CTA label on the orange CTA active', accentFg, tokenHex('orange.900'), 4.5],
+  ['the CTA fill is what --accent names', accent, tokenHex('orange.700'), 1.0],
+  // At this depth the fill carries its own edge, so the CTA needs no border.
+  // If these drop under 3:1 the button has lost its boundary and the border has
+  // to come back — do not simply lighten the fill to taste.
+  ['CTA fill against the white header', tokenHex('orange.700'), '#ffffff', 3.0],
+  ['CTA fill against the page ground', tokenHex('orange.700'), bg, 3.0],
+  ['CTA fill against the tinted band', tokenHex('orange.700'), tokenHex('neutral.100'), 3.0],
+  // The logo orange is still the brand accent, and it is still never text on a
+  // light ground: 3.82:1 at its darkest readable step, under AA.
+  ['logo orange is not body text (orange-600 on white)', tokenHex('orange.600'), '#ffffff', 3.0],
   // On dark grounds it stays white: the hero, and the header over it.
   ['onDark CTA label on its white fill', tokenHex('blue.900'), '#ffffff', 4.5],
   ['onDark CTA against the darkest section', '#ffffff', tokenHex('blue.900'), 3.0],
@@ -455,19 +456,19 @@ for (const dead of ['cream', 'maroon', 'outline']) {
   check(`Button no longer defines a '${dead}' variant`,
     !new RegExp(`^\\s*${dead}:`, 'm').test(buttonSrc2));
 }
-check('the default CTA is an orange fill with a dark label',
-  /primary:\s*\n?\s*'[^']*bg-orange-500[^']*text-orange-ink/.test(buttonSrc2),
-  '<- white on orange-500 is 2.74:1; the label has to be dark');
-// The orange fill is 2.58:1 against the page, so unlike the old red fill it
-// cannot carry its own edge. The border is the only thing giving it one.
-check('the light-ground CTA keeps its load-bearing border',
-  /primary:\s*\n?\s*'[^']*border-orange-600/.test(buttonSrc2),
-  '<- orange-500 is 2.58:1 against the page; without the border it has no edge');
-// Brightening on hover is deliberate and easy to "correct" back into failure:
-// darkening puts the label at 4.07:1 on orange-600 and 2.78:1 on orange-700.
-check('the CTA brightens on hover rather than darkening',
-  /primary:\s*\n?\s*'[^']*hover:bg-orange-400/.test(buttonSrc2),
-  '<- hover:bg-orange-600/700 drops the label under AA');
+check('the default CTA is a deep orange fill with a white label',
+  /primary:\s*\n?\s*'[^']*bg-orange-700[^']*text-white/.test(buttonSrc2),
+  '<- white does not clear AA above orange-700: 3.82:1 on 600, 2.74:1 on 500');
+// The CTA must never be set in the logo orange itself. It looks like the
+// obvious "fix" for brand fidelity and takes the white label to 2.74:1.
+check('the CTA is not the logo orange',
+  !/primary:\s*\n?\s*'[^']*bg-orange-(?:400|500|600)\b/.test(buttonSrc2),
+  '<- orange-500 is the brand accent, not a surface for white text');
+// With a white label the fill has to get darker on hover, not lighter — the
+// opposite of what the previous dark-labelled CTA needed.
+check('the CTA darkens on hover',
+  /primary:\s*\n?\s*'[^']*hover:bg-orange-800/.test(buttonSrc2),
+  '<- lightening on hover walks the white label back under AA');
 check('the onDark CTA stays white for dark grounds',
   /onDark:\s*\n?\s*'[^']*bg-white[^']*text-blue-900/.test(buttonSrc2));
 check('the onDark CTA keeps its load-bearing border',

@@ -9,8 +9,8 @@
   --fg: 11 24 38;             /* blue-950 — 16.85:1 on the ground, well past AA */
   --fg-muted: 85 102 129;     /* cool grey-blue, 5.48:1 on the ground */
   --line: 203 211 223;        /* neutral-300 */
-  --accent: 240 125 34;       /* orange-500 */
-  --accent-fg: 11 24 38;      /* orange-ink — the CTA label is dark, not white */
+  --accent: 179 83 9;         /* orange-700 — the CTA fill */
+  --accent-fg: 255 255 255;   /* white, and only legible from orange-700 down */
 }
 
 @layer base {
