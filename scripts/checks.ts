@@ -87,10 +87,11 @@ check('garbage rejected', resolveVehicleImage('not a url').kind === 'invalid');
 
 
 // ---------------------------------------------------------------------------
-// Colour contrast. The brand palette is red-on-cream, where it is easy to pick
-// a tone that looks right and fails WCAG. These assert the real pairs used in
-// the UI, read from tailwind.config.ts and globals.css so the check cannot
-// silently drift from the palette it is meant to guard.
+// Colour contrast. The palette is orange-and-blue, where it is very easy to
+// pick a tone that looks right and fails WCAG — the logo orange in particular
+// carries only 2.74:1 against white, so anything placed on it must be dark.
+// These assert the real pairs used in the UI, read from tailwind.config.ts and
+// globals.css so the check cannot silently drift from the palette it guards.
 // ---------------------------------------------------------------------------
 
 function srgbToLinear(c: number): number {
@@ -143,24 +144,39 @@ const pairs: [string, string, string, number][] = [
   ['muted text on page background', fgMuted, bg, 4.5],
   ['body text on card surface', fg, surface, 4.5],
   ['muted text on card surface', fgMuted, surface, 4.5],
-  ['cream text on darkest section', tokenHex('cream.50'), tokenHex('maroon.900'), 4.5],
-  ['cream text on deep section', tokenHex('cream.50'), tokenHex('maroon.700'), 4.5],
-  ['heading on tinted panel', tokenHex('maroon.900'), tokenHex('cream.100'), 4.5],
+  ['light text on darkest section', tokenHex('neutral.50'), tokenHex('blue.900'), 4.5],
+  ['light text on deep section', tokenHex('neutral.50'), tokenHex('blue.700'), 4.5],
+  ['heading on tinted panel', tokenHex('blue.900'), tokenHex('neutral.100'), 4.5],
 
-  // The CTA inverts with its ground. On light pages it is a red fill, which
-  // carries its own edge — the white button it replaced was 1.08:1 against the
-  // page and relied entirely on a hairline to be seen at all.
-  ['CTA label on the red CTA', '#ffffff', tokenHex('brand.500'), 4.5],
-  ['CTA label on the red CTA hover', '#ffffff', tokenHex('brand.600'), 4.5],
-  ['red CTA against the white header', tokenHex('brand.500'), '#ffffff', 3.0],
-  ['red CTA against the page ground', tokenHex('brand.500'), bg, 3.0],
-  ['red CTA against the tinted band', tokenHex('brand.500'), tokenHex('cream.100'), 3.0],
+  // Navigation and links. The logo blue is a mid-tone — 4.37:1 on white, under
+  // AA — so it cannot be used for text. blue-700 is the text-safe step down.
+  ['nav link on the white header', tokenHex('blue.700'), '#ffffff', 4.5],
+  ['link text on the page ground', tokenHex('blue.700'), bg, 4.5],
+  // The logo orange is 3.82:1 on white at its darkest usable step, so it is
+  // never text. This guards the temptation to make nav links match the CTA.
+  ['orange is not used for body text (orange-600 on white)', tokenHex('orange.600'), '#ffffff', 3.0],
+
+  // The CTA inverts with its ground. On light pages it is an orange fill with
+  // a near-black label: white on orange-500 is only 2.74:1 and fails outright.
+  ['CTA label on the orange CTA', tokenHex('orange-ink'), tokenHex('orange.500'), 4.5],
+  ['CTA label on the orange CTA hover', tokenHex('orange-ink'), tokenHex('orange.400'), 4.5],
+  ['CTA label on the orange CTA active', tokenHex('orange-ink'), tokenHex('orange.600'), 4.5],
+  // The orange fill is 2.58:1 against the page, under the 3:1 a control edge
+  // needs, so the border is what gives the button a boundary. If this fails,
+  // the button has lost its edge — do not "fix" it by deleting the assertion.
+  ['CTA border against the white header', tokenHex('orange.600'), '#ffffff', 3.0],
+  ['CTA border against the page ground', tokenHex('orange.600'), bg, 3.0],
+  ['CTA border against the tinted band', tokenHex('orange.600'), tokenHex('neutral.100'), 3.0],
   // On dark grounds it stays white: the hero, and the header over it.
-  ['onDark CTA label on its white fill', tokenHex('maroon.900'), '#ffffff', 4.5],
-  ['onDark CTA against the darkest section', '#ffffff', tokenHex('maroon.900'), 3.0],
+  ['onDark CTA label on its white fill', tokenHex('blue.900'), '#ffffff', 4.5],
+  ['onDark CTA against the darkest section', '#ffffff', tokenHex('blue.900'), 3.0],
   // The onDark border is still load-bearing, but only over the video: a blank
   // white frame behind a white button would otherwise leave no edge at all.
-  ['onDark CTA border against a white video frame', tokenHex('maroon.400'), '#ffffff', 3.0],
+  ['onDark CTA border against a white video frame', tokenHex('blue.400'), '#ffffff', 3.0],
+  // Accents on the dark field: the eyebrow, its rule, and the logo mark.
+  ['orange accent on the darkest section', tokenHex('orange.500'), tokenHex('blue.900'), 3.0],
+  ['orange eyebrow text on the darkest section', tokenHex('orange.400'), tokenHex('blue.900'), 4.5],
+  ['logo mark blue on the white header', tokenHex('blue.500'), '#ffffff', 3.0],
 ];
 
 for (const [name, fgHex, bgHex, min] of pairs) {
@@ -232,16 +248,25 @@ function compositeOver(scrim: string, alpha: number, backdrop: string): string {
 
 // Worst case is a blank white video frame. If the copy stays readable against
 // that, it stays readable against every frame.
-const SCRIM_ALPHA = 0.80; // keep in sync with bg-maroon-900/80 in Hero.tsx
-// maroon-900, not maroon-950: the near-black 950 desaturated the footage to a
-// grey-brown that could never match the brand red of the bar above it.
-const worstCase = compositeOver(tokenHex('maroon.900'), SCRIM_ALPHA, '#ffffff');
+const SCRIM_ALPHA = 0.80; // keep in sync with bg-blue-900/80 in Hero.tsx
+// blue-900, not blue-950: the near-black 950 desaturated the footage to a grey
+// that could never match the navy of the bar above it.
+const worstCase = compositeOver(tokenHex('blue.900'), SCRIM_ALPHA, '#ffffff');
 
-// The hero copy is pure white, not cream-50: it sits next to the white nav bar
+// The hero copy is pure white, not neutral-50: it sits next to the white nav bar
 // at the top of the page, and warm off-white reads dingy beside it.
 const heroSrc = readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8');
-check('hero copy is pure white, not cream-50', !/text-cream-50/.test(heroSrc),
-  '<- the assertions below guard white; cream would go unchecked');
+check('hero copy is pure white, not neutral-50', !/text-neutral-50/.test(heroSrc),
+  '<- the assertions below guard white; an off-white would go unchecked');
+
+// The video IS the hero. It has no fallback and nothing else fills that space,
+// so losing the element (or its source) leaves a flat navy panel that still
+// passes every contrast check above — which is exactly why it needs its own.
+check('the hero still renders the lot video',
+  /<video/.test(heroSrc) && heroSrc.includes('/video/danvice-lot.mp4'),
+  '<- without it the hero is a flat colour block');
+check('the video sits behind the scrim, not over it', /-z-20/.test(heroSrc),
+  '<- a video above the scrim makes the headline unreadable on bright frames');
 
 const heroText = '#ffffff';
 const heroRatio = contrast(heroText, worstCase);
@@ -254,7 +279,7 @@ check(
 console.log('\nScroll-aware header (two inverted states)');
 
 // At the top of the homepage the bar wears the hero's own background colour;
-// past 80px it flips to white with red text. Both states carry live text, so
+// past 80px it flips to white with blue text. Both states carry live text, so
 // both need to clear AA, and the classes are read back out of the component so
 // a restyle cannot quietly outrun these numbers.
 const headerSrc = readFileSync(join(ROOT, 'components/layout/SiteHeader.tsx'), 'utf8');
@@ -280,26 +305,30 @@ check('the hero runs up under the header', /-mt-16[\s\S]*md:-mt-20/.test(heroFil
   '<- without the pull-up the video starts below the bar again');
 
 // The hero starts at the very top of the viewport, so any height short of a
-// full one leaves the next section's cream ground as a band across the fold.
+// full one leaves the next section's light ground as a band across the fold.
 check('the hero fills the whole viewport', /min-h-svh/.test(heroFile),
-  '<- a fractional height shows cream at the bottom of the screen');
+  '<- a fractional height shows the light ground at the bottom of the screen');
 check('the hero height is not a fraction of the viewport',
   !/min-h-\[\d+(?:\.\d+)?(?:svh|vh|dvh|lvh)\]/.test(heroFile),
   '<- e.g. min-h-[92svh] leaves 8% of the fold showing the section below');
 check('header scrolled state is white', headerSrc.includes('bg-white'));
-check('header scrolled links are brand red', headerSrc.includes('text-brand-600'));
+// Nav links are blue, never the CTA orange: orange-600 on white is 3.82:1,
+// under AA for text, so matching them to the button would fail outright.
+check('header scrolled links are blue', headerSrc.includes('text-blue-700'));
+check('header nav links are not the CTA orange', !/text-orange-[0-9]{3}/.test(headerSrc),
+  '<- orange on white is 3.82:1, under AA for text');
 
-// The veil is solid maroon-900 through the header's height, so that is
+// The veil is solid blue-900 through the header's height, so that is
 // literally what sits behind the nav labels at rest.
-const navTop = contrast('#ffffff', tokenHex('maroon.900'));
+const navTop = contrast('#ffffff', tokenHex('blue.900'));
 check(`nav at top: white on the hero veil = ${navTop.toFixed(2)}:1`, navTop >= 4.5);
 
-const navScrolled = contrast(tokenHex('brand.600'), '#ffffff');
-check(`nav after scroll: brand-600 on white = ${navScrolled.toFixed(2)}:1`, navScrolled >= 4.5);
+const navScrolled = contrast(tokenHex('blue.700'), '#ffffff');
+check(`nav after scroll: blue-700 on white = ${navScrolled.toFixed(2)}:1`, navScrolled >= 4.5);
 
-// Links sit at 85% white on the red bar; that is the real rendered colour.
-const navTopMuted = contrast(compositeOver('#ffffff', 0.85, tokenHex('maroon.900')), tokenHex('maroon.900'));
-check(`nav link at rest (white/85 on maroon-900) = ${navTopMuted.toFixed(2)}:1`, navTopMuted >= 4.5);
+// Links sit at 85% white on the navy bar; that is the real rendered colour.
+const navTopMuted = contrast(compositeOver('#ffffff', 0.85, tokenHex('blue.900')), tokenHex('blue.900'));
+check(`nav link at rest (white/85 on blue-900) = ${navTopMuted.toFixed(2)}:1`, navTopMuted >= 4.5);
 
 console.log('\nEvery page can get back to the homepage');
 
@@ -373,7 +402,7 @@ check('payment calculator still has its sliders', rangeCount === 2, `<- ${rangeC
 check('slider thumb is drawn for WebKit', cssSrc.includes('::-webkit-slider-thumb'),
   '<- appearance-none with no thumb rule renders no handle on iOS');
 check('slider thumb is drawn for Firefox', cssSrc.includes('::-moz-range-thumb'));
-check('sliders no longer rely on inert accent-color', !calcSrc.includes('accent-maroon'),
+check('sliders no longer rely on inert accent-color', !calcSrc.includes('accent-blue'),
   '<- accent-color does nothing once appearance is none');
 
 // Every control in the inventory browsing UI was 34-40px. Guard the floor.
@@ -406,13 +435,23 @@ for (const dead of ['cream', 'maroon', 'outline']) {
   check(`Button no longer defines a '${dead}' variant`,
     !new RegExp(`^\\s*${dead}:`, 'm').test(buttonSrc2));
 }
-check('the default CTA is a red fill with a white label',
-  /primary:\s*\n?\s*'[^']*bg-brand-500[^']*text-white/.test(buttonSrc2),
-  '<- a white button on the white header or cream page nearly vanishes');
+check('the default CTA is an orange fill with a dark label',
+  /primary:\s*\n?\s*'[^']*bg-orange-500[^']*text-orange-ink/.test(buttonSrc2),
+  '<- white on orange-500 is 2.74:1; the label has to be dark');
+// The orange fill is 2.58:1 against the page, so unlike the old red fill it
+// cannot carry its own edge. The border is the only thing giving it one.
+check('the light-ground CTA keeps its load-bearing border',
+  /primary:\s*\n?\s*'[^']*border-orange-600/.test(buttonSrc2),
+  '<- orange-500 is 2.58:1 against the page; without the border it has no edge');
+// Brightening on hover is deliberate and easy to "correct" back into failure:
+// darkening puts the label at 4.07:1 on orange-600 and 2.78:1 on orange-700.
+check('the CTA brightens on hover rather than darkening',
+  /primary:\s*\n?\s*'[^']*hover:bg-orange-400/.test(buttonSrc2),
+  '<- hover:bg-orange-600/700 drops the label under AA');
 check('the onDark CTA stays white for dark grounds',
-  /onDark:\s*\n?\s*'[^']*bg-white[^']*text-maroon-900/.test(buttonSrc2));
+  /onDark:\s*\n?\s*'[^']*bg-white[^']*text-blue-900/.test(buttonSrc2));
 check('the onDark CTA keeps its load-bearing border',
-  /onDark:\s*\n?\s*'[^']*border-maroon-400/.test(buttonSrc2),
+  /onDark:\s*\n?\s*'[^']*border-blue-400/.test(buttonSrc2),
   '<- a bright video frame behind a white button leaves it no edge');
 
 const pageFiles2 = readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })

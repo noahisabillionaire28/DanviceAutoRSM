@@ -185,7 +185,7 @@ export function LeadForm({
           name="consent"
           required
           defaultChecked
-          className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border-maroon-300 text-maroon-900 focus:ring-brand-400"
+          className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border-blue-300 text-blue-900 focus:ring-orange-400"
         />
         <span>
           It&rsquo;s OK to contact me about this inquiry by phone, text, or email.

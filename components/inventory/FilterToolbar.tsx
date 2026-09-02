@@ -31,9 +31,9 @@ export function FilterToolbar({
   }
 
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-maroon-100 pb-4">
+    <div className="flex items-center justify-between gap-4 border-b border-blue-100 pb-4">
       <p className="tnum text-sm text-muted">
-        <span className="font-medium text-maroon-900">{resultCount}</span>{' '}
+        <span className="font-medium text-blue-900">{resultCount}</span>{' '}
         {resultCount === 1 ? 'vehicle' : 'vehicles'}
       </p>
 
@@ -43,7 +43,7 @@ export function FilterToolbar({
           id="sort"
           value={current.sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="h-11 rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+          className="h-11 rounded-md border border-blue-200 bg-surface px-3 text-sm text-blue-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-orange-400/50"
         >
           {Object.entries(SORT_LABELS).map(([value, text]) => (
             <option key={value} value={value}>{text}</option>
@@ -54,11 +54,11 @@ export function FilterToolbar({
           <Dialog.Trigger asChild>
             <button
               type="button"
-              className="inline-flex h-11 items-center gap-2 rounded-md border border-maroon-200 bg-surface px-3.5 text-sm font-medium text-maroon-900 transition-colors hover:bg-cream-100 lg:hidden"
+              className="inline-flex h-11 items-center gap-2 rounded-md border border-blue-200 bg-surface px-3.5 text-sm font-medium text-blue-900 transition-colors hover:bg-neutral-100 lg:hidden"
             >
               Filters
               {activeCount > 0 && (
-                <span className="tnum inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-maroon-900 px-1.5 text-xs text-cream-50">
+                <span className="tnum inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-900 px-1.5 text-xs text-neutral-50">
                   {activeCount}
                 </span>
               )}
@@ -66,13 +66,13 @@ export function FilterToolbar({
           </Dialog.Trigger>
 
           <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-maroon-950/50 backdrop-blur-sm lg:hidden" />
-            <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] animate-sheet-up flex-col rounded-t-2xl bg-cream-50 shadow-modal lg:hidden">
-              <div className="flex items-center justify-between border-b border-maroon-100 px-5 py-4">
-                <Dialog.Title className="font-display text-lg text-maroon-900">Filters</Dialog.Title>
+            <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-blue-950/50 backdrop-blur-sm lg:hidden" />
+            <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] animate-sheet-up flex-col rounded-t-2xl bg-neutral-50 shadow-modal lg:hidden">
+              <div className="flex items-center justify-between border-b border-blue-100 px-5 py-4">
+                <Dialog.Title className="font-display text-lg text-blue-900">Filters</Dialog.Title>
                 <Dialog.Close
                   aria-label="Close filters"
-                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-maroon-600 hover:bg-maroon-50"
+                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-blue-600 hover:bg-blue-50"
                 >
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.75" />
@@ -88,7 +88,7 @@ export function FilterToolbar({
                   out that also reports what the filters did. Filters apply live;
                   this is the deliberate dismiss, and the only one besides the ✕. */}
               <div
-                className="border-t border-maroon-100 px-5 pt-4"
+                className="border-t border-blue-100 px-5 pt-4"
                 style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
               >
                 <Dialog.Close asChild>

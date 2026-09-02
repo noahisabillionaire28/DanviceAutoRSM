@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Container className="flex flex-1 flex-col items-center justify-center py-28 text-center md:py-36">
       <p className="eyebrow">404</p>
-      <h1 className="mt-5 max-w-lg text-display-md text-maroon-900">
+      <h1 className="mt-5 max-w-lg text-display-md text-blue-900">
         That page has moved on
       </h1>
       <p className="mt-4 max-w-md text-lede text-muted">

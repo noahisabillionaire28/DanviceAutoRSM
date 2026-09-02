@@ -14,11 +14,11 @@ import { MobileNavDrawer } from './MobileNavDrawer';
  * Scroll-aware header with two inverted states.
  *
  *   at the top of the homepage : no background at all + white labels
- *   scrolled / every other page: white bar + red text
+ *   scrolled / every other page: white bar + blue text
  *
  * The top state paints nothing. An opaque bar can only ever approximate the
  * scrimmed video beneath it, and the mismatch showed as a seam across the
- * fold; the hero's own .hero-veil supplies the red instead and runs on past
+ * fold; the hero's own .hero-veil supplies the navy instead and runs on past
  * the bar, so there is no edge for two colours to disagree at. The switch
  * fires at 80px, well inside the hero's full viewport height, so the two
  * states never disagree about what is behind them. Both pairings are
@@ -52,17 +52,17 @@ export function SiteHeader() {
       className={cn(
         'sticky top-0 z-40 transition-colors duration-300 ease-brand',
         // Over the hero the bar has no background of its own: the hero's veil
-        // supplies the red and runs on past it, so there is no edge where two
-        // slightly different reds can meet. The border goes too — it was
+        // supplies the navy and runs on past it, so there is no edge where two
+        // slightly different navies can meet. The border goes too — it was
         // drawing a literal line across the seam.
         transparent
           ? 'bg-transparent'
-          : 'border-b border-maroon-100/80 bg-white',
+          : 'border-b border-neutral-200 bg-white',
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6 md:h-20">
         <Link href="/" aria-label={`${SITE.name} — home`} className="shrink-0">
-          <Logo tone={transparent ? 'cream' : 'maroon'} />
+          <Logo tone={transparent ? 'light' : 'dark'} />
         </Link>
 
         <nav aria-label="Main" className="hidden md:block">
@@ -75,7 +75,7 @@ export function SiteHeader() {
                     'inline-flex min-h-[44px] items-center rounded-md px-3.5 py-2.5 text-[0.9375rem] transition-colors duration-200',
                     transparent
                       ? 'text-white/85 hover:bg-white/10 hover:text-white'
-                      : 'text-brand-600 hover:bg-brand-500/10 hover:text-brand-700',
+                      : 'text-blue-700 hover:bg-blue-50 hover:text-blue-900',
                   )}
                 >
                   {item.label}
@@ -91,7 +91,7 @@ export function SiteHeader() {
           <CallButton showNumber size="sm" variant={transparent ? 'onDark' : 'primary'} />
         </div>
 
-        <MobileNavDrawer tone={transparent ? 'cream' : 'brand'} />
+        <MobileNavDrawer tone={transparent ? 'light' : 'dark'} />
       </Container>
     </header>
   );

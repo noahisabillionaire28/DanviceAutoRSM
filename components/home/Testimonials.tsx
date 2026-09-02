@@ -33,7 +33,7 @@ const QUOTES = [
 
 export function Testimonials() {
   return (
-    <section className="border-y border-maroon-100 bg-cream-100 py-16 md:py-20">
+    <section className="border-y border-blue-100 bg-neutral-100 py-16 md:py-20">
       <Container>
         <SectionHeading
           eyebrow="What people say"
@@ -49,7 +49,7 @@ export function Testimonials() {
                 viewBox="0 0 26 20"
                 fill="none"
                 aria-hidden="true"
-                className="text-brand-500/35"
+                className="text-orange-500/35"
               >
                 <path
                   d="M10 0C4.5 2.5 1 7 1 13a6.5 6.5 0 1 0 6.5-6.5c-.5 0-1 .1-1.4.2C7 4.6 8.4 2.8 10.7 1.4L10 0Zm14.6 0c-5.5 2.5-9 7-9 13a6.5 6.5 0 1 0 6.5-6.5c-.5 0-1 .1-1.4.2 1-2.1 2.3-3.9 4.6-5.3L24.6 0Z"
@@ -57,12 +57,12 @@ export function Testimonials() {
                 />
               </svg>
 
-              <blockquote className="mt-5 flex-1 text-[1.0625rem] leading-relaxed text-maroon-900">
+              <blockquote className="mt-5 flex-1 text-[1.0625rem] leading-relaxed text-blue-900">
                 {q.quote}
               </blockquote>
 
-              <footer className="mt-5 border-t border-maroon-100 pt-4">
-                <p className="text-sm font-medium text-maroon-900">{q.name}</p>
+              <footer className="mt-5 border-t border-blue-100 pt-4">
+                <p className="text-sm font-medium text-blue-900">{q.name}</p>
                 <p className="mt-0.5 text-xs text-muted">{q.detail}</p>
               </footer>
             </li>

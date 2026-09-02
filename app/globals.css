@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --bg: 252 246 234;          /* cream-50  */
+  --bg: 247 248 250;          /* neutral-50 */
   --surface: 255 255 255;
-  --surface-raised: 247 237 220; /* cream-100 */
-  --fg: 34 2 5;               /* maroon-950 — 17:1 on cream, well past AA */
-  --fg-muted: 122 81 77;      /* warm neutral, 6:1 on cream */
-  --line: 230 207 174;        /* cream-300 */
-  --accent: 193 18 28;        /* brand-500 */
-  --accent-fg: 253 247 236;   /* brand-ink */
+  --surface-raised: 239 242 246; /* neutral-100 */
+  --fg: 11 24 38;             /* blue-950 — 16.85:1 on the ground, well past AA */
+  --fg-muted: 85 102 129;     /* cool grey-blue, 5.48:1 on the ground */
+  --line: 203 211 223;        /* neutral-300 */
+  --accent: 240 125 34;       /* orange-500 */
+  --accent-fg: 11 24 38;      /* orange-ink — the CTA label is dark, not white */
 }
 
 @layer base {
@@ -38,11 +38,11 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-background;
   }
 
   ::selection {
-    @apply bg-maroon-900 text-cream-50;
+    @apply bg-blue-900 text-neutral-50;
   }
 }
 
@@ -51,14 +51,14 @@
     @apply text-eyebrow uppercase text-muted;
   }
 
-  /* Gold hairline under section eyebrows — one of the four sanctioned gold uses. */
+  /* Hairline under section eyebrows, in the logo blue. */
   .eyebrow-rule::after {
     content: '';
-    @apply mt-3 block h-px w-10 bg-brand-500;
+    @apply mt-3 block h-px w-10 bg-blue-500;
   }
 
   .shimmer {
-    @apply relative overflow-hidden bg-maroon-100/60;
+    @apply relative overflow-hidden bg-neutral-200/70;
   }
 
   .shimmer::after {
@@ -68,22 +68,21 @@
 
   /* Hero veil.
    *
-   * The header used to be an opaque maroon-900 bar sitting on top of the video,
-   * and the two never matched: the scrim composited the footage to a washed
-   * grey-brown, so a hard horizontal seam ran across the fold. The header is
-   * now transparent over the hero and this veil supplies the colour instead —
-   * solid brand red through the header's height, then fading into the tinted
-   * footage. Bar and video become one continuous field, so there is no edge
-   * left to mismatch.
+   * The header used to be an opaque bar sitting on top of the video, and the
+   * two never matched: the scrim composited the footage to a washed grey, so a
+   * hard horizontal seam ran across the fold. The header is now transparent
+   * over the hero and this veil supplies the colour instead — solid navy
+   * through the header's height, then fading into the tinted footage. Bar and
+   * video become one continuous field, so there is no edge left to mismatch.
    *
    * 5.5rem holds the solid band just past the 5rem (md:h-20) header. */
   .hero-veil {
     background-image: linear-gradient(
       to bottom,
-      theme('colors.maroon.900') 0,
-      theme('colors.maroon.900') 5.5rem,
-      rgb(54 4 7 / 0.62) 13rem,
-      rgb(54 4 7 / 0) 58%
+      theme('colors.blue.900') 0,
+      theme('colors.blue.900') 5.5rem,
+      rgb(18 37 58 / 0.62) 13rem,
+      rgb(18 37 58 / 0) 58%
     );
   }
 
@@ -91,8 +90,8 @@
   .hero-foot {
     background-image: linear-gradient(
       to bottom,
-      rgb(54 4 7 / 0) 72%,
-      rgb(34 2 5 / 0.65) 100%
+      rgb(18 37 58 / 0) 72%,
+      rgb(11 24 38 / 0.65) 100%
     );
   }
 
@@ -116,7 +115,7 @@
   .range-brand::-webkit-slider-runnable-track {
     height: 6px;
     border-radius: 9999px;
-    background: theme('colors.maroon.100');
+    background: theme('colors.neutral.200');
   }
 
   .range-brand::-webkit-slider-thumb {
@@ -126,33 +125,33 @@
     /* centre the 24px thumb on the 6px track */
     margin-top: -9px;
     border-radius: 9999px;
-    background: theme('colors.maroon.900');
+    background: theme('colors.blue.900');
     border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgb(54 4 7 / 0.35);
+    box-shadow: 0 1px 3px rgb(18 37 58 / 0.35);
   }
 
   .range-brand::-moz-range-track {
     height: 6px;
     border-radius: 9999px;
-    background: theme('colors.maroon.100');
+    background: theme('colors.neutral.200');
   }
 
   .range-brand::-moz-range-thumb {
     height: 24px;
     width: 24px;
     border-radius: 9999px;
-    background: theme('colors.maroon.900');
+    background: theme('colors.blue.900');
     border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgb(54 4 7 / 0.35);
+    box-shadow: 0 1px 3px rgb(18 37 58 / 0.35);
   }
 
   .range-brand:focus-visible::-webkit-slider-thumb {
-    outline: 2px solid theme('colors.brand.400');
+    outline: 2px solid theme('colors.blue.500');
     outline-offset: 2px;
   }
 
   .range-brand:focus-visible::-moz-range-thumb {
-    outline: 2px solid theme('colors.brand.400');
+    outline: 2px solid theme('colors.blue.500');
     outline-offset: 2px;
   }
 }

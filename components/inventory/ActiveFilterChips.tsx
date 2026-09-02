@@ -130,7 +130,7 @@ export function ActiveFilterChips() {
           type="button"
           onClick={() => go(chip.clear(current))}
           aria-label={`Remove filter ${chip.text}`}
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-maroon-200 bg-surface px-3.5 text-sm text-maroon-900 transition-colors hover:border-maroon-300 hover:bg-cream-100"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-blue-200 bg-surface px-3.5 text-sm text-blue-900 transition-colors hover:border-blue-300 hover:bg-neutral-100"
         >
           {chip.text}
           <svg width="9" height="9" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -142,7 +142,7 @@ export function ActiveFilterChips() {
       <button
         type="button"
         onClick={() => go({ ...EMPTY_FILTERS, sort: current.sort })}
-        className="inline-flex h-11 items-center rounded-full px-3 text-sm font-medium text-brand-600 underline decoration-brand-600/30 underline-offset-4 transition-colors hover:decoration-brand-600"
+        className="inline-flex h-11 items-center rounded-full px-3 text-sm font-medium text-orange-600 underline decoration-orange-600/30 underline-offset-4 transition-colors hover:decoration-orange-600"
       >
         Clear all
       </button>

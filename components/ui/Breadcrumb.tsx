@@ -20,7 +20,7 @@ export function withHome(trail: Crumb[]): Crumb[] {
  * because the heroes disagree about alignment — /about and /financing centre
  * their copy, /inventory left-aligns it — and a breadcrumb inherits whatever it
  * lands in. Its own band keeps the trail left-aligned everywhere, and sits on
- * the base cream ground as a lighter ledge above the darker hero below it.
+ * the base light ground as a lighter ledge above the darker hero below it.
  *
  * `trail` deliberately EXCLUDES Home; it is always prepended. A page therefore
  * cannot render a breadcrumb that does not lead home. The { name, href } shape
@@ -41,13 +41,13 @@ export function Breadcrumb({ trail }: { trail: Crumb[] }) {
                 <li key={crumb.href} className="flex items-center gap-2">
                   {i > 0 && <span aria-hidden="true">/</span>}
                   {last ? (
-                    <span aria-current="page" className="text-maroon-900">
+                    <span aria-current="page" className="text-blue-900">
                       {crumb.name}
                     </span>
                   ) : (
                     <Link
                       href={crumb.href}
-                      className="transition-colors hover:text-maroon-900"
+                      className="transition-colors hover:text-blue-900"
                     >
                       {crumb.name}
                     </Link>

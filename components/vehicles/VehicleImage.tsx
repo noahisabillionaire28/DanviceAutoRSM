@@ -62,7 +62,7 @@ export function VehicleImage({
         // Warm off-white panel, slightly tinted from the white card body, so a
         // contained photo reads as a framed product shot rather than as a
         // letterboxed video.
-        'relative overflow-hidden bg-cream-100',
+        'relative overflow-hidden bg-neutral-100',
         ASPECTS[aspect],
         className,
       )}

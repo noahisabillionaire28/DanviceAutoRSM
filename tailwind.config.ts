@@ -14,37 +14,44 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Sampled from the Danvice badge: a single red family plus its cream.
-        // `maroon` carries structure (dark sections, body text), `cream` is the
-        // light ground, `brand` is the signature red reserved for CTAs.
-        maroon: {
-          50: '#FCF3F2',
-          100: '#F8E5E4',
-          200: '#EFC8C7',
-          300: '#DC9C9A',
-          400: '#C1615F',
-          500: '#9E2B2B',
-          600: '#7E0A11',
-          700: '#68080E',
-          800: '#4E060A',
-          900: '#360407',
-          950: '#220205',
+        // Sampled from the Danvice Auto logo: the blue and the orange are the
+        // logo's own values, unchanged. `blue` carries structure (dark
+        // sections, body text, links), `neutral` is the light ground, `orange`
+        // is the signature colour reserved for the CTA.
+        //
+        // Two roles for blue, because one cannot do both. blue-500 (#3F7BC0)
+        // is the logo blue exactly, and it is a mid-tone: white body text on
+        // it is 4.37:1, under AA. So the dark field is blue-900, the logo blue
+        // taken down to a navy, and 500 stays the accent — rules, dividers,
+        // the mark itself. Every pairing is asserted in scripts/checks.ts.
+        blue: {
+          50: '#F1F6FC',
+          100: '#DFEAF7',
+          200: '#C0D5EE',
+          300: '#93B6E0',
+          400: '#6698CE',
+          500: '#3F7BC0',
+          600: '#33639B',
+          700: '#2A4F7C',
+          800: '#1C3859',
+          900: '#12253A',
+          950: '#0B1826',
         },
-        cream: {
-          50: '#FCF6EA',
-          100: '#F7EDDC',
-          200: '#F1E1C9',
-          300: '#E6CFAE',
-          400: '#D6B68C',
+        neutral: {
+          50: '#F7F8FA',
+          100: '#EFF2F6',
+          200: '#E2E7EE',
+          300: '#CBD3DF',
+          400: '#A9B4C6',
         },
-        brand: {
-          300: '#E4666C',
-          400: '#D42630',
-          500: '#C1121C',
-          600: '#A50E18',
-          700: '#870B13',
+        orange: {
+          300: '#F8B67F',
+          400: '#F4954A',
+          500: '#F07D22',
+          600: '#D2620F',
+          700: '#A94D0B',
         },
-        'brand-ink': '#FDF7EC',
+        'orange-ink': '#0B1826',
         success: '#2E7D5B',
         danger: '#B3392F',
 
@@ -79,13 +86,11 @@ const config: Config = {
       },
       boxShadow: {
         // Navy-tinted, never black — the biggest premium-vs-template tell.
-        xs: '0 1px 2px 0 rgb(54 4 7 / 0.04)',
-        card: '0 1px 2px rgb(54 4 7 / 0.04), 0 4px 12px -2px rgb(54 4 7 / 0.06)',
-        'card-hover': '0 2px 4px rgb(54 4 7 / 0.05), 0 12px 28px -6px rgb(54 4 7 / 0.12)',
-        raised: '0 8px 24px -8px rgb(54 4 7 / 0.14)',
-        modal: '0 24px 64px -16px rgb(34 2 5 / 0.35)',
-        'sticky-bar': '0 -8px 24px -12px rgb(34 2 5 / 0.22)',
-        'gold-focus': '0 0 0 3px rgb(232 181 99 / 0.45)',
+        xs: '0 1px 2px 0 rgb(18 37 58 / 0.05)',
+        card: '0 1px 2px rgb(18 37 58 / 0.05), 0 4px 12px -2px rgb(18 37 58 / 0.07)',
+        'card-hover': '0 2px 4px rgb(18 37 58 / 0.06), 0 12px 28px -6px rgb(18 37 58 / 0.14)',
+        raised: '0 8px 24px -8px rgb(18 37 58 / 0.16)',
+        modal: '0 24px 64px -16px rgb(11 24 38 / 0.35)',
       },
       transitionTimingFunction: {
         brand: 'cubic-bezier(0.16, 1, 0.3, 1)',

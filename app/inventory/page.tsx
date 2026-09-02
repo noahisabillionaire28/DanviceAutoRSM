@@ -40,10 +40,10 @@ export default async function InventoryPage({
       <JsonLd data={breadcrumbJsonLd(withHome(TRAIL))} />
       <Breadcrumb trail={TRAIL} />
 
-      <section className="border-b border-maroon-100 bg-cream-100">
+      <section className="border-b border-blue-100 bg-neutral-100">
         <Container className="py-14 md:py-20">
           <p className="eyebrow eyebrow-rule">Inventory</p>
-          <h1 className="mt-5 text-display-lg text-maroon-900">
+          <h1 className="mt-5 text-display-lg text-blue-900">
             Every car we have, with the price on it
           </h1>
           <p className="mt-4 max-w-prose text-lede text-muted">

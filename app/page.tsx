@@ -61,11 +61,11 @@ export default function HomePage() {
       </section>
 
       {/* Compressed to a single quiet band — supporting evidence, not a headline act. */}
-      <section className="border-y border-maroon-100 bg-cream-100">
+      <section className="border-y border-blue-100 bg-neutral-100">
         <Container className="grid gap-8 py-16 md:grid-cols-3 md:gap-12 md:py-20">
           {PROOF.map((item) => (
             <div key={item.t}>
-              <h2 className="font-display text-lg text-maroon-900">{item.t}</h2>
+              <h2 className="font-display text-lg text-blue-900">{item.t}</h2>
               <p className="mt-2 leading-relaxed text-muted">{item.b}</p>
             </div>
           ))}
@@ -77,14 +77,14 @@ export default function HomePage() {
       {/* The second conversion path, reduced to one claim and one action. */}
       <section className="py-20 md:py-28">
         <Container>
-          <div className="rounded-2xl bg-maroon-900 px-8 py-14 text-center text-cream-50 md:px-14 md:py-20">
-            <p className="text-eyebrow uppercase text-cream-50/60">Financing</p>
-            <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-brand-400" />
+          <div className="rounded-2xl bg-blue-900 px-8 py-14 text-center text-neutral-50 md:px-14 md:py-20">
+            <p className="text-eyebrow uppercase text-neutral-50/60">Financing</p>
+            <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-orange-400" />
 
-            <h2 className="mx-auto mt-8 max-w-2xl text-display-md text-cream-50">
+            <h2 className="mx-auto mt-8 max-w-2xl text-display-md text-neutral-50">
               Turned down somewhere else?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl leading-relaxed text-cream-50/75">
+            <p className="mx-auto mt-5 max-w-xl leading-relaxed text-neutral-50/75">
               We work with lenders who look at your situation rather than just a
               number. Starting takes three minutes and won&rsquo;t affect your
               credit score.
@@ -99,7 +99,7 @@ export default function HomePage() {
                 trigger={
                   <Button
                     variant="link"
-                    className="text-cream-50 decoration-cream-50/40 hover:decoration-cream-50"
+                    className="text-neutral-50 decoration-neutral-50/40 hover:decoration-neutral-50"
                   >
                     Get pre-qualified
                   </Button>
@@ -108,7 +108,7 @@ export default function HomePage() {
               <ButtonLink
                 href="/financing"
                 variant="link"
-                className="text-cream-50/70 decoration-cream-50/30 hover:text-cream-50"
+                className="text-neutral-50/70 decoration-neutral-50/30 hover:text-neutral-50"
               >
                 How financing works
               </ButtonLink>

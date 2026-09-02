@@ -5,15 +5,20 @@ Dev: `npm run dev` → http://localhost:3000 · Build: `npm run build` · Logic 
 Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-auto-rsm` (us-west-1)
 
 ## Design rules
-- Palette from the Danvice badge: deep red (`maroon-*`), warm cream (`cream-*`), signature red (`brand-*`).
+- Palette from the Danvice Auto logo: logo blue `#3F7BC0` (`blue-500`), logo orange `#F07D22` (`orange-500`), cool light ground (`neutral-*`). `blue-900` `#12253A` is the dark field — the logo blue is a mid-tone (white text on it is 4.37:1, under AA) so it can never be the dark ground itself.
+- Blue carries structure (dark sections, body text, links, the mark). Orange is the CTA and nothing else. There is no third colour.
 - One CTA site-wide: the `CallButton`. Every call to action is Call now — never a second competing button.
-- The CTA inverts with its ground, and has exactly two appearances. `primary` (default): `brand-500` fill, white label, no border — the fill is 6.23:1 on white and 5.79:1 on cream, so it carries its own edge. `onDark`: white fill, `maroon-900` label, `maroon-400` border — the border is required there, because a bright video frame behind it would otherwise leave no edge.
+- The CTA inverts with its ground, and has exactly two appearances. `primary` (default): `orange-500` fill, `orange-ink` (near-black) label, `orange-600` border. `onDark`: white fill, `blue-900` label, `blue-400` border. **Both borders are load-bearing.** White on orange is 2.74:1 so the label must be dark, and the orange fill is 2.58:1 against the page, under the 3:1 a control edge needs — the border is the only thing giving the button a boundary.
+- The CTA brightens on hover (`orange-400`) instead of darkening. This is backwards on purpose: darkening drops the label to 4.07:1 on `orange-600` and 2.78:1 on `orange-700`, both failing. `npm run check` fails if someone "fixes" it.
 - `onDark` belongs to exactly two places: the hero, and the header while it is transparent over the hero. Anywhere else it is a white button on a light page, which is the thing this rule exists to prevent.
+- Orange is never text. `orange-600` on white is 3.82:1, under AA — nav links are `blue-700` (8.37:1). Orange text is allowed only on the dark field (`orange-400` on `blue-900` is 6.84:1).
 - Secondary actions are the `link` variant, never a button. `Button` has only `primary | onDark | ghost | link`.
+- The logo mark is inlined in `components/layout/Logo.tsx`, not an image file: the D has to invert with its ground (`blue-500` on white, white over the hero) and an `<img>` cannot inherit a colour.
+- The hero video is the hero. Losing it leaves a flat navy panel that still passes every contrast check, so `npm run check` asserts the `<video>` and its source directly.
 - Fonts: Fraunces (display) + Inter (body) via next/font. Prices and specs use `tabular-nums`.
-- Shadows are maroon-tinted, never black. Whitespace: `py-20 md:py-28` per section.
+- Shadows are navy-tinted, never black. Whitespace: `py-20 md:py-28` per section.
 - Mobile-first. Skeletons must be box-model-identical to real content (zero CLS).
-- Red is the brand, not a cliché: no starbursts, no checkered flags, no clip art, no second accent colour.
+- Keep it restrained: no starbursts, no checkered flags, no clip art, no second accent colour.
 - `npm run check` asserts WCAG AA on every real text/background pair. Re-run it after any palette edit.
 
 ## Rules

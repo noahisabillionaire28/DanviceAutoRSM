@@ -27,10 +27,10 @@ export function VehicleSpecs({ vehicle: v }: { vehicle: Vehicle }) {
         .map(([k, val]) => (
           <div
             key={k}
-            className="flex items-baseline justify-between gap-4 border-b border-maroon-100 py-3"
+            className="flex items-baseline justify-between gap-4 border-b border-blue-100 py-3"
           >
             <dt className="text-sm text-muted">{k}</dt>
-            <dd className="tnum text-right text-sm text-maroon-900">{val}</dd>
+            <dd className="tnum text-right text-sm text-blue-900">{val}</dd>
           </div>
         ))}
     </dl>

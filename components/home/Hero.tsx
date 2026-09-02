@@ -12,7 +12,7 @@ import { Container } from '@/components/ui/Container';
  *
  * The scrim is doing real work, not decoration. Text sits over moving footage
  * whose brightness we do not control, so the worst case is a blank-white
- * frame. At 80% maroon-900 the composite floor is 10.18:1 against white text
+ * frame. At 80% blue-900 the composite floor is 10.18:1 against white text
  * even then — asserted in scripts/checks.ts so lowering the opacity fails the
  * build rather than quietly making the headline unreadable.
  */
@@ -42,10 +42,10 @@ export function Hero() {
     // padding so the copy stays optically centred.
     //
     // min-h-svh, not a fraction of it: because the hero starts at the very top
-    // of the viewport, anything less leaves the next section's cream ground
+    // of the viewport, anything less leaves the next section's light ground
     // showing as a band across the fold. svh measures against mobile browser
     // chrome at its largest, so it still fills the screen with the URL bar up.
-    <section className="relative isolate -mt-16 flex min-h-svh items-center overflow-hidden bg-maroon-900 text-white md:-mt-20">
+    <section className="relative isolate -mt-16 flex min-h-svh items-center overflow-hidden bg-blue-900 text-white md:-mt-20">
       <video
         ref={videoRef}
         className="absolute inset-0 -z-20 h-full w-full object-cover"
@@ -60,11 +60,11 @@ export function Hero() {
       </video>
 
       {/* Flat scrim guarantees the contrast floor (asserted in scripts/checks.ts).
-          It is maroon-900 rather than maroon-950: the near-black 950 desaturated
+          It is blue-900 rather than blue-950: the near-black 950 desaturated
           the footage to grey-brown, which is what stopped it matching the brand
           red above it. 900 tints the video red instead, and at 80% the worst
           case — a blank white frame — still gives white copy 10.18:1. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-maroon-900/80" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-blue-900/80" />
 
       {/* Supplies the colour behind the now-transparent header and fades it into
           the footage, so the bar and the video are one field with no seam. */}
@@ -76,7 +76,7 @@ export function Hero() {
           <p className="text-eyebrow uppercase text-white/70">
             {SITE.address.city}
           </p>
-          <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-brand-400" />
+          <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-orange-500" />
 
           <h1 className="mt-8 text-balance text-display-xl text-white">
             Honest cars for real budgets.

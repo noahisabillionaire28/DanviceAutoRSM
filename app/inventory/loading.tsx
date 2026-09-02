@@ -5,7 +5,7 @@ import { VehicleGridSkeleton } from '@/components/vehicles/VehicleCardSkeleton';
 export default function InventoryLoading() {
   return (
     <>
-      <section className="border-b border-maroon-100 bg-cream-100">
+      <section className="border-b border-blue-100 bg-neutral-100">
         <Container className="py-14 md:py-20">
           <Skeleton className="h-3 w-24" />
           <Skeleton className="mt-6 h-12 w-[min(34rem,90%)]" />
@@ -26,7 +26,7 @@ export default function InventoryLoading() {
             </div>
           </aside>
           <div className="lg:col-span-9">
-            <div className="flex items-center justify-between border-b border-maroon-100 pb-4">
+            <div className="flex items-center justify-between border-b border-blue-100 pb-4">
               <Skeleton className="h-5 w-24" />
               <Skeleton className="h-10 w-44" />
             </div>

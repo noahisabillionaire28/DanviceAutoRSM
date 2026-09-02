@@ -28,7 +28,7 @@ export function CallButton({
   size?: 'sm' | 'md' | 'lg';
   /** 'onDark' for the two places the CTA sits on a dark ground: the hero, and
    *  the header while it is transparent over the hero. Everywhere else the CTA
-   *  is red, so that it contrasts the light page rather than blending into it. */
+   *  is orange, so it contrasts the light page rather than blending into it. */
   variant?: 'primary' | 'onDark';
   className?: string;
 }) {

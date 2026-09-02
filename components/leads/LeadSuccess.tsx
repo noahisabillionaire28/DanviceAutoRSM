@@ -23,7 +23,7 @@ export function LeadSuccess({
 }) {
   return (
     <div className="flex flex-col items-center py-6 text-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-500/15">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/15">
         <svg width="26" height="20" viewBox="0 0 26 20" fill="none" aria-hidden="true">
           <path
             d="M2 10.5 9 17.5 24 2.5"
@@ -35,7 +35,7 @@ export function LeadSuccess({
         </svg>
       </div>
 
-      <h3 className="mt-5 font-display text-2xl text-maroon-900">
+      <h3 className="mt-5 font-display text-2xl text-blue-900">
         Thanks, {firstName}.
       </h3>
       <p className="mt-2 max-w-sm text-muted">
