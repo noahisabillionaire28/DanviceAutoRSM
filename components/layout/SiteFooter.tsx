@@ -17,7 +17,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-4">
             <Link href="/" aria-label={`${SITE.name} — home`} className="inline-block">
-              <Logo tone="light" />
+              <Logo />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-50/65">
               {SITE.tagline}

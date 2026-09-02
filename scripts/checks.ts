@@ -426,6 +426,26 @@ check('filter sheet does not close on each filter change',
 const toolbarSrc = readFileSync(join(ROOT, 'components/inventory/FilterToolbar.tsx'), 'utf8');
 check('filter sheet offers an explicit way out', toolbarSrc.includes('Show {resultCount}'));
 
+console.log('\nBrand assets');
+
+// The logo is a file, not inline markup, so a rename or a bad path fails as a
+// silent 404 that leaves the header empty — with nothing in the build output to
+// say so. These assert the file exists and that the component still points at
+// it, which is the pair that actually breaks.
+const logoSrc = readFileSync(join(ROOT, 'components/layout/Logo.tsx'), 'utf8');
+const LOGO_PATH = 'public/brand/danvice-logo.svg';
+check('the logo file exists', existsSync(join(ROOT, LOGO_PATH)));
+check('Logo.tsx points at it', logoSrc.includes('/brand/danvice-logo.svg'),
+  '<- a stale path renders an empty header and no build error');
+check('the favicon exists', existsSync(join(ROOT, 'app/icon.svg')));
+check('the share image is generated from the logo file, not a copy of its paths',
+  readFileSync(join(ROOT, 'app/opengraph-image.tsx'), 'utf8').includes(LOGO_PATH),
+  '<- duplicating the paths lets the share image drift from the real logo');
+// The lockup carries its own wordmark now; a second HTML one beside it would
+// render the name twice at two different sizes.
+check('the logo is not paired with a duplicate HTML wordmark',
+  !/Danvice Auto<\/span>/.test(logoSrc));
+
 console.log('\nOne CTA, everywhere');
 
 // The site previously carried eight CTA labels across five button variants.

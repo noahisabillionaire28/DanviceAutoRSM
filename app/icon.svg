@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- The D and its sweep only, on the navy ground: at 16px the wordmark is
-       unreadable, and a white ground would leave the mark no edge in a tab. -->
-  <rect width="64" height="64" rx="13" fill="#12253A"/>
-  <path d="M17 15 H35 C 48 15 57 24 57 32 C 57 40 48 49 35 49 H17 Z
-           M27 24 V40 H34 C 40 40 45 37 45 32 C 45 27 40 24 34 24 Z"
-        fill-rule="evenodd" fill="#3F7BC0"/>
-  <path d="M6 46 C 20 53 41 51 59 39" fill="none" stroke="#F07D22"
-        stroke-width="6" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="13" fill="#12253A"/><g transform="translate(-93.00 0.50) scale(0.10000)"><path d="M548 356 C768 258 1016 178 1272 162 C1492 148 1676 232 1846 352 C1668 266 1462 214 1268 238 C1016 268 778 306 548 356 Z" fill="#4E8FE0"/><path d="M58 552 C286 476 612 414 946 400 C1108 393 1236 384 1336 348 C1268 410 1160 446 1006 464 C668 502 330 532 58 552 Z" fill="#F07D22"/></g></svg>

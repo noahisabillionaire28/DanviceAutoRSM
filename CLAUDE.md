@@ -13,7 +13,8 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 - `onDark` belongs to exactly two places: the hero, and the header while it is transparent over the hero. Anywhere else it is a white button on a light page, which is the thing this rule exists to prevent.
 - Orange is never text. `orange-600` on white is 3.82:1, under AA — nav links are `blue-700` (8.37:1). Orange text is allowed only on the dark field (`orange-400` on `blue-900` is 6.84:1).
 - Secondary actions are the `link` variant, never a button. `Button` has only `primary | onDark | ghost | link`.
-- The logo mark is inlined in `components/layout/Logo.tsx`, not an image file: the D has to invert with its ground (`blue-500` on white, white over the hero) and an `<img>` cannot inherit a colour.
+- The logo is `public/brand/danvice-logo.svg` — the real Danvice Auto lockup (two swooshes over the DANVICE AUTO wordmark), rendered by `components/layout/Logo.tsx`. One file serves every ground: blue and orange both hold up on white and on `blue-900`, so there is no recoloured dark variant to drift. It carries its own wordmark, so never put HTML text beside it. The wordmark is set in Michroma, converted to outlines — no webfont is loaded for it.
+- `app/icon.svg` is the same mark cropped to the two swooshes; the wordmark is illegible at 16px. `app/opengraph-image.tsx` reads the logo file at build time rather than copying its paths, so the share image cannot drift from the logo.
 - The hero video is the hero. Losing it leaves a flat navy panel that still passes every contrast check, so `npm run check` asserts the `<video>` and its source directly.
 - Fonts: Fraunces (display) + Inter (body) via next/font. Prices and specs use `tabular-nums`.
 - Shadows are navy-tinted, never black. Whitespace: `py-20 md:py-28` per section.

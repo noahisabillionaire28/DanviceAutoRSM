@@ -62,7 +62,7 @@ export function SiteHeader() {
     >
       <Container className="flex h-16 items-center justify-between gap-6 md:h-20">
         <Link href="/" aria-label={`${SITE.name} — home`} className="shrink-0">
-          <Logo tone={transparent ? 'light' : 'dark'} />
+          <Logo />
         </Link>
 
         <nav aria-label="Main" className="hidden md:block">
