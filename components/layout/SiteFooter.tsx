@@ -13,8 +13,7 @@ function formatHour(t: string) {
 export function SiteFooter() {
   return (
     <footer className="mt-auto bg-maroon-900 text-cream-50">
-      {/* pb-bar clears the fixed mobile Call/Browse bar so it never covers the footer. */}
-      <Container className="py-16 pb-[calc(4.5rem+2rem+env(safe-area-inset-bottom))] md:py-20 md:pb-20">
+      <Container className="py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-4">
             <Link href="/" aria-label={`${SITE.name} — home`} className="inline-block">

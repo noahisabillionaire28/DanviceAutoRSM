@@ -5,7 +5,6 @@ import { autoDealerJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
-import { MobileStickyBar } from '@/components/layout/MobileStickyBar';
 import './globals.css';
 
 const display = Fraunces({
@@ -73,7 +72,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         <SiteFooter />
-        <MobileStickyBar />
       </body>
     </html>
   );

@@ -117,7 +117,7 @@ const config: Config = {
       // 13 is not in Tailwind's default scale. Button's lg size authored h-13
       // and it silently emitted no CSS at all, collapsing every size="lg"
       // button to its line box. Asserted in scripts/checks.ts.
-      spacing: { bar: '4.5rem', 13: '3.25rem' },
+      spacing: { 13: '3.25rem' },
       maxWidth: { prose: '68ch' },
     },
   },

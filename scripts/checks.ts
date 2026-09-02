@@ -2,7 +2,7 @@ import { LeadSchema } from '@/lib/schemas/lead';
 import { estimateMonthlyPayment } from '@/lib/payment';
 import { parseFilters, serializeFilters } from '@/lib/filters';
 import { resolveVehicleImage } from '@/lib/images';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -449,6 +449,32 @@ for (const f of componentFiles) {
   check(`${f} has no red-filled button`, !redFill,
     '<- every button is the white CTA; red is reserved for rules and rings');
 }
+
+console.log('\nMobile chrome');
+
+// Nothing may be pinned to the bottom of the screen on a phone. The fixed
+// Call bar is gone; this stops one creeping back in.
+for (const f of componentFiles) {
+  const src = readFileSync(join(ROOT, 'components', f), 'utf8');
+  const bottomBar = /className="[^"]*\bfixed\b[^"]*\bbottom-0\b[^"]*\bmd:hidden\b/.test(src);
+  check(`${f} pins nothing to the bottom of the phone screen`, !bottomBar,
+    '<- no buttons at the bottom of the screen on mobile');
+}
+check('the fixed mobile bar is gone for good',
+  !existsSync(join(ROOT, 'components/layout/MobileStickyBar.tsx')));
+
+// It is now the only route to the phone on inner pages, so it has to be a
+// real destination: full screen, and carrying the CTA.
+const drawerSrc = readFileSync(join(ROOT, 'components/layout/MobileNavDrawer.tsx'), 'utf8');
+check('the mobile menu takes the whole screen',
+  /inset-0/.test(drawerSrc) && /100dvh/.test(drawerSrc),
+  '<- a side sheet leaves the page showing behind it');
+check('the mobile menu carries the Call CTA', /<CallButton/.test(drawerSrc),
+  '<- with no bottom bar this is the only way to call from an inner page');
+
+// The footer padding existed solely to clear that bar.
+const footSrc = readFileSync(join(ROOT, 'components/layout/SiteFooter.tsx'), 'utf8');
+check('the footer no longer reserves space for a bar', !/4\.5rem/.test(footSrc));
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

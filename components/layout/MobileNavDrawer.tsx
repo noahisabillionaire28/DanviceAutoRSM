@@ -4,14 +4,26 @@ import * as Dialog from '@radix-ui/react-dialog';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { SITE, formattedAddress } from '@/lib/site';
+import { SITE, formattedAddress, mapsUrl } from '@/lib/site';
+import { CallButton } from '@/components/ui/CallButton';
 import { Logo } from './Logo';
 
+/**
+ * Full-screen menu, mobile only.
+ *
+ * It takes the whole viewport rather than sliding in as a side sheet: with the
+ * fixed bottom bar gone, this is where the phone number lives on every page
+ * except the homepage, so it needs room to give Call the weight of a real
+ * destination instead of a footnote squeezed into a 86%-wide panel.
+ *
+ * dvh, not svh: the menu is fixed and must cover the screen as the mobile
+ * browser chrome collapses on scroll, where svh would leave a strip uncovered.
+ */
 export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream' | 'brand' }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close on navigation, otherwise the sheet stays open over the new page.
+  // Close on navigation, otherwise the menu stays open over the new page.
   useEffect(() => setOpen(false), [pathname]);
 
   return (
@@ -29,11 +41,10 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-maroon-950/40 backdrop-blur-sm md:hidden" />
-        <Dialog.Content className="fixed inset-y-0 right-0 z-50 flex w-[86%] max-w-sm animate-sheet-up flex-col bg-cream-50 shadow-modal md:hidden">
+        <Dialog.Content className="fixed inset-0 z-50 flex h-[100dvh] w-screen animate-sheet-up flex-col bg-cream-50 md:hidden">
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
 
-          <div className="flex h-16 items-center justify-between border-b border-maroon-100 px-5">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-maroon-100 px-5">
             <Link href="/" aria-label={`${SITE.name} — home`}>
               <Logo />
             </Link>
@@ -47,12 +58,14 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
             </Dialog.Close>
           </div>
 
-          <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-6">
+          {/* The links get the space a full screen affords: larger type, generous
+              rows, and room to breathe rather than a cramped list. */}
+          <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-8">
             <ul className="flex flex-col gap-1">
               <li>
                 <Link
                   href="/"
-                  className="block rounded-md px-3 py-3 font-display text-xl text-maroon-900 transition-colors hover:bg-maroon-50"
+                  className="flex min-h-[56px] items-center rounded-md px-3 font-display text-[1.75rem] leading-tight text-maroon-900 transition-colors hover:bg-maroon-50"
                 >
                   Home
                 </Link>
@@ -61,7 +74,7 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block rounded-md px-3 py-3 font-display text-xl text-maroon-900 transition-colors hover:bg-maroon-50"
+                    className="flex min-h-[56px] items-center rounded-md px-3 font-display text-[1.75rem] leading-tight text-maroon-900 transition-colors hover:bg-maroon-50"
                   >
                     {item.label}
                   </Link>
@@ -70,13 +83,21 @@ export function MobileNavDrawer({ tone = 'maroon' }: { tone?: 'maroon' | 'cream'
             </ul>
           </nav>
 
-          <div className="border-t border-maroon-100 px-5 py-6">
-            <p className="text-sm text-muted">{formattedAddress()}</p>
+          {/* Call is the site's one CTA, and on inner pages this menu is now the
+              only place a phone can reach it. It gets a real button, not a link. */}
+          <div
+            className="shrink-0 border-t border-maroon-100 px-5 pt-6"
+            style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
+          >
+            <CallButton full showNumber />
+            <p className="mt-5 text-sm leading-relaxed text-muted">{formattedAddress()}</p>
             <a
-              href={`tel:${SITE.phone.tel}`}
-              className="tnum mt-2 inline-block font-display text-xl text-maroon-900"
+              href={mapsUrl()}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 inline-block text-sm text-maroon-900 underline decoration-maroon-300 underline-offset-4 hover:decoration-brand-500"
             >
-              {SITE.phone.display}
+              Get directions
             </a>
           </div>
         </Dialog.Content>

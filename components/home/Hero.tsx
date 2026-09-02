@@ -88,9 +88,11 @@ export function Hero() {
             same whether you haggle or not.
           </p>
 
-          {/* One action, not two competing ones. */}
+          {/* One action, not two competing ones. Sized md on phones — still a
+              44px touch target, but the lg button was visually heavy at that
+              width — and lg from md: up, where there is room for it. */}
           <div className="mt-10 flex justify-center">
-            <CallButton showNumber />
+            <CallButton showNumber size="md" className="md:h-13 md:px-7 md:text-base" />
           </div>
 
           <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/70">
