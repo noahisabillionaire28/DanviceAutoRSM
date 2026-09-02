@@ -91,7 +91,7 @@ export function Hero() {
               44px touch target, but the lg button was visually heavy at that
               width — and lg from md: up, where there is room for it. */}
           <div className="mt-10 flex justify-center">
-            <CallButton showNumber size="md" className="md:h-13 md:px-7 md:text-base" />
+            <CallButton showNumber size="md" variant="onDark" className="md:h-13 md:px-7 md:text-base" />
           </div>
         </div>
       </Container>

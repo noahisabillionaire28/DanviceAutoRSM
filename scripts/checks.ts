@@ -147,15 +147,20 @@ const pairs: [string, string, string, number][] = [
   ['cream text on deep section', tokenHex('cream.50'), tokenHex('maroon.700'), 4.5],
   ['heading on tinted panel', tokenHex('maroon.900'), tokenHex('cream.100'), 4.5],
 
-  // The one CTA: white fill, maroon-900 label, maroon-400 border. The same
-  // button serves light and dark sections, which is what makes a single CTA
-  // literally consistent rather than approximately so.
-  ['CTA label on the white CTA', tokenHex('maroon.900'), '#ffffff', 4.5],
-  ['white CTA against the darkest section', '#ffffff', tokenHex('maroon.900'), 3.0],
-  // Without a border the CTA has NO perceivable edge on light ground (1.08:1),
-  // so the border carries the whole control boundary — WCAG 1.4.11 wants 3:1.
-  ['CTA border against the page ground', tokenHex('maroon.400'), bg, 3.0],
-  ['CTA border against the tinted band', tokenHex('maroon.400'), tokenHex('cream.100'), 3.0],
+  // The CTA inverts with its ground. On light pages it is a red fill, which
+  // carries its own edge — the white button it replaced was 1.08:1 against the
+  // page and relied entirely on a hairline to be seen at all.
+  ['CTA label on the red CTA', '#ffffff', tokenHex('brand.500'), 4.5],
+  ['CTA label on the red CTA hover', '#ffffff', tokenHex('brand.600'), 4.5],
+  ['red CTA against the white header', tokenHex('brand.500'), '#ffffff', 3.0],
+  ['red CTA against the page ground', tokenHex('brand.500'), bg, 3.0],
+  ['red CTA against the tinted band', tokenHex('brand.500'), tokenHex('cream.100'), 3.0],
+  // On dark grounds it stays white: the hero, and the header over it.
+  ['onDark CTA label on its white fill', tokenHex('maroon.900'), '#ffffff', 4.5],
+  ['onDark CTA against the darkest section', '#ffffff', tokenHex('maroon.900'), 3.0],
+  // The onDark border is still load-bearing, but only over the video: a blank
+  // white frame behind a white button would otherwise leave no edge at all.
+  ['onDark CTA border against a white video frame', tokenHex('maroon.400'), '#ffffff', 3.0],
 ];
 
 for (const [name, fgHex, bgHex, min] of pairs) {
@@ -401,11 +406,14 @@ for (const dead of ['cream', 'maroon', 'outline']) {
   check(`Button no longer defines a '${dead}' variant`,
     !new RegExp(`^\\s*${dead}:`, 'm').test(buttonSrc2));
 }
-check('the one button is white with a maroon label',
-  /bg-white/.test(buttonSrc2) && /text-maroon-900/.test(buttonSrc2));
-check('the button carries its load-bearing border',
-  /border-maroon-400/.test(buttonSrc2),
-  '<- without it the CTA is 1.08:1 against the page and has no visible edge');
+check('the default CTA is a red fill with a white label',
+  /primary:\s*\n?\s*'[^']*bg-brand-500[^']*text-white/.test(buttonSrc2),
+  '<- a white button on the white header or cream page nearly vanishes');
+check('the onDark CTA stays white for dark grounds',
+  /onDark:\s*\n?\s*'[^']*bg-white[^']*text-maroon-900/.test(buttonSrc2));
+check('the onDark CTA keeps its load-bearing border',
+  /onDark:\s*\n?\s*'[^']*border-maroon-400/.test(buttonSrc2),
+  '<- a bright video frame behind a white button leaves it no edge');
 
 const pageFiles2 = readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })
   .filter((f) => f.endsWith('page.tsx'));
@@ -441,14 +449,20 @@ for (const f of componentFiles.concat(pageFiles2.map((p) => `../app/${p}`))) {
     '<- phone CTAs must render CallButton so label, icon and href cannot drift');
 }
 
-// Red is accent-only now: eyebrow rules, focus rings, hover tints. A solid
-// bg-brand-500 fill means a button slipped back to red.
+// onDark is the white button, and it is only safe on a dark ground. Anywhere
+// else it is the white-on-white that prompted this change, so its use is
+// restricted to the hero and the header that sits over the hero.
+const ON_DARK_ALLOWED = ['home/Hero.tsx', 'layout/SiteHeader.tsx', 'ui/Button.tsx', 'ui/CallButton.tsx'];
 for (const f of componentFiles) {
   const src = readFileSync(join(ROOT, 'components', f), 'utf8');
-  const redFill = /className="[^"]*\bbg-brand-500\b(?!\/)/.test(src);
-  check(`${f} has no red-filled button`, !redFill,
-    '<- every button is the white CTA; red is reserved for rules and rings');
+  if (!/onDark/.test(src) || ON_DARK_ALLOWED.includes(f)) continue;
+  check(`${f} does not put the white CTA on a light page`, false,
+    '<- onDark belongs to the hero and the header over it, nothing else');
 }
+check('the dark-ground CTA is used where it should be',
+  /variant="onDark"/.test(readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8')) &&
+    /onDark'\s*:\s*'primary'/.test(readFileSync(join(ROOT, 'components/layout/SiteHeader.tsx'), 'utf8')),
+  '<- the hero CTA and the header CTA over it must stay white');
 
 console.log('\nMobile chrome');
 

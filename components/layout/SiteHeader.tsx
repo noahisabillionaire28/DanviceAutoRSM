@@ -88,7 +88,7 @@ export function SiteHeader() {
         {/* One CTA, and it carries the number — a separate bare phone link beside
             a Call button would be two affordances for the same action. */}
         <div className="hidden items-center md:flex">
-          <CallButton showNumber size="sm" />
+          <CallButton showNumber size="sm" variant={transparent ? 'onDark' : 'primary'} />
         </div>
 
         <MobileNavDrawer tone={transparent ? 'cream' : 'brand'} />

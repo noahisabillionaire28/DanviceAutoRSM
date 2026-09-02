@@ -6,10 +6,10 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 
 ## Design rules
 - Palette from the Danvice badge: deep red (`maroon-*`), warm cream (`cream-*`), signature red (`brand-*`).
-- One CTA site-wide: the white `CallButton`. Every call to action is Call now — never a second competing button.
-- Buttons have exactly one appearance: white fill, `maroon-900` label, `maroon-400` border. The border is required, not decorative: white on cream is 1.08:1 and would have no visible edge.
-- Secondary actions are the `link` variant, never a button. `Button` has only `primary | ghost | link`.
-- `brand-*` red is no longer used on CTAs. It survives only in eyebrow rules, focus rings and the hero divider.
+- One CTA site-wide: the `CallButton`. Every call to action is Call now — never a second competing button.
+- The CTA inverts with its ground, and has exactly two appearances. `primary` (default): `brand-500` fill, white label, no border — the fill is 6.23:1 on white and 5.79:1 on cream, so it carries its own edge. `onDark`: white fill, `maroon-900` label, `maroon-400` border — the border is required there, because a bright video frame behind it would otherwise leave no edge.
+- `onDark` belongs to exactly two places: the hero, and the header while it is transparent over the hero. Anywhere else it is a white button on a light page, which is the thing this rule exists to prevent.
+- Secondary actions are the `link` variant, never a button. `Button` has only `primary | onDark | ghost | link`.
 - Fonts: Fraunces (display) + Inter (body) via next/font. Prices and specs use `tabular-nums`.
 - Shadows are maroon-tinted, never black. Whitespace: `py-20 md:py-28` per section.
 - Mobile-first. Skeletons must be box-model-identical to real content (zero CLS).
