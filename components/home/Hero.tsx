@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { SITE } from '@/lib/site';
-import { formatPrice } from '@/lib/format';
 import { CallButton } from '@/components/ui/CallButton';
 import { Container } from '@/components/ui/Container';
 
@@ -94,16 +93,6 @@ export function Hero() {
           <div className="mt-10 flex justify-center">
             <CallButton showNumber size="md" className="md:h-13 md:px-7 md:text-base" />
           </div>
-
-          <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/70">
-            <span className="tnum">
-              {formatPrice(SITE.priceRange.min)}&ndash;{formatPrice(SITE.priceRange.max)}, every car
-            </span>
-            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/40" />
-            <span>150-point inspection</span>
-            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-white/40" />
-            <span>Open seven days</span>
-          </p>
         </div>
       </Container>
     </section>
