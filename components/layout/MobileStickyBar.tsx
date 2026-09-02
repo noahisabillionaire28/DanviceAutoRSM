@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { SITE } from '@/lib/site';
 
 /**
- * Fixed bottom bar, mobile only. The layout adds matching bottom padding so
- * this never covers the footer, and pb-[env(safe-area-inset-bottom)] keeps the
- * buttons clear of the iOS home indicator.
+ * Fixed bottom bar, mobile only. SiteFooter — the last element in flow —
+ * carries matching bottom padding so this never covers it, and the inline
+ * env(safe-area-inset-bottom) keeps the buttons clear of the home indicator.
+ * Change this bar's height and the footer's pb-[calc(...)] must follow.
  */
 export function MobileStickyBar() {
   return (

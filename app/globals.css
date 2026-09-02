@@ -65,6 +65,66 @@
     content: '';
     @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
   }
+
+  /* Payment-calculator sliders.
+   *
+   * appearance:none removes WebKit's native thumb, and accent-color cannot
+   * bring it back — accent-color only tints a native widget. Without an
+   * explicit ::-webkit-slider-thumb the control renders as a bare track with
+   * no handle: invisible and undraggable on iOS. The track is drawn by the
+   * runnable-track pseudo-element so the input box itself can be 44px tall
+   * for touch while the visible bar stays 6px. */
+  .range-brand {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 44px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .range-brand::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: theme('colors.maroon.100');
+  }
+
+  .range-brand::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    /* centre the 24px thumb on the 6px track */
+    margin-top: -9px;
+    border-radius: 9999px;
+    background: theme('colors.maroon.900');
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgb(54 4 7 / 0.35);
+  }
+
+  .range-brand::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: theme('colors.maroon.100');
+  }
+
+  .range-brand::-moz-range-thumb {
+    height: 24px;
+    width: 24px;
+    border-radius: 9999px;
+    background: theme('colors.maroon.900');
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgb(54 4 7 / 0.35);
+  }
+
+  .range-brand:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid theme('colors.brand.400');
+    outline-offset: 2px;
+  }
+
+  .range-brand:focus-visible::-moz-range-thumb {
+    outline: 2px solid theme('colors.brand.400');
+    outline-offset: 2px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -42,7 +42,7 @@ export function FilterToolbar({
           id="sort"
           value={current.sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="h-10 rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+          className="h-11 rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
         >
           {Object.entries(SORT_LABELS).map(([value, text]) => (
             <option key={value} value={value}>{text}</option>
@@ -53,7 +53,7 @@ export function FilterToolbar({
           <Dialog.Trigger asChild>
             <button
               type="button"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-maroon-200 bg-surface px-3.5 text-sm font-medium text-maroon-900 transition-colors hover:bg-cream-100 lg:hidden"
+              className="inline-flex h-11 items-center gap-2 rounded-md border border-maroon-200 bg-surface px-3.5 text-sm font-medium text-maroon-900 transition-colors hover:bg-cream-100 lg:hidden"
             >
               Filters
               {activeCount > 0 && (
@@ -71,7 +71,7 @@ export function FilterToolbar({
                 <Dialog.Title className="font-display text-lg text-maroon-900">Filters</Dialog.Title>
                 <Dialog.Close
                   aria-label="Close filters"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-md text-maroon-600 hover:bg-maroon-50"
+                  className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-maroon-600 hover:bg-maroon-50"
                 >
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.75" />
@@ -80,7 +80,24 @@ export function FilterToolbar({
               </div>
 
               <div className="flex-1 overflow-y-auto px-5 py-6">
-                <FilterPanel facets={facets} onApply={() => setOpen(false)} />
+                <FilterPanel facets={facets} />
+              </div>
+
+              {/* The sheet covers the results it is filtering, so it needs a way
+                  out that also reports what the filters did. Filters apply live;
+                  this is the deliberate dismiss, and the only one besides the ✕. */}
+              <div
+                className="border-t border-maroon-100 px-5 pt-4"
+                style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
+              >
+                <Dialog.Close asChild>
+                  <button
+                    type="button"
+                    className="inline-flex h-12 w-full items-center justify-center rounded-md bg-brand-500 text-base font-medium text-brand-ink transition-colors active:bg-brand-600"
+                  >
+                    Show {resultCount} {resultCount === 1 ? 'result' : 'results'}
+                  </button>
+                </Dialog.Close>
               </div>
             </Dialog.Content>
           </Dialog.Portal>

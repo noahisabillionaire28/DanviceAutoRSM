@@ -18,11 +18,9 @@ const FUELS = ['gasoline', 'hybrid'] as const;
  */
 export function FilterPanel({
   facets,
-  onApply,
   className,
 }: {
   facets: InventoryFacets;
-  onApply?: () => void;
   className?: string;
 }) {
   const router = useRouter();
@@ -47,6 +45,10 @@ export function FilterPanel({
     }
   }, [urlKey, fromUrl]);
 
+  // Filters commit live, but committing is NOT the same as dismissing. This
+  // used to call onApply() here, which closed the mobile sheet on every single
+  // checkbox — picking a second filter meant reopening it. Closing is now the
+  // deliberate act of the "Show N results" button in FilterToolbar.
   const commit = useCallback(
     (next: VehicleFilters) => {
       setCurrent(next);
@@ -54,10 +56,9 @@ export function FilterPanel({
       lastUrlKey.current = qs;
       startTransition(() => {
         router.push(qs ? `/inventory?${qs}` : '/inventory', { scroll: false });
-        onApply?.();
       });
     },
-    [router, onApply],
+    [router],
   );
 
   function toggle<K extends 'make' | 'body' | 'transmission' | 'drivetrain' | 'fuel'>(
@@ -194,12 +195,12 @@ function Check({
   onChange: () => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-3 rounded-md py-1.5 text-[0.9375rem] text-maroon-700 transition-colors hover:text-maroon-900">
+    <label className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-md py-2.5 text-[0.9375rem] text-maroon-700 transition-colors hover:text-maroon-900">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded-sm border-maroon-300 text-maroon-900 focus:ring-brand-400"
+        className="h-5 w-5 rounded-sm border-maroon-300 text-maroon-900 focus:ring-brand-400"
       />
       <span className="flex-1 capitalize">{text}</span>
       {count !== undefined && <span className="tnum text-xs text-muted">{count}</span>}
@@ -240,7 +241,7 @@ function NumberInput({
       onKeyDown={(e) => {
         if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
       }}
-      className="h-10 w-full rounded-md border border-maroon-200 bg-surface px-3 text-sm text-maroon-900 placeholder:text-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
+      className="h-11 w-full rounded-md border border-maroon-200 bg-surface px-3 text-base text-maroon-900 placeholder:text-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50"
     />
   );
 }

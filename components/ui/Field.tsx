@@ -50,5 +50,8 @@ export function Field({
   );
 }
 
+// text-base is load-bearing, not cosmetic: iOS Safari zooms the viewport on
+// focus for any input under 16px, and the viewport meta sets no maximumScale.
+// Asserted in scripts/checks.ts.
 export const controlClasses =
-  'h-11 w-full rounded-md border border-maroon-200 bg-surface px-3.5 text-[0.9375rem] text-maroon-900 placeholder:text-maroon-300 transition-colors duration-200 hover:border-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20 read-only:bg-cream-100';
+  'h-11 w-full rounded-md border border-maroon-200 bg-surface px-3.5 text-base text-maroon-900 placeholder:text-maroon-300 transition-colors duration-200 hover:border-maroon-300 focus:border-maroon-400 focus:outline-none focus:ring-2 focus:ring-brand-400/50 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20 read-only:bg-cream-100';

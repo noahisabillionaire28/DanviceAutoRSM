@@ -14,7 +14,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto bg-maroon-900 text-cream-50">
       {/* pb-bar clears the fixed mobile Call/Browse bar so it never covers the footer. */}
-      <Container className="py-16 pb-[calc(4.5rem+2rem)] md:py-20 md:pb-20">
+      <Container className="py-16 pb-[calc(4.5rem+2rem+env(safe-area-inset-bottom))] md:py-20 md:pb-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-4">
             <Link href="/" aria-label={`${SITE.name} — home`} className="inline-block">
@@ -32,7 +32,7 @@ export function SiteFooter() {
           </div>
 
           <div className="md:col-span-3">
-            <h2 className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-cream-50/45">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-cream-50/45">
               Visit us
             </h2>
             <address className="mt-4 not-italic text-sm leading-relaxed text-cream-50/75">
@@ -51,7 +51,7 @@ export function SiteFooter() {
           </div>
 
           <div className="md:col-span-3">
-            <h2 className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-cream-50/45">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-cream-50/45">
               Hours
             </h2>
             <dl className="mt-4 space-y-1.5 text-sm text-cream-50/75">
@@ -67,7 +67,7 @@ export function SiteFooter() {
           </div>
 
           <div className="md:col-span-2">
-            <h2 className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-cream-50/45">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-cream-50/45">
               Explore
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
@@ -93,7 +93,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-cream-50/10 pt-8 text-xs leading-relaxed text-cream-50/45 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-cream-50/10 pt-8 text-[0.8125rem] leading-relaxed text-cream-50/45 md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.
           </p>

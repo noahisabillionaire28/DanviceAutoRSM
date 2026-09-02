@@ -114,7 +114,10 @@ const config: Config = {
         'sheet-up': 'sheet-up 320ms cubic-bezier(0.32,0.72,0,1)',
         'dialog-in': 'dialog-in 240ms cubic-bezier(0.16,1,0.3,1)',
       },
-      spacing: { bar: '4.5rem' },
+      // 13 is not in Tailwind's default scale. Button's lg size authored h-13
+      // and it silently emitted no CSS at all, collapsing every size="lg"
+      // button to its line box. Asserted in scripts/checks.ts.
+      spacing: { bar: '4.5rem', 13: '3.25rem' },
       maxWidth: { prose: '68ch' },
     },
   },

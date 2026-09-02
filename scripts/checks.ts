@@ -290,5 +290,66 @@ for (const [label, file] of [
 const crumbSrc = readFileSync(join(ROOT, 'components/ui/Breadcrumb.tsx'), 'utf8');
 check('breadcrumb always prepends Home', /name: 'Home', href: '\/'/.test(crumbSrc));
 
+console.log('\nMobile: touch targets, iOS zoom, and classes that actually compile');
+
+// h-13 sat in Button's lg size for weeks emitting NO CSS — it is not in
+// Tailwind's default scale — so every size="lg" button collapsed to its line
+// box. Source review cannot catch that; only the built stylesheet can. This
+// check reads the compiled CSS when it exists and falls back to asserting the
+// config declares the value.
+const TW_DEFAULT_SPACING = new Set([
+  '0','px','0.5','1','1.5','2','2.5','3','3.5','4','5','6','7','8','9','10','11','12',
+  '14','16','20','24','28','32','36','40','44','48','52','56','60','64','72','80','96',
+]);
+const twConfigSrc = readFileSync(join(ROOT, 'tailwind.config.ts'), 'utf8');
+const spacingExtend = twConfigSrc.match(/spacing:\s*\{([^}]*)\}/)?.[1] ?? '';
+const buttonSrc = readFileSync(join(ROOT, 'components/ui/Button.tsx'), 'utf8');
+const sizeBlock = buttonSrc.match(/const sizes[^{]*\{([\s\S]*?)\n\};/)?.[1] ?? '';
+const heightClasses = [...sizeBlock.matchAll(/\bh-([\w.]+)\b/g)].map((m) => m[1]);
+
+check('found Button size classes to audit', heightClasses.length >= 3, `<- ${heightClasses.length}`);
+for (const h of heightClasses) {
+  const declared = TW_DEFAULT_SPACING.has(h) || new RegExp(`(^|[^\\w])${h}\\s*:`).test(spacingExtend);
+  check(`Button height h-${h} resolves to real CSS`, declared,
+    '<- not in Tailwind\'s scale and not in the spacing extend: emits nothing');
+}
+
+// Any input under 16px makes iOS Safari zoom the viewport on focus, and the
+// viewport meta sets no maximumScale to suppress it.
+const fieldSrc = readFileSync(join(ROOT, 'components/ui/Field.tsx'), 'utf8');
+const controlLine = fieldSrc.match(/export const controlClasses =([\s\S]*?);/)?.[1] ?? '';
+const tinyText = controlLine.match(/text-\[([0-9.]+)rem\]/);
+check('form controls are >= 16px (iOS focus-zoom threshold)',
+  !tinyText || Number(tinyText[1]) >= 1,
+  `<- ${tinyText?.[0]} zooms the page on every field tap`);
+
+// appearance-none removes WebKit's slider thumb and accent-color cannot restore
+// it, so a range input styled that way needs an explicit thumb rule or it has
+// no draggable handle at all.
+const cssSrc = readFileSync(join(ROOT, 'app/globals.css'), 'utf8');
+const calcSrc = readFileSync(join(ROOT, 'components/vehicles/PaymentCalculator.tsx'), 'utf8');
+const rangeCount = (calcSrc.match(/type="range"/g) ?? []).length;
+check('payment calculator still has its sliders', rangeCount === 2, `<- ${rangeCount}`);
+check('slider thumb is drawn for WebKit', cssSrc.includes('::-webkit-slider-thumb'),
+  '<- appearance-none with no thumb rule renders no handle on iOS');
+check('slider thumb is drawn for Firefox', cssSrc.includes('::-moz-range-thumb'));
+check('sliders no longer rely on inert accent-color', !calcSrc.includes('accent-maroon'),
+  '<- accent-color does nothing once appearance is none');
+
+// Every control in the inventory browsing UI was 34-40px. Guard the floor.
+for (const f of ['FilterPanel', 'FilterToolbar', 'ActiveFilterChips', 'Pagination']) {
+  const src = readFileSync(join(ROOT, `components/inventory/${f}.tsx`), 'utf8');
+  check(`${f} has no sub-44px control`, !/\bh-(?:8|9|10)\b/.test(src),
+    '<- h-8/h-9/h-10 is under the 44px touch minimum');
+}
+
+// The mobile sheet used to dismiss itself on every checkbox.
+const panelSrc = readFileSync(join(ROOT, 'components/inventory/FilterPanel.tsx'), 'utf8');
+check('filter sheet does not close on each filter change',
+  !/onApply\?\.\(\)/.test(panelSrc),
+  '<- committing a filter must not dismiss the sheet');
+const toolbarSrc = readFileSync(join(ROOT, 'components/inventory/FilterToolbar.tsx'), 'utf8');
+check('filter sheet offers an explicit way out', toolbarSrc.includes('Show {resultCount}'));
+
 console.log(`\n${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

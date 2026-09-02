@@ -64,7 +64,7 @@ export function PaymentCalculator({
             step={100}
             value={down}
             onChange={(e) => setDown(Number(e.target.value))}
-            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-maroon-100 accent-maroon-900"
+            className="range-brand mt-2"
           />
         </div>
 
@@ -105,7 +105,7 @@ export function PaymentCalculator({
             step={0.1}
             value={apr}
             onChange={(e) => setApr(Number(e.target.value))}
-            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-maroon-100 accent-maroon-900"
+            className="range-brand mt-2"
           />
         </div>
       </div>

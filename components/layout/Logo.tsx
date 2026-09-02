@@ -41,7 +41,7 @@ export function Logo({
           </span>
           <span
             className={cn(
-              'mt-1 text-[0.625rem] font-medium uppercase tracking-[0.18em]',
+              'mt-1 text-[0.6875rem] font-medium uppercase tracking-[0.18em]',
               tone === 'maroon' ? 'text-muted' : 'text-cream-50/60',
             )}
           >

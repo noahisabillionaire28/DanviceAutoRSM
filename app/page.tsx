@@ -66,7 +66,7 @@ export default function HomePage() {
           {PROOF.map((item) => (
             <div key={item.t}>
               <h2 className="font-display text-lg text-maroon-900">{item.t}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{item.b}</p>
+              <p className="mt-2 leading-relaxed text-muted">{item.b}</p>
             </div>
           ))}
         </Container>
