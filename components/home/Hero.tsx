@@ -51,31 +51,33 @@ export function Hero() {
         <source src="/video/danvice-lot.mp4" type="video/mp4" />
       </video>
 
-      {/* Flat scrim guarantees the contrast floor; the gradient then deepens
-          the left side, where the copy sits. */}
+      {/* Flat scrim guarantees the contrast floor (asserted in scripts/checks.ts).
+          The vertical gradient is symmetric rather than left-weighted, so it
+          sits evenly behind centred copy, and deepens the top edge behind the
+          transparent header and the bottom edge into the next section. */}
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-maroon-950/75" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-maroon-950/80 via-maroon-950/35 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-maroon-950/70 via-transparent to-maroon-950/65"
       />
 
-      <Container className="relative py-28 md:py-36">
-        <div className="max-w-2xl">
+      <Container className="relative py-24 text-center md:py-28">
+        <div className="mx-auto max-w-3xl">
           <p className="text-eyebrow uppercase text-cream-50/70">
             {SITE.address.city}
           </p>
-          <div aria-hidden="true" className="mt-4 h-px w-10 bg-brand-400" />
+          <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-brand-400" />
 
           <h1 className="mt-8 text-balance text-display-xl text-cream-50">
             Honest cars for real budgets.
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream-50/85">
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-cream-50/85">
             Every car on our lot is inspected before it&rsquo;s listed and priced the
             same whether you haggle or not.
           </p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             <ButtonLink href="/inventory" variant="cream" size="lg">
               Browse the lot
             </ButtonLink>
@@ -89,7 +91,7 @@ export function Hero() {
             </ButtonLink>
           </div>
 
-          <p className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-cream-50/70">
+          <p className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-cream-50/70">
             <span className="tnum">
               {formatPrice(SITE.priceRange.min)}&ndash;{formatPrice(SITE.priceRange.max)}, every car
             </span>
