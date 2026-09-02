@@ -66,6 +66,36 @@
     @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
   }
 
+  /* Hero veil.
+   *
+   * The header used to be an opaque maroon-900 bar sitting on top of the video,
+   * and the two never matched: the scrim composited the footage to a washed
+   * grey-brown, so a hard horizontal seam ran across the fold. The header is
+   * now transparent over the hero and this veil supplies the colour instead —
+   * solid brand red through the header's height, then fading into the tinted
+   * footage. Bar and video become one continuous field, so there is no edge
+   * left to mismatch.
+   *
+   * 5.5rem holds the solid band just past the 5rem (md:h-20) header. */
+  .hero-veil {
+    background-image: linear-gradient(
+      to bottom,
+      theme('colors.maroon.900') 0,
+      theme('colors.maroon.900') 5.5rem,
+      rgb(54 4 7 / 0.62) 13rem,
+      rgb(54 4 7 / 0) 58%
+    );
+  }
+
+  /* Settles the hero into the section below it. */
+  .hero-foot {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(54 4 7 / 0) 72%,
+      rgb(34 2 5 / 0.65) 100%
+    );
+  }
+
   /* Payment-calculator sliders.
    *
    * appearance:none removes WebKit's native thumb, and accent-color cannot

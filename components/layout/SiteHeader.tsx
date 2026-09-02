@@ -42,8 +42,12 @@ export function SiteHeader() {
     <header
       className={cn(
         'sticky top-0 z-40 transition-colors duration-300 ease-brand',
+        // Over the hero the bar has no background of its own: the hero's veil
+        // supplies the red and runs on past it, so there is no edge where two
+        // slightly different reds can meet. The border goes too — it was
+        // drawing a literal line across the seam.
         transparent
-          ? 'border-b border-white/10 bg-maroon-900'
+          ? 'bg-transparent'
           : 'border-b border-maroon-100/80 bg-white',
       )}
     >

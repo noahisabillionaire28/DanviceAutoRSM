@@ -227,8 +227,10 @@ function compositeOver(scrim: string, alpha: number, backdrop: string): string {
 
 // Worst case is a blank white video frame. If the copy stays readable against
 // that, it stays readable against every frame.
-const SCRIM_ALPHA = 0.75; // keep in sync with bg-maroon-950/75 in Hero.tsx
-const worstCase = compositeOver(tokenHex('maroon.950'), SCRIM_ALPHA, '#ffffff');
+const SCRIM_ALPHA = 0.80; // keep in sync with bg-maroon-900/80 in Hero.tsx
+// maroon-900, not maroon-950: the near-black 950 desaturated the footage to a
+// grey-brown that could never match the brand red of the bar above it.
+const worstCase = compositeOver(tokenHex('maroon.900'), SCRIM_ALPHA, '#ffffff');
 
 // The hero copy is pure white, not cream-50: it sits next to the white nav bar
 // at the top of the page, and warm off-white reads dingy beside it.
@@ -251,12 +253,25 @@ console.log('\nScroll-aware header (two inverted states)');
 // both need to clear AA, and the classes are read back out of the component so
 // a restyle cannot quietly outrun these numbers.
 const headerSrc = readFileSync(join(ROOT, 'components/layout/SiteHeader.tsx'), 'utf8');
-check('header top state uses the hero background', headerSrc.includes('bg-maroon-900'));
+const heroFile = readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8');
+const cssFile = readFileSync(join(ROOT, 'app/globals.css'), 'utf8');
+
+// Over the hero the bar has NO background: an opaque bar could never match the
+// scrimmed video beneath it, which is what put a seam across the fold. The
+// hero's veil supplies the colour and runs on past the bar instead.
+check('header is transparent over the hero', /transparent\s*\n?\s*\?\s*'bg-transparent'/.test(headerSrc),
+  '<- an opaque bar reintroduces the seam');
+check('header draws no rule across the seam', !headerSrc.includes('border-white/10'));
+check('the hero veil supplies the colour behind it', cssFile.includes('.hero-veil'));
+check('the hero runs up under the header', /-mt-16[\s\S]*md:-mt-20/.test(heroFile),
+  '<- without the pull-up the video starts below the bar again');
 check('header scrolled state is white', headerSrc.includes('bg-white'));
 check('header scrolled links are brand red', headerSrc.includes('text-brand-600'));
 
+// The veil is solid maroon-900 through the header's height, so that is
+// literally what sits behind the nav labels at rest.
 const navTop = contrast('#ffffff', tokenHex('maroon.900'));
-check(`nav at top: white on maroon-900 = ${navTop.toFixed(2)}:1`, navTop >= 4.5);
+check(`nav at top: white on the hero veil = ${navTop.toFixed(2)}:1`, navTop >= 4.5);
 
 const navScrolled = contrast(tokenHex('brand.600'), '#ffffff');
 check(`nav after scroll: brand-600 on white = ${navScrolled.toFixed(2)}:1`, navScrolled >= 4.5);

@@ -7,13 +7,13 @@ import { CallButton } from '@/components/ui/CallButton';
 import { Container } from '@/components/ui/Container';
 
 /**
- * Full-bleed looping video behind the hero, in the style of lucrosai.com:
- * video fills the section, a dark scrim sits over it, and the copy is
- * left-aligned on top with a single primary CTA.
+ * Full-bleed looping video behind the hero: the footage runs from the very top
+ * of the page, up behind a transparent header, with centred copy and a single
+ * CTA over it.
  *
  * The scrim is doing real work, not decoration. Text sits over moving footage
  * whose brightness we do not control, so the worst case is a blank-white
- * frame. At 75% maroon-950 the composite floor is ~9.0:1 against white text
+ * frame. At 80% maroon-900 the composite floor is 10.18:1 against white text
  * even then — asserted in scripts/checks.ts so lowering the opacity fails the
  * build rather than quietly making the headline unreadable.
  */
@@ -37,7 +37,11 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative isolate flex min-h-[92svh] items-center overflow-hidden bg-maroon-900 text-white">
+    // The negative top margin pulls the hero up under the transparent header —
+    // h-16 mobile, md:h-20 desktop — so the footage runs behind the nav rather
+    // than starting beneath it. The Container adds the same amount back as top
+    // padding so the copy stays optically centred.
+    <section className="relative isolate -mt-16 flex min-h-[92svh] items-center overflow-hidden bg-maroon-900 text-white md:-mt-20">
       <video
         ref={videoRef}
         className="absolute inset-0 -z-20 h-full w-full object-cover"
@@ -52,16 +56,18 @@ export function Hero() {
       </video>
 
       {/* Flat scrim guarantees the contrast floor (asserted in scripts/checks.ts).
-          The vertical gradient is symmetric rather than left-weighted, so it
-          sits evenly behind centred copy, and deepens the top edge behind the
-          transparent header and the bottom edge into the next section. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-maroon-950/75" />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-maroon-950/70 via-transparent to-maroon-950/65"
-      />
+          It is maroon-900 rather than maroon-950: the near-black 950 desaturated
+          the footage to grey-brown, which is what stopped it matching the brand
+          red above it. 900 tints the video red instead, and at 80% the worst
+          case — a blank white frame — still gives white copy 10.18:1. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-maroon-900/80" />
 
-      <Container className="relative py-24 text-center md:py-28">
+      {/* Supplies the colour behind the now-transparent header and fades it into
+          the footage, so the bar and the video are one field with no seam. */}
+      <div aria-hidden="true" className="hero-veil absolute inset-x-0 top-0 -z-10 h-full" />
+      <div aria-hidden="true" className="hero-foot absolute inset-0 -z-10" />
+
+      <Container className="relative pb-24 pt-40 text-center md:pb-28 md:pt-48">
         <div className="mx-auto max-w-3xl">
           <p className="text-eyebrow uppercase text-white/70">
             {SITE.address.city}
