@@ -51,7 +51,7 @@ export function LeadFormModal({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-blue-950/50 backdrop-blur-sm" />
         <Dialog.Content
-          className="fixed inset-x-0 bottom-0 z-50 max-h-[92dvh] animate-sheet-up overflow-y-auto rounded-t-2xl bg-neutral-50 p-6 shadow-modal sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(34rem,92vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:animate-dialog-in sm:rounded-xl sm:p-8"
+          className="fixed inset-x-0 bottom-0 z-50 max-h-[92dvh] animate-sheet-up overflow-y-auto rounded-t-card bg-neutral-50 p-6 shadow-modal sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(34rem,92vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:animate-dialog-in sm:rounded-card sm:p-8"
         >
           <div className="mb-6 pr-8">
             <Dialog.Title className="font-display text-2xl text-blue-900">

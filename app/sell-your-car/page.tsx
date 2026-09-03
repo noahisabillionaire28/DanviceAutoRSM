@@ -58,8 +58,8 @@ export default function SellYourCarPage() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
-              <h2 className="font-display text-2xl text-blue-900">Tell us about your car</h2>
+            <div className="rounded-card bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
+              <h2 className="font-display text-subhead text-blue-900">Tell us about your car</h2>
               <p className="mt-2 text-muted">
                 The more you tell us, the closer our first number will be.
               </p>

@@ -13,7 +13,7 @@ export default function InventoryLoading() {
         </Container>
       </section>
 
-      <Container className="py-10 md:py-14">
+      <Container className="py-14 md:py-20">
         <div className="lg:grid lg:grid-cols-12 lg:gap-12">
           <aside className="hidden lg:col-span-3 lg:block">
             <div className="flex flex-col gap-8">

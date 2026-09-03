@@ -12,8 +12,8 @@ export function VehicleGrid({
 }) {
   if (!vehicles.length) {
     return (
-      <div className="rounded-lg border border-dashed border-blue-200 bg-surface/60 px-6 py-20 text-center">
-        <h3 className="font-display text-xl text-blue-900">No matches on the lot</h3>
+      <div className="rounded-card border border-dashed border-blue-200 bg-surface/60 px-6 py-20 text-center">
+        <h3 className="font-display text-subhead text-blue-900">No matches on the lot</h3>
         <p className="mx-auto mt-2 max-w-sm text-muted">
           Nothing fits those filters right now. Try widening your price range, or
           clear the filters to see everything we have.

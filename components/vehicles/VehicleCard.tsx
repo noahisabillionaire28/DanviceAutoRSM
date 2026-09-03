@@ -21,7 +21,7 @@ export function VehicleCard({
   return (
     <article
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-lg bg-surface shadow-card ring-1 ring-blue-100/70 transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:shadow-card-hover',
+        'group relative flex flex-col overflow-hidden rounded-card bg-surface shadow-card ring-1 ring-blue-100/70 transition-all duration-300 ease-brand hover:-translate-y-0.5 hover:shadow-card-hover',
         className,
       )}
     >
@@ -41,7 +41,7 @@ export function VehicleCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg leading-snug text-blue-900">
+        <h3 className="font-display text-card-title text-blue-900">
           <Link href={`/inventory/${vehicle.slug}`} className="after:absolute after:inset-0">
             {title}
           </Link>

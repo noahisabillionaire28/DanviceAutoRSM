@@ -42,14 +42,12 @@ const config: Config = {
           100: '#EFF2F6',
           200: '#E2E7EE',
           300: '#CBD3DF',
-          400: '#A9B4C6',
         },
         // 500 is the logo orange exactly and stays the brand accent — rules,
         // eyebrows on the dark field, the logo itself. The CTA lives lower down
         // the ramp: its label is white, and white does not clear AA until the
         // fill reaches 700 (5.05:1). 500 with a white label is 2.74:1.
         orange: {
-          300: '#F8B67F',
           400: '#F4954A',
           500: '#F07D22',
           600: '#D2620F',
@@ -62,7 +60,6 @@ const config: Config = {
 
         background: 'rgb(var(--bg) / <alpha-value>)',
         surface: 'rgb(var(--surface) / <alpha-value>)',
-        'surface-raised': 'rgb(var(--surface-raised) / <alpha-value>)',
         foreground: 'rgb(var(--fg) / <alpha-value>)',
         muted: 'rgb(var(--fg-muted) / <alpha-value>)',
         line: 'rgb(var(--line) / <alpha-value>)',
@@ -77,6 +74,17 @@ const config: Config = {
         'display-xl': ['clamp(2.75rem,6vw,4.5rem)', { lineHeight: '0.98', letterSpacing: '-0.025em', fontWeight: '600' }],
         'display-lg': ['clamp(2.25rem,4.5vw,3.25rem)', { lineHeight: '1.04', letterSpacing: '-0.02em', fontWeight: '600' }],
         'display-md': ['clamp(1.75rem,3vw,2.25rem)', { lineHeight: '1.12', letterSpacing: '-0.015em', fontWeight: '600' }],
+        // The two heading tiers below the display sizes. They exist because
+        // Tailwind's own text-lg/xl/2xl carry no font-weight: every heading
+        // using them inherited body 400 and read as prose, while the display
+        // sizes above are 600 — so the hierarchy flattened everywhere except
+        // the top of a page. Carrying the weight in the token is what stops
+        // that recurring; scripts/checks.ts asserts headings use these.
+        //
+        //   subhead    a titled block that owns a chunk of a page
+        //   card-title a repeated grid item, or a widget title inside a card
+        subhead: ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '600' }],
+        'card-title': ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.005em', fontWeight: '600' }],
         eyebrow: ['0.75rem', { lineHeight: '1', letterSpacing: '0.16em', fontWeight: '600' }],
         lede: ['1.125rem', { lineHeight: '1.6' }],
       },
@@ -84,17 +92,17 @@ const config: Config = {
         sm: '6px',
         DEFAULT: '8px',
         md: '10px',
-        lg: '14px',
-        xl: '20px',
-        '2xl': '28px',
-        '3xl': '36px',
+        // Every card, panel, modal and framed image rounds at `card`. Cards
+        // used to round at 14/20/28px depending on which page they sat on,
+        // which reads as three different component families. Two steps is the
+        // whole scale: `md` for controls, `card` for surfaces.
+        card: '16px',
       },
       boxShadow: {
         // Navy-tinted, never black — the biggest premium-vs-template tell.
         xs: '0 1px 2px 0 rgb(18 37 58 / 0.05)',
         card: '0 1px 2px rgb(18 37 58 / 0.05), 0 4px 12px -2px rgb(18 37 58 / 0.07)',
         'card-hover': '0 2px 4px rgb(18 37 58 / 0.06), 0 12px 28px -6px rgb(18 37 58 / 0.14)',
-        raised: '0 8px 24px -8px rgb(18 37 58 / 0.16)',
         modal: '0 24px 64px -16px rgb(11 24 38 / 0.35)',
       },
       transitionTimingFunction: {

@@ -35,11 +35,11 @@ export function PaymentCalculator({
   return (
     <div
       className={cn(
-        variant === 'card' && 'rounded-xl bg-surface p-6 shadow-card ring-1 ring-blue-100/70',
+        variant === 'card' && 'rounded-card bg-surface p-6 shadow-card ring-1 ring-blue-100/70',
         className,
       )}
     >
-      <h3 className="font-display text-lg text-blue-900">Estimate your payment</h3>
+      <h3 className="font-display text-card-title text-blue-900">Estimate your payment</h3>
 
       <div className="mt-5 flex items-baseline gap-2">
         <span className="tnum font-display text-4xl text-blue-900">

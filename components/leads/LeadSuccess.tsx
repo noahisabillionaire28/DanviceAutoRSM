@@ -35,7 +35,7 @@ export function LeadSuccess({
         </svg>
       </div>
 
-      <h3 className="mt-5 font-display text-2xl text-blue-900">
+      <h3 className="mt-5 font-display text-subhead text-blue-900">
         Thanks, {firstName}.
       </h3>
       <p className="mt-2 max-w-sm text-muted">

@@ -447,6 +447,75 @@ check('the share image is generated from the logo file, not a copy of its paths'
 check('the logo is not paired with a duplicate HTML wordmark',
   !/Danvice Auto<\/span>/.test(logoSrc));
 
+console.log('\nOne design system, not seven similar pages');
+
+// Every rule below is one the codebase already had and quietly drifted from,
+// which is exactly why each needs an assertion rather than a comment.
+
+const cfg = readFileSync(join(ROOT, 'tailwind.config.ts'), 'utf8');
+const tsxFiles: [string, string][] = [
+  ...readdirSync(join(ROOT, 'app'), { recursive: true, encoding: 'utf8' })
+    .filter((f) => f.endsWith('.tsx'))
+    .map((f) => [`app/${f}`, readFileSync(join(ROOT, 'app', f), 'utf8')] as [string, string]),
+  ...readdirSync(join(ROOT, 'components'), { recursive: true, encoding: 'utf8' })
+    .filter((f) => f.endsWith('.tsx'))
+    .map((f) => [`components/${f}`, readFileSync(join(ROOT, 'components', f), 'utf8')] as [string, string]),
+];
+
+// Tailwind's own text-lg/xl/2xl carry no font-weight, so a heading set in one
+// inherits body 400 and stops reading as a heading — while display-* sit at
+// 600. That mismatch flattened the hierarchy on every page below the title.
+for (const token of ['subhead', 'card-title']) {
+  const m = cfg.match(new RegExp(`'?${token}'?:\\s*\\[[^\\]]*\\]`));
+  check(`the ${token} heading token carries its own weight`,
+    !!m && /fontWeight:\s*'600'/.test(m[0]),
+    '<- without it the heading renders at body weight');
+}
+
+const SANCTIONED_HEADING = /text-(display-(xl|lg|md)|subhead|card-title|xs)\b/;
+for (const [name, src] of tsxFiles) {
+  for (const tag of src.match(/<h[234][^>]*>/g) ?? []) {
+    if (tag.includes('sr-only')) continue;
+    check(`${name}: heading uses a sanctioned size token`,
+      SANCTIONED_HEADING.test(tag),
+      `<- ${tag.slice(0, 72)} — bare text-lg/xl/2xl has no weight`);
+  }
+}
+
+// Cards used to round at 14/20/28px depending on the page, which reads as
+// three different component families. One surface radius, one control radius.
+for (const [name, src] of tsxFiles) {
+  check(`${name}: no off-scale radius`,
+    !/\brounded-(lg|xl|2xl|3xl)\b/.test(src),
+    '<- card surfaces use rounded-card; controls use rounded-md');
+}
+
+// Five pages open with the same tinted band; financing used to open at the
+// full section rhythm instead, so it read as a different template.
+const introBands = ['app/about/page.tsx', 'app/contact/page.tsx',
+  'app/financing/page.tsx', 'app/sell-your-car/page.tsx'];
+for (const f of introBands) {
+  check(`${f}: intro band uses the shared rhythm`,
+    readFileSync(join(ROOT, f), 'utf8').includes('py-14 text-center md:py-20'),
+    '<- the page intro band is py-14 md:py-20 everywhere');
+}
+
+// A skeleton whose box differs from the real content is a layout jump on every
+// load. These two pairs drifted apart once already.
+const clsPairs: [string, string][] = [
+  ['app/inventory/page.tsx', 'app/inventory/loading.tsx'],
+  ['app/inventory/[slug]/page.tsx', 'app/inventory/[slug]/loading.tsx'],
+];
+for (const [real, skel] of clsPairs) {
+  const pad = (f: string) =>
+    (readFileSync(join(ROOT, f), 'utf8').match(/<Container className="([^"]*p[bty]-[^"]*)"/g) ?? [])
+      .map((m) => (m.match(/\b(p[bty]?-[\w.[\]]+|md:p[bty]?-[\w.[\]]+)/g) ?? []).sort().join(' '));
+  const a = pad(real), b = pad(skel);
+  check(`${skel} padding matches its real page`,
+    b.every((box) => a.includes(box)),
+    `<- skeleton ${JSON.stringify(b)} vs page ${JSON.stringify(a)} — this is a visible jump`);
+}
+
 console.log('\nOne CTA, everywhere');
 
 // The site previously carried eight CTA labels across five button variants.

@@ -65,7 +65,7 @@ export default function HomePage() {
         <Container className="grid gap-8 py-16 md:grid-cols-3 md:gap-12 md:py-20">
           {PROOF.map((item) => (
             <div key={item.t}>
-              <h2 className="font-display text-lg text-blue-900">{item.t}</h2>
+              <h2 className="font-display text-card-title text-blue-900">{item.t}</h2>
               <p className="mt-2 leading-relaxed text-muted">{item.b}</p>
             </div>
           ))}
@@ -77,7 +77,7 @@ export default function HomePage() {
       {/* The second conversion path, reduced to one claim and one action. */}
       <section className="py-20 md:py-28">
         <Container>
-          <div className="rounded-2xl bg-blue-900 px-8 py-14 text-center text-neutral-50 md:px-14 md:py-20">
+          <div className="rounded-card bg-blue-900 px-8 py-14 text-center text-neutral-50 md:px-14 md:py-20">
             <p className="text-eyebrow uppercase text-neutral-50/60">Financing</p>
             <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-orange-400" />
 

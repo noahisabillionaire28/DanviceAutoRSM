@@ -142,14 +142,14 @@ export default async function VehicleDetailPage({
 
         <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            <h2 className="font-display text-2xl text-blue-900">Specifications</h2>
+            <h2 className="font-display text-subhead text-blue-900">Specifications</h2>
             <div className="mt-6">
               <VehicleSpecs vehicle={vehicle} />
             </div>
 
             {vehicle.features.length > 0 && (
               <>
-                <h2 className="mt-12 font-display text-2xl text-blue-900">Features</h2>
+                <h2 className="mt-12 font-display text-subhead text-blue-900">Features</h2>
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {vehicle.features.map((f) => (
                     <li key={f}>
@@ -184,7 +184,7 @@ export default async function VehicleDetailPage({
 
         {similar.length > 0 && (
           <section className="mt-20 border-t border-blue-100 pt-16">
-            <h2 className="font-display text-2xl text-blue-900">Similar cars on the lot</h2>
+            <h2 className="font-display text-subhead text-blue-900">Similar cars on the lot</h2>
             <div className="mt-8">
               <VehicleGrid vehicles={similar} />
             </div>

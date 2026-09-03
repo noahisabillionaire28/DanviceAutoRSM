@@ -72,8 +72,8 @@ export default function AboutPage() {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-xl bg-blue-900 p-8 text-neutral-50">
-              <h2 className="font-display text-xl">Where we are</h2>
+            <div className="rounded-card bg-blue-900 p-8 text-neutral-50">
+              <h2 className="font-display text-card-title">Where we are</h2>
               <address className="mt-4 not-italic leading-relaxed text-neutral-50/75">
                 {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
                 <br />

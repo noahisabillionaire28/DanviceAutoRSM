@@ -27,7 +27,7 @@ export function VehicleGallery({
         sizes="(min-width:1024px) 60vw, 100vw"
         quality={85}
         placeholderLabel={placeholderLabel}
-        className="rounded-xl"
+        className="rounded-card"
         imageClassName="p-5 md:p-8"
       />
 

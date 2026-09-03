@@ -57,7 +57,7 @@ export function SiteHeader() {
         // drawing a literal line across the seam.
         transparent
           ? 'bg-transparent'
-          : 'border-b border-neutral-200 bg-white',
+          : 'border-b border-line bg-white',
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6 md:h-20">

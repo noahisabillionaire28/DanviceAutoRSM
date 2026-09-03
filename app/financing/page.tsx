@@ -41,7 +41,7 @@ export default function FinancingPage() {
       <Breadcrumb trail={TRAIL} />
 
       <section className="bg-blue-900 text-neutral-50">
-        <Container className="py-20 text-center md:py-28">
+        <Container className="py-14 text-center md:py-20">
           <div className="mx-auto max-w-2xl">
             <p className="text-eyebrow uppercase text-orange-400">Financing</p>
             <div aria-hidden="true" className="mx-auto mt-3 h-px w-10 bg-orange-500" />
@@ -79,7 +79,7 @@ export default function FinancingPage() {
             {STEPS.map((s) => (
               <li key={s.n}>
                 <span className="tnum font-display text-4xl text-orange-600/40">{s.n}</span>
-                <h3 className="mt-4 font-display text-xl text-blue-900">{s.t}</h3>
+                <h3 className="mt-4 font-display text-card-title text-blue-900">{s.t}</h3>
                 <p className="mt-3 leading-relaxed text-muted">{s.b}</p>
               </li>
             ))}

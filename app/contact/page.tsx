@@ -44,7 +44,7 @@ export default function ContactPage() {
       <Container className="py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <h2 className="font-display text-2xl text-blue-900">Visit the lot</h2>
+            <h2 className="font-display text-subhead text-blue-900">Visit the lot</h2>
             <address className="mt-5 not-italic text-lg leading-relaxed text-blue-800">
               {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
               <br />
@@ -64,7 +64,7 @@ export default function ContactPage() {
 
             {/* A walk-in lot needs a map, not just an address. Uses the
                 keyless Maps embed so there is no API key to leak or expire. */}
-            <div className="mt-8 overflow-hidden rounded-xl shadow-card ring-1 ring-blue-100/70">
+            <div className="mt-8 overflow-hidden rounded-card shadow-card ring-1 ring-blue-100/70">
               <iframe
                 title={`Map to ${SITE.name}`}
                 src={`https://www.google.com/maps?q=${encodeURIComponent(
@@ -76,7 +76,7 @@ export default function ContactPage() {
               />
             </div>
 
-            <h2 className="mt-12 font-display text-2xl text-blue-900">Hours</h2>
+            <h2 className="mt-12 font-display text-subhead text-blue-900">Hours</h2>
             <dl className="mt-5 divide-y divide-blue-100 border-y border-blue-100">
               {SITE.hours.map((h) => (
                 <div key={h.day} className="flex items-center justify-between py-3">
@@ -90,8 +90,8 @@ export default function ContactPage() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-xl bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
-              <h2 className="font-display text-2xl text-blue-900">Send us a message</h2>
+            <div className="rounded-card bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
+              <h2 className="font-display text-subhead text-blue-900">Send us a message</h2>
               <p className="mt-2 text-muted">
                 We answer these ourselves, usually within a business hour.
               </p>

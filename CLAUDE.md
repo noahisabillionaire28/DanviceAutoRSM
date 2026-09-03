@@ -18,8 +18,12 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 - `app/icon.svg` is the same mark cropped to the two swooshes; the wordmark is illegible at 16px. `app/opengraph-image.tsx` reads the logo file at build time rather than copying its paths, so the share image cannot drift from the logo.
 - The hero video is the hero. Losing it leaves a flat navy panel that still passes every contrast check, so `npm run check` asserts the `<video>` and its source directly.
 - Fonts: Fraunces (display) + Inter (body) via next/font. Prices and specs use `tabular-nums`.
-- Shadows are navy-tinted, never black. Whitespace: `py-20 md:py-28` per section.
-- Mobile-first. Skeletons must be box-model-identical to real content (zero CLS).
+- **Headings use a size token, never a bare `text-lg/xl/2xl`.** Tailwind's own sizes carry no `font-weight`, so a heading set in one silently inherits body 400 while `display-*` sit at 600 — that mismatch flattened the hierarchy on every page. Four tiers: `text-display-*` (page titles), `text-subhead` (a titled block owning a chunk of a page), `text-card-title` (a repeated grid item or in-card widget title), `text-eyebrow`. All carry their own weight. `npm run check` fails on a bare size.
+- Three section rhythms, and only three: page intro band `py-14 text-center md:py-20`, main content section `py-20 md:py-28`, compressed band `py-16 md:py-20`. Pick the slot; don't invent a value.
+- Two radii: `rounded-md` (10px) for controls, `rounded-card` (16px) for every card, panel, modal and framed image. Cards used to round at 14/20/28 depending on the page.
+- One divider colour: the `line` token (`blue-100`), applied globally by `* { @apply border-line }`. Form inputs deliberately sit one step stronger (`blue-200`, → 300/400 on hover/focus) — that is a state ramp, not drift.
+- Shadows are navy-tinted, never black.
+- Mobile-first. Skeletons must be box-model-identical to real content (zero CLS) — `npm run check` diffs each skeleton's `Container` padding against its real page, because that pair drifted apart once and the detail page visibly jumped.
 - Keep it restrained: no starbursts, no checkered flags, no clip art, no second accent colour.
 - `npm run check` asserts WCAG AA on every real text/background pair. Re-run it after any palette edit.
 
