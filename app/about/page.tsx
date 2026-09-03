@@ -65,8 +65,8 @@ export default function AboutPage() {
                 becomes your problem in eight months.
               </p>
               <p>
-                We are open seven days a week because people shop for cars around
-                their jobs, not around ours.
+                We are open six days a week, and the same people who sell you the
+                car are the ones who service it afterwards.
               </p>
             </div>
           </div>

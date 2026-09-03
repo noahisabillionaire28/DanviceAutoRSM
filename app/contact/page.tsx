@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE, formattedAddress, mapsUrl } from '@/lib/site';
+import { SITE, formattedAddress, hoursLabel, mapsUrl } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { ButtonLink } from '@/components/ui/Button';
 import { LeadForm } from '@/components/leads/LeadForm';
@@ -11,15 +11,8 @@ export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: `Visit ${SITE.name} at ${formattedAddress()} or call ${SITE.phone.display}. Open seven days a week.`,
+  description: `Visit ${SITE.name} at ${formattedAddress()} or call ${SITE.phone.display}. Open Monday to Saturday.`,
 };
-
-function formatHour(t: string) {
-  const [h, m] = t.split(':').map(Number);
-  const period = h >= 12 ? 'pm' : 'am';
-  const hour = h % 12 === 0 ? 12 : h % 12;
-  return m === 0 ? `${hour}${period}` : `${hour}:${String(m).padStart(2, '0')}${period}`;
-}
 
 // One array drives both the visible breadcrumb and its structured data.
 const TRAIL = [{ name: 'Contact', href: '/contact' }];
@@ -35,8 +28,8 @@ export default function ContactPage() {
           <p className="eyebrow eyebrow-rule [&::after]:mx-auto">Contact</p>
           <h1 className="mx-auto mt-5 max-w-2xl text-balance text-display-lg text-blue-900">Come by, or just call</h1>
           <p className="mx-auto mt-4 max-w-prose text-lede text-muted">
-            We are on Santa Margarita Parkway, open seven days a week. No appointment
-            needed to look at anything on the lot.
+            We are on Santa Margarita Parkway, Monday through Saturday. No
+            appointment needed to look at anything on the lot.
           </p>
         </Container>
       </section>
@@ -57,6 +50,43 @@ export default function ContactPage() {
             >
               {SITE.phone.display}
             </a>
+            <p className="mt-1 text-sm text-muted">Sales</p>
+
+            {/* Service is a separate department on a separate line. Plain text
+                links, not buttons — the one CTA on the site stays the sales
+                CallButton, and scripts/checks.ts enforces that. */}
+            <a
+              href={`tel:${SITE.servicePhone.tel}`}
+              className="tnum mt-5 inline-block font-display text-2xl text-blue-900 transition-colors hover:text-blue-600"
+            >
+              {SITE.servicePhone.display}
+            </a>
+            <p className="mt-1 text-sm text-muted">Service department</p>
+
+            <dl className="mt-6 space-y-1 text-sm">
+              <div className="flex gap-2">
+                <dt className="text-muted">Sales</dt>
+                <dd>
+                  <a
+                    href={`mailto:${SITE.email.general}`}
+                    className="text-blue-700 underline decoration-blue-300 underline-offset-4 hover:decoration-orange-500"
+                  >
+                    {SITE.email.general}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="text-muted">Finance</dt>
+                <dd>
+                  <a
+                    href={`mailto:${SITE.email.finance}`}
+                    className="text-blue-700 underline decoration-blue-300 underline-offset-4 hover:decoration-orange-500"
+                  >
+                    {SITE.email.finance}
+                  </a>
+                </dd>
+              </div>
+            </dl>
 
             <div className="mt-6">
               <ButtonLink href={mapsUrl()}>Get directions</ButtonLink>
@@ -81,9 +111,7 @@ export default function ContactPage() {
               {SITE.hours.map((h) => (
                 <div key={h.day} className="flex items-center justify-between py-3">
                   <dt className="text-blue-700">{h.day}</dt>
-                  <dd className="tnum text-blue-900">
-                    {formatHour(h.open)} – {formatHour(h.close)}
-                  </dd>
+                  <dd className="tnum text-blue-900">{hoursLabel(h)}</dd>
                 </div>
               ))}
             </dl>

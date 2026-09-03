@@ -1,14 +1,7 @@
 import Link from 'next/link';
-import { SITE, formattedAddress, mapsUrl } from '@/lib/site';
+import { SITE, formattedAddress, hoursLabel, mapsUrl } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { Logo } from './Logo';
-
-function formatHour(t: string) {
-  const [h, m] = t.split(':').map(Number);
-  const period = h >= 12 ? 'pm' : 'am';
-  const hour = h % 12 === 0 ? 12 : h % 12;
-  return m === 0 ? `${hour}${period}` : `${hour}:${String(m).padStart(2, '0')}${period}`;
-}
 
 export function SiteFooter() {
   return (
@@ -57,9 +50,7 @@ export function SiteFooter() {
               {SITE.hours.map((h) => (
                 <div key={h.day} className="flex justify-between gap-4">
                   <dt>{h.day.slice(0, 3)}</dt>
-                  <dd className="tnum">
-                    {formatHour(h.open)} – {formatHour(h.close)}
-                  </dd>
+                  <dd className="tnum">{hoursLabel(h)}</dd>
                 </div>
               ))}
             </dl>

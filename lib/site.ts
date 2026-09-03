@@ -6,15 +6,51 @@
 export const SITE = {
   name: 'Danvice Auto of RSM',
   shortName: 'Danvice Auto',
-  tagline: 'Honest cars for real budgets in South Orange County.',
+  tagline: 'Used car sales and service in Rancho Santa Margarita.',
   description:
-    'Quality used cars from $5,000 to $15,000 in Rancho Santa Margarita. Straightforward pricing, financing for first-time buyers, and every vehicle inspected before it hits the lot.',
+    'Used car sales and full auto service in Rancho Santa Margarita. German and Japanese specialists — Mercedes-Benz, BMW, Audi, Lexus, Toyota and more. Financing for first-time and no-credit buyers.',
 
+  /**
+   * Sales is the site-wide CTA number. The demo previously carried
+   * (949) 304-6442, which matches no public listing for this business; the
+   * sales line below is the number Yelp, the Chamber of Commerce and the
+   * owner's own brief all agree on.
+   */
   phone: {
-    display: '(949) 304-6442',
-    tel: '+19493046442',
-    schema: '+1-949-304-6442',
+    display: '(949) 326-6194',
+    tel: '+19493266194',
+    schema: '+1-949-326-6194',
   },
+
+  /** Service department — a different line, and a different department. */
+  servicePhone: {
+    display: '(949) 556-3607',
+    tel: '+19495563607',
+    schema: '+1-949-556-3607',
+  },
+
+  email: {
+    general: 'info@danvice.com',
+    finance: 'finance@danvice.com',
+  },
+
+  founded: '2020',
+  owner: 'Brindan Jayaraj',
+
+  /** Sold and serviced. The German marques are the service specialism. */
+  brands: [
+    'Mercedes-Benz',
+    'BMW',
+    'Audi',
+    'Porsche',
+    'Volkswagen',
+    'Lexus',
+    'Infiniti',
+    'Toyota',
+    'Honda',
+    'Acura',
+    'Nissan',
+  ],
 
   address: {
     street: '29901 Santa Margarita Pkwy',
@@ -27,15 +63,19 @@ export const SITE = {
 
   geo: { latitude: 33.6403, longitude: -117.6031 },
 
-  /** Demo hours — confirm with the owner before launch. */
+  /**
+   * Sales hours, per the owner. The demo previously ran Mon–Fri to 7pm and
+   * opened on Sunday, and three pages said "open seven days a week" — the lot
+   * is closed Sunday, so that claim sent people to a shut door.
+   */
   hours: [
-    { day: 'Monday', open: '09:00', close: '19:00' },
-    { day: 'Tuesday', open: '09:00', close: '19:00' },
-    { day: 'Wednesday', open: '09:00', close: '19:00' },
-    { day: 'Thursday', open: '09:00', close: '19:00' },
-    { day: 'Friday', open: '09:00', close: '19:00' },
+    { day: 'Monday', open: '09:00', close: '18:00' },
+    { day: 'Tuesday', open: '09:00', close: '18:00' },
+    { day: 'Wednesday', open: '09:00', close: '18:00' },
+    { day: 'Thursday', open: '09:00', close: '18:00' },
+    { day: 'Friday', open: '09:00', close: '18:00' },
     { day: 'Saturday', open: '09:00', close: '18:00' },
-    { day: 'Sunday', open: '10:00', close: '17:00' },
+    { day: 'Sunday', closed: true },
   ] as const,
 
   priceRange: { min: 5000, max: 15000 },
@@ -91,6 +131,24 @@ export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true';
 export function formattedAddress(): string {
   const a = SITE.address;
   return `${a.street} ${a.unit}, ${a.city}, ${a.state} ${a.zip}`;
+}
+
+/**
+ * One formatter for opening hours, because two pages render them and a closed
+ * day has to read as "Closed" rather than "NaNam – NaNam". The footer and the
+ * contact page each had their own copy of the time formatter before this.
+ */
+export type OpeningHours = (typeof SITE.hours)[number];
+
+export function hoursLabel(entry: OpeningHours): string {
+  if ('closed' in entry) return 'Closed';
+  const time = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    const period = h >= 12 ? 'pm' : 'am';
+    const hour = h % 12 === 0 ? 12 : h % 12;
+    return m === 0 ? `${hour}${period}` : `${hour}:${String(m).padStart(2, '0')}${period}`;
+  };
+  return `${time(entry.open)} – ${time(entry.close)}`;
 }
 
 export function mapsUrl(): string {

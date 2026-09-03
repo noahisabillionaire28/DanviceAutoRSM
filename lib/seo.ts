@@ -33,12 +33,17 @@ export function autoDealerJsonLd() {
       latitude: SITE.geo.latitude,
       longitude: SITE.geo.longitude,
     },
-    openingHoursSpecification: SITE.hours.map((h) => ({
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: `https://schema.org/${DAY_MAP[h.day]}`,
-      opens: h.open,
-      closes: h.close,
-    })),
+    // Closed days are omitted entirely rather than sent with empty times:
+    // schema.org treats an absent day as closed, and Google reads a malformed
+    // OpeningHoursSpecification as "hours unknown" for the whole business.
+    openingHoursSpecification: SITE.hours
+      .filter((h): h is Extract<typeof h, { open: string }> => !('closed' in h))
+      .map((h) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: `https://schema.org/${DAY_MAP[h.day]}`,
+        opens: h.open,
+        closes: h.close,
+      })),
     areaServed: SITE.areaServed.map((name) => ({ '@type': 'City', name })),
   };
 }

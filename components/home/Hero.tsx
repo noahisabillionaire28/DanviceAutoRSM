@@ -92,18 +92,15 @@ export function Hero() {
           desktop, where the two units are equal. */}
       <Container className="relative pb-[calc(6rem+100lvh-100svh)] pt-40 text-center md:pb-28 md:pt-48">
         <div className="mx-auto max-w-3xl">
-          <p className="text-eyebrow uppercase text-white/70">
-            {SITE.address.city}
-          </p>
-          <div aria-hidden="true" className="mx-auto mt-4 h-px w-10 bg-orange-500" />
-
-          <h1 className="mt-8 text-balance text-display-xl text-white">
-            Honest cars for real budgets.
+          {/* No eyebrow and no rule above the headline: the city now lives in
+              the line below, where it still does its job for local search
+              without stacking two small elements over the headline. */}
+          <h1 className="text-balance text-display-xl text-white">
+            Sold here. Serviced here.
           </h1>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/85">
-            Every car on our lot is inspected before it&rsquo;s listed and priced the
-            same whether you haggle or not.
+          <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-white/85">
+            Used cars and expert service in {SITE.address.city}.
           </p>
 
           {/* One action, not two competing ones. Sized md on phones — still a
