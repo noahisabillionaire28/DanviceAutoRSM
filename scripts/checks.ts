@@ -488,7 +488,10 @@ for (const token of ['subhead', 'card-title']) {
 const SANCTIONED_HEADING = /text-(display-(xl|lg|md)|subhead|card-title|xs)\b/;
 for (const [name, src] of tsxFiles) {
   const headings = [...(src.match(/<h[234][^>]*>/g) ?? []),
-                    ...(src.match(/<Dialog\.Title[^>]*>/g) ?? [])];
+                    ...(src.match(/<Dialog\.Title[^>]*>/g) ?? []),
+                    // A <dt> set in the display face is a heading in every
+                    // grid on this site; three were sitting on bare text-lg/xl.
+                    ...(src.match(/<dt [^>]*font-display[^>]*>/g) ?? [])];
   for (const tag of headings) {
     if (tag.includes('sr-only')) continue;
     check(`${name}: heading uses a sanctioned size token`,
@@ -508,7 +511,7 @@ for (const [name, src] of tsxFiles) {
 // Five pages open with the same tinted band; financing used to open at the
 // full section rhythm instead, so it read as a different template.
 const introBands = ['app/about/page.tsx', 'app/contact/page.tsx',
-  'app/financing/page.tsx', 'app/sell-your-car/page.tsx'];
+  'app/financing/page.tsx', 'app/sell-your-car/page.tsx', 'app/service/page.tsx'];
 for (const f of introBands) {
   check(`${f}: intro band uses the shared rhythm`,
     readFileSync(join(ROOT, f), 'utf8').includes('py-14 text-center md:py-20'),
@@ -530,6 +533,45 @@ for (const [real, skel] of clsPairs) {
     b.every((box) => a.includes(box)),
     `<- skeleton ${JSON.stringify(b)} vs page ${JSON.stringify(a)} — this is a visible jump`);
 }
+
+console.log('\nBusiness facts match the owner brief');
+
+const siteSrc = readFileSync(join(ROOT, 'lib/site.ts'), 'utf8');
+const seoSrc = readFileSync(join(ROOT, 'lib/seo.ts'), 'utf8');
+
+// The share image rendered a retired headline once already, because it carried
+// its own copy of the H1. Both now read SITE.heroHeadline.
+const heroFile2 = readFileSync(join(ROOT, 'components/home/Hero.tsx'), 'utf8');
+const ogSrc = readFileSync(join(ROOT, 'app/opengraph-image.tsx'), 'utf8');
+check('the hero H1 comes from SITE.heroHeadline', /<h1[^>]*>\s*\{SITE\.heroHeadline\}/.test(heroFile2));
+check('the share image uses the same headline', ogSrc.includes('{SITE.heroHeadline}'),
+  '<- a second copy of the H1 is how the old one shipped to every link preview');
+
+// $5,000-$15,000 was invented for the demo. This is a real dealership, and the
+// brief gives no price band, so no claim is better than a wrong one.
+check('no invented price band survives',
+  !siteSrc.includes('priceRange') && !seoSrc.includes('priceRange'));
+for (const f of ['app/about/page.tsx', 'app/inventory/page.tsx']) {
+  check(`${f} makes no price-band claim`,
+    !/\$5,000|\$15,000/.test(readFileSync(join(ROOT, f), 'utf8')));
+}
+
+// Service is half the business. A page nobody can navigate to is not a page.
+check('the service page exists', existsSync(join(ROOT, 'app/service/page.tsx')));
+check('service is in the nav', /href: '\/service'/.test(siteSrc));
+check('service is in the sitemap',
+  readFileSync(join(ROOT, 'app/sitemap.ts'), 'utf8').includes("'/service'"));
+check('the service page dials the service line, not sales',
+  /line="service"/.test(readFileSync(join(ROOT, 'app/service/page.tsx'), 'utf8')),
+  '<- a repair customer reaching the sales desk wastes two people\'s time');
+
+// Marques outside the owner's brief crept in from search results once.
+const BRIEF_BRANDS = ['Mercedes-Benz', 'BMW', 'Audi', 'Lexus', 'Infiniti',
+  'Toyota', 'Honda', 'Acura', 'Nissan'];
+const declared = [...siteSrc.matchAll(/^\s{4}'([A-Za-z-]+(?:-Benz)?)',$/gm)].map((m) => m[1]);
+const stray = declared.filter((b) => !BRIEF_BRANDS.includes(b));
+check(`SITE.brands stays inside the brief (${declared.length} listed)`,
+  declared.length > 0 && stray.length === 0, `<- not in the brief: ${stray.join(', ')}`);
 
 console.log('\nOne CTA, everywhere');
 

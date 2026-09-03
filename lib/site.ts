@@ -6,7 +6,11 @@
 export const SITE = {
   name: 'Danvice Auto of RSM',
   shortName: 'Danvice Auto',
-  tagline: 'Used car sales and service in Rancho Santa Margarita.',
+  tagline: 'Affordable pre-owned vehicles with flexible financing options for all buyers.',
+  mission: 'To provide a fair, respectful, and efficient service to all customers, every time.',
+  /** The hero H1. Lives here because app/opengraph-image.tsx renders it too,
+   *  and the share image shipped a retired headline once already. */
+  heroHeadline: 'Affordable pre\u2011owned. Flexible financing.',
   description:
     'Used car sales and full auto service in Rancho Santa Margarita. German and Japanese specialists — Mercedes-Benz, BMW, Audi, Lexus, Toyota and more. Financing for first-time and no-credit buyers.',
 
@@ -42,8 +46,6 @@ export const SITE = {
     'Mercedes-Benz',
     'BMW',
     'Audi',
-    'Porsche',
-    'Volkswagen',
     'Lexus',
     'Infiniti',
     'Toyota',
@@ -78,8 +80,6 @@ export const SITE = {
     { day: 'Sunday', closed: true },
   ] as const,
 
-  priceRange: { min: 5000, max: 15000 },
-
   areaServed: [
     'Rancho Santa Margarita',
     'Mission Viejo',
@@ -93,6 +93,7 @@ export const SITE = {
 
   nav: [
     { href: '/inventory', label: 'Inventory' },
+    { href: '/service', label: 'Service' },
     { href: '/financing', label: 'Financing' },
     { href: '/sell-your-car', label: 'Sell Your Car' },
     { href: '/about', label: 'About' },

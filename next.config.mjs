@@ -15,6 +15,7 @@ const PAGE_ROUTES = [
   '/inventory',
   '/inventory/:slug',
   '/sell-your-car',
+  '/service',
 ];
 
 /**

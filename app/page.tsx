@@ -72,6 +72,30 @@ export default function HomePage() {
         </Container>
       </section>
 
+      {/* Service is half the business and was invisible on this site. A quiet
+          band rather than a full section: it should register with someone
+          scrolling the homepage, then hand them to /service for the detail. */}
+      <section className="py-16 md:py-20">
+        <Container>
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-prose">
+              <p className="eyebrow eyebrow-rule">Service</p>
+              <h2 className="mt-5 font-display text-subhead text-blue-900">
+                We service what we sell
+              </h2>
+              <p className="mt-3 leading-relaxed text-muted">
+                Repair and diagnostics on German and Japanese cars — Mercedes-Benz,
+                BMW and Audi through Lexus, Toyota and Honda — at the same address
+                as the lot.
+              </p>
+            </div>
+            <ButtonLink href="/service" variant="link" className="shrink-0">
+              Service and repair
+            </ButtonLink>
+          </div>
+        </Container>
+      </section>
+
       <Testimonials />
 
       {/* The second conversion path, reduced to one claim and one action. */}

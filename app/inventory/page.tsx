@@ -15,7 +15,7 @@ import { VehicleResults } from './vehicle-results';
 export const metadata: Metadata = {
   title: 'Used cars in Rancho Santa Margarita',
   description:
-    'Browse every car on the lot — all between $5,000 and $15,000, inspected, and priced up front. Filter by make, body style, price, and mileage.',
+    'Browse every car on the lot — inspected, and priced up front. Filter by make, body style, price, and mileage.',
 };
 
 // One array drives both the visible breadcrumb and its structured data.

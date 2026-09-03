@@ -96,11 +96,11 @@ export function Hero() {
               the line below, where it still does its job for local search
               without stacking two small elements over the headline. */}
           <h1 className="text-balance text-display-xl text-white">
-            Sold here. Serviced here.
+            {SITE.heroHeadline}
           </h1>
 
           <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-white/85">
-            Used cars and expert service in {SITE.address.city}.
+            Sold and serviced in {SITE.address.city}.
           </p>
 
           {/* One action, not two competing ones. Sized md on phones — still a

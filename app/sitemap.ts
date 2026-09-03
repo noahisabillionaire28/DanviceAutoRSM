@@ -5,7 +5,7 @@ import { SITE_URL } from '@/lib/site';
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const routes = ['', '/inventory', '/financing', '/sell-your-car', '/about', '/contact'];
+  const routes = ['', '/inventory', '/service', '/financing', '/sell-your-car', '/about', '/contact'];
 
   const staticEntries: MetadataRoute.Sitemap = routes.map((path) => ({
     url: `${SITE_URL}${path}`,

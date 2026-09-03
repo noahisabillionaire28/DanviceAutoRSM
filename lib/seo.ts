@@ -19,7 +19,6 @@ export function autoDealerJsonLd() {
     description: SITE.description,
     url: SITE_URL,
     telephone: SITE.phone.schema,
-    priceRange: `${formatPrice(SITE.priceRange.min)} - ${formatPrice(SITE.priceRange.max)}`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: `${SITE.address.street} ${SITE.address.unit}`,

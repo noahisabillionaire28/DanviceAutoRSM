@@ -13,7 +13,7 @@ export const dynamic = 'force-static';
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    'Danvice Auto of RSM is a family-run used car lot in Rancho Santa Margarita specializing in dependable vehicles between $5,000 and $15,000.',
+    'Danvice Auto of RSM is a family-run used car lot and service centre in Rancho Santa Margarita, specialising in German and Japanese vehicles.',
 };
 
 const VALUES = [
@@ -50,19 +50,15 @@ export default function AboutPage() {
                 how we do things more than any policy would.
               </p>
               <p>
-                We specialize deliberately: dependable cars between{' '}
-                <span className="tnum">$5,000</span> and{' '}
-                <span className="tnum">$15,000</span>. That is the range where a
-                first car, a student car, or a reliable second family car lives, and
-                it is a range a lot of larger dealerships have stopped bothering
-                with. Concentrating there means we know what a good one looks like
+                We specialize deliberately. Most of what we sell and almost all of
+                what we service is German or Japanese — Mercedes-Benz, BMW and Audi
+                on one side, Lexus, Toyota, Honda, Acura, Infiniti and Nissan on the
+                other. Concentrating there means we know what a good one looks like
                 and what a tired one is hiding.
               </p>
               <p>
-                Most of our inventory is Honda, Toyota, Mazda, Hyundai, and Kia, for
-                the unglamorous reason that they keep running. We would rather sell
-                you a Corolla with 96,000 honest miles than something flashier that
-                becomes your problem in eight months.
+                {SITE.owner} started Danvice in {SITE.founded}, and the aim has not
+                changed since: {SITE.mission.charAt(0).toLowerCase() + SITE.mission.slice(1)}
               </p>
               <p>
                 We are open six days a week, and the same people who sell you the
@@ -97,7 +93,7 @@ export default function AboutPage() {
           <dl className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((v) => (
               <div key={v.t}>
-                <dt className="font-display text-xl text-blue-900">{v.t}</dt>
+                <dt className="font-display text-card-title text-blue-900">{v.t}</dt>
                 <dd className="mt-3 leading-relaxed text-muted">{v.b}</dd>
               </div>
             ))}

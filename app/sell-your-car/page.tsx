@@ -50,7 +50,7 @@ export default function SellYourCarPage() {
             <dl className="mt-10 space-y-8">
               {POINTS.map((p) => (
                 <div key={p.t}>
-                  <dt className="font-display text-lg text-blue-900">{p.t}</dt>
+                  <dt className="font-display text-card-title text-blue-900">{p.t}</dt>
                   <dd className="mt-2 leading-relaxed text-muted">{p.b}</dd>
                 </div>
               ))}

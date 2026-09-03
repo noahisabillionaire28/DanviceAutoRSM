@@ -56,7 +56,7 @@ export default function OpengraphImage() {
               lineHeight: 1.05,
             }}
           >
-            Honest cars for real budgets.
+            {SITE.heroHeadline}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: 32 }}>
             <div style={{ width: 64, height: 5, backgroundColor: '#F07D22', borderRadius: 999 }} />
