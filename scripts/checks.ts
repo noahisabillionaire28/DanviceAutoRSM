@@ -307,8 +307,18 @@ check('the hero runs up under the header', /-mt-16[\s\S]*md:-mt-20/.test(heroFil
 
 // The hero starts at the very top of the viewport, so any height short of a
 // full one leaves the next section's light ground as a band across the fold.
-check('the hero fills the whole viewport', /min-h-svh/.test(heroFile),
+check('the hero fills the whole viewport', /min-h-lvh/.test(heroFile),
   '<- a fractional height shows the light ground at the bottom of the screen');
+// svh is the SMALLEST viewport, so it under-covers the moment the browser
+// chrome shrinks or floats over the page — which is the white band this fixed.
+// dvh would cover, but it retracks mid-scroll and reflows an in-flow section.
+check('the hero does not use svh or dvh', !/min-h-(svh|dvh)\b/.test(heroFile),
+  '<- svh leaves a band at the bottom on iOS; dvh resizes the hero as you scroll');
+// The lvh box is taller than the visible area at the top of the page, so the
+// copy needs the chrome height added back as bottom padding or it sits low.
+check('the hero copy is recentred against the chrome height',
+  /pb-\[calc\([^\]]*100lvh-100svh[^\]]*\)\]/.test(heroFile),
+  '<- without it the copy sits half the chrome height below centre');
 check('the hero height is not a fraction of the viewport',
   !/min-h-\[\d+(?:\.\d+)?(?:svh|vh|dvh|lvh)\]/.test(heroFile),
   '<- e.g. min-h-[92svh] leaves 8% of the fold showing the section below');

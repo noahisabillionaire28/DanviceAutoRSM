@@ -41,11 +41,22 @@ export function Hero() {
     // than starting beneath it. The Container adds the same amount back as top
     // padding so the copy stays optically centred.
     //
-    // min-h-svh, not a fraction of it: because the hero starts at the very top
-    // of the viewport, anything less leaves the next section's light ground
-    // showing as a band across the fold. svh measures against mobile browser
-    // chrome at its largest, so it still fills the screen with the URL bar up.
-    <section className="relative isolate -mt-16 flex min-h-svh items-center overflow-hidden bg-blue-900 text-white md:-mt-20">
+    // lvh, and specifically NOT svh. svh is by definition the *smallest*
+    // viewport — the height with browser chrome at its largest. Any state where
+    // the chrome is smaller than that, or floats over the page instead of
+    // insetting it (iOS Safari's toolbar does exactly this), leaves the visible
+    // area taller than 100svh, and the hero stops short. What shows in the
+    // shortfall is the next section, which paints no background of its own, so
+    // the page ground reads as a white band across the bottom of the phone.
+    //
+    // lvh is the largest viewport, so the navy covers the screen in every
+    // chrome state. Not dvh: that tracks the current viewport, which would
+    // resize this in-flow section as the chrome collapses mid-scroll. The
+    // MobileNavDrawer can use dvh because it is fixed; a hero cannot.
+    //
+    // On desktop there is no dynamic chrome, so lvh == svh == dvh and this is
+    // a no-op. Asserted in scripts/checks.ts.
+    <section className="relative isolate -mt-16 flex min-h-lvh items-center overflow-hidden bg-blue-900 text-white md:-mt-20">
       <video
         ref={videoRef}
         className="absolute inset-0 -z-20 h-full w-full object-cover"
@@ -71,7 +82,15 @@ export function Hero() {
       <div aria-hidden="true" className="hero-veil absolute inset-x-0 top-0 -z-10 h-full" />
       <div aria-hidden="true" className="hero-foot absolute inset-0 -z-10" />
 
-      <Container className="relative pb-24 pt-40 text-center md:pb-28 md:pt-48">
+      {/* The bottom padding carries a correction as well as spacing. The box is
+          now lvh tall while the visible area at the top of the page is only
+          svh, so centred copy would sit half the chrome height too low — on top
+          of the 64px it is already biased down by pt-40 vs pb-24 to clear the
+          header. 100lvh - 100svh IS the chrome height, so adding it back as
+          bottom padding recentres the copy in the part you can actually see,
+          while the navy still spans the full lvh. Resolves to 6rem + 0 on
+          desktop, where the two units are equal. */}
+      <Container className="relative pb-[calc(6rem+100lvh-100svh)] pt-40 text-center md:pb-28 md:pt-48">
         <div className="mx-auto max-w-3xl">
           <p className="text-eyebrow uppercase text-white/70">
             {SITE.address.city}
