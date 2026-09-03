@@ -472,9 +472,14 @@ for (const token of ['subhead', 'card-title']) {
     '<- without it the heading renders at body weight');
 }
 
+// Radix's Dialog.Title renders an <h2>, so it is a heading even though it does
+// not look like one in the source. The modal title shipped at body weight
+// because the first version of this check only matched literal <h2> tags.
 const SANCTIONED_HEADING = /text-(display-(xl|lg|md)|subhead|card-title|xs)\b/;
 for (const [name, src] of tsxFiles) {
-  for (const tag of src.match(/<h[234][^>]*>/g) ?? []) {
+  const headings = [...(src.match(/<h[234][^>]*>/g) ?? []),
+                    ...(src.match(/<Dialog\.Title[^>]*>/g) ?? [])];
+  for (const tag of headings) {
     if (tag.includes('sr-only')) continue;
     check(`${name}: heading uses a sanctioned size token`,
       SANCTIONED_HEADING.test(tag),

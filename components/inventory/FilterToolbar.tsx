@@ -69,7 +69,7 @@ export function FilterToolbar({
             <Dialog.Overlay className="fixed inset-0 z-50 animate-overlay-in bg-blue-950/50 backdrop-blur-sm lg:hidden" />
             <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] animate-sheet-up flex-col rounded-t-card bg-neutral-50 shadow-modal lg:hidden">
               <div className="flex items-center justify-between border-b border-blue-100 px-5 py-4">
-                <Dialog.Title className="font-display text-lg text-blue-900">Filters</Dialog.Title>
+                <Dialog.Title className="font-display text-card-title text-blue-900">Filters</Dialog.Title>
                 <Dialog.Close
                   aria-label="Close filters"
                   className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-blue-600 hover:bg-blue-50"

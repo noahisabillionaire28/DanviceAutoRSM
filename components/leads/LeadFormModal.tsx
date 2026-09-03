@@ -54,7 +54,7 @@ export function LeadFormModal({
           className="fixed inset-x-0 bottom-0 z-50 max-h-[92dvh] animate-sheet-up overflow-y-auto rounded-t-card bg-neutral-50 p-6 shadow-modal sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(34rem,92vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:animate-dialog-in sm:rounded-card sm:p-8"
         >
           <div className="mb-6 pr-8">
-            <Dialog.Title className="font-display text-2xl text-blue-900">
+            <Dialog.Title className="font-display text-subhead text-blue-900">
               {copy.title}
             </Dialog.Title>
             <Dialog.Description className="mt-2 text-muted">
