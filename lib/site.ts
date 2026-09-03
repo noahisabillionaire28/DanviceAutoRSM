@@ -12,7 +12,7 @@ export const SITE = {
    *  and the share image shipped a retired headline once already. */
   heroHeadline: 'Affordable pre\u2011owned. Flexible financing.',
   description:
-    'Used car sales and full auto service in Rancho Santa Margarita. German and Japanese specialists — Mercedes-Benz, BMW, Audi, Lexus, Toyota and more. Financing for first-time and no-credit buyers.',
+    'Used car sales and auto service in Rancho Santa Margarita. German and Japanese specialists, with financing for first-time and no-credit buyers.',
 
   /**
    * Sales is the site-wide CTA number. The demo previously carried

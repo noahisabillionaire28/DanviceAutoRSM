@@ -573,6 +573,38 @@ const stray = declared.filter((b) => !BRIEF_BRANDS.includes(b));
 check(`SITE.brands stays inside the brief (${declared.length} listed)`,
   declared.length > 0 && stray.length === 0, `<- not in the brief: ${stray.join(', ')}`);
 
+console.log('\nShare and search metadata');
+
+// The homepage title and og:title were the same 57-character string carrying an
+// em dash, which wrapped a text-message preview onto three lines. These guard
+// the split and the budgets, on the resolved strings rather than the templates.
+const layoutSrc = readFileSync(join(ROOT, 'app/layout.tsx'), 'utf8');
+const NAME = (siteSrc.match(/name: '([^']+)'/) ?? [])[1] ?? '';
+const defaultTitle = (layoutSrc.match(/default: `([^`]+)`/) ?? [])[1]?.replace('${SITE.name}', NAME) ?? '';
+const ogTitleRaw = (layoutSrc.match(/openGraph:[\s\S]*?title: ([^,]+),/) ?? [])[1]?.trim() ?? '';
+const ogTitle = ogTitleRaw === 'SITE.name'
+  ? NAME
+  : ogTitleRaw.replace(/[`']/g, '').replace('${SITE.name}', NAME);
+const description = (siteSrc.match(/description:\s*\n\s*'([^']+)'/) ?? [])[1] ?? '';
+
+check(`title.default is <= 60 chars (${defaultTitle.length})`,
+  defaultTitle.length > 0 && defaultTitle.length <= 60,
+  `<- Google truncates past 60: ${JSON.stringify(defaultTitle)}`);
+check(`og:title is <= 30 chars (${ogTitle.length})`,
+  ogTitle.length > 0 && ogTitle.length <= 30,
+  `<- a message bubble wraps past 30: ${JSON.stringify(ogTitle)}`);
+check('the search title and the share title are different strings',
+  defaultTitle !== ogTitle,
+  '<- one string cannot serve both Google and a text message');
+check(`meta description is <= 155 chars (${description.length})`,
+  description.length > 0 && description.length <= 155,
+  '<- Google truncates past ~155, so the tail is written for nobody');
+for (const [label, value] of [['title.default', defaultTitle], ['og:title', ogTitle],
+                              ['the meta description', description]] as const) {
+  check(`${label} carries no em dash`, !value.includes('\u2014'),
+    '<- it reads badly at link-preview size');
+}
+
 console.log('\nOne CTA, everywhere');
 
 // The site previously carried eight CTA labels across five button variants.

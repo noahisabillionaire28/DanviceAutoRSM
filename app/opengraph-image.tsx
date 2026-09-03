@@ -19,7 +19,7 @@ import { SITE } from '@/lib/site';
  */
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = `${SITE.name} — used cars in ${SITE.address.city}`;
+export const alt = `${SITE.name}, used cars in ${SITE.address.city}`;
 
 const LOGO = readFileSync(join(process.cwd(), 'public/brand/danvice-logo.svg'), 'utf8');
 

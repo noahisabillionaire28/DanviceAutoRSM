@@ -24,8 +24,13 @@ const sans = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // Two audiences, two strings. <title> feeds Google, where keywords earn
+  // their place up to ~60 chars; og:title feeds a message bubble, where
+  // anything past ~30 wraps onto a third line. They were the same 57-char
+  // string, which served neither. The default now follows the same
+  // "thing | name" shape as every other page rather than being the odd one out.
   title: {
-    default: `${SITE.name} — Used Cars in Rancho Santa Margarita`,
+    default: `Used Cars & Auto Service | ${SITE.name}`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
@@ -38,7 +43,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: SITE.name,
-    title: `${SITE.name} — Used Cars in Rancho Santa Margarita`,
+    // Just the name: one line in a text message. The share image above it
+    // already carries the headline, and the description sits below it.
+    title: SITE.name,
     description: SITE.description,
     url: SITE_URL,
     locale: 'en_US',
