@@ -605,6 +605,30 @@ for (const [label, value] of [['title.default', defaultTitle], ['og:title', ogTi
     '<- it reads badly at link-preview size');
 }
 
+console.log('\nCrawling vs indexing (two levers, not one)');
+
+// The demo must stay out of search under the real business name, but it must
+// still unfurl when texted — that is how it gets delivered. Those are different
+// levers and the pair has to stay consistent, so both are asserted together.
+const robotsSrc = readFileSync(join(ROOT, 'app/robots.ts'), 'utf8');
+
+// A blanket disallow blocks link previews AND stops crawlers ever reading the
+// noindex tag, so a disallowed URL can still show up in results as a bare link.
+check('robots.txt never blanket-disallows',
+  !/disallow:\s*'\/'/.test(robotsSrc),
+  "<- Disallow: / kills link previews and makes noindex unreadable");
+check('robots.txt allows the crawl', /allow:\s*'\/'/.test(robotsSrc));
+check('robots.txt still protects /api/', /disallow:\s*\['\/api\/'\]/.test(robotsSrc));
+
+// With crawling open, noindex is the ONLY thing keeping the demo out of search.
+// Removing it while ALLOW_INDEXING is false would publish a fabricated
+// inventory under a real dealership's name.
+check('noindex still carries the gate when ALLOW_INDEXING is false',
+  /ALLOW_INDEXING[\s\S]{0,120}index:\s*false/.test(layoutSrc),
+  '<- with the crawl open this is the only remaining guard');
+check('the indexing gate is still a flag, not a hardcoded value',
+  layoutSrc.includes('ALLOW_INDEXING') && robotsSrc.includes('ALLOW_INDEXING'));
+
 console.log('\nOne CTA, everywhere');
 
 // The site previously carried eight CTA labels across five button variants.

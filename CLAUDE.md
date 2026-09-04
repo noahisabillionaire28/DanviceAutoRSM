@@ -36,4 +36,5 @@ Live: https://danvice-auto-rsm-lucrosai.vercel.app · Supabase project `danvice-
 - Reads use a cookie-less supabase-js client: `cookies()` cannot appear inside `unstable_cache`.
 - After changing vehicle rows, POST `/api/revalidate` or the site serves stale cached data.
 - Indexing is gated behind `NEXT_PUBLIC_ALLOW_INDEXING` (default off). Flip to `true` only when the owner approves.
+- **Crawling and indexing are separate levers. `robots.txt` always allows the crawl; `noindex` is what holds the gate.** `Disallow: /` was tried and was wrong twice: it blocked link unfurlers, so texting the site produced a bare URL with no title or image — and it made the indexing goal *less* reliable, because a crawler refused the page never reads the `noindex` on it and the URL can still surface as a bare link. Never reintroduce a blanket disallow; `npm run check` fails on it, and it also fails if `noindex` is removed while the crawl is open.
 - After every deployed change, end the reply with the live link: https://danvice-auto-rsm-lucrosai.vercel.app
