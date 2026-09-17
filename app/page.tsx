@@ -65,7 +65,7 @@ export default function HomePage() {
         <Container className="grid gap-8 py-16 md:grid-cols-3 md:gap-12 md:py-20">
           {PROOF.map((item) => (
             <div key={item.t}>
-              <h2 className="font-display text-card-title text-blue-900">{item.t}</h2>
+              <h2 className="text-card-title text-blue-900">{item.t}</h2>
               <p className="mt-2 leading-relaxed text-muted">{item.b}</p>
             </div>
           ))}
@@ -80,7 +80,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-prose">
               <p className="eyebrow eyebrow-rule">Service</p>
-              <h2 className="mt-5 font-display text-subhead text-blue-900">
+              <h2 className="mt-5 text-subhead text-blue-900">
                 We service what we sell
               </h2>
               <p className="mt-3 leading-relaxed text-muted">

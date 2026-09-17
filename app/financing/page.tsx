@@ -78,8 +78,8 @@ export default function FinancingPage() {
           <ol className="mt-12 grid gap-10 md:grid-cols-3">
             {STEPS.map((s) => (
               <li key={s.n}>
-                <span className="tnum font-display text-4xl text-orange-600/40">{s.n}</span>
-                <h3 className="mt-4 font-display text-card-title text-blue-900">{s.t}</h3>
+                <span className="tnum text-4xl font-bold tracking-tight text-orange-600/40">{s.n}</span>
+                <h3 className="mt-4 text-card-title text-blue-900">{s.t}</h3>
                 <p className="mt-3 leading-relaxed text-muted">{s.b}</p>
               </li>
             ))}
@@ -117,7 +117,7 @@ export default function FinancingPage() {
           <div className="mt-12 max-w-prose">
             {FAQS.map((f) => (
               <details key={f.q} className="group border-b border-blue-100 py-5">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-display text-lg text-blue-900 marker:content-['']">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-lg font-semibold text-blue-900 marker:content-['']">
                   {f.q}
                   <span
                     aria-hidden="true"

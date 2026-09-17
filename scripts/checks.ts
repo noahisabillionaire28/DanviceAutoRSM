@@ -1,3 +1,4 @@
+import { SITE } from '@/lib/site';
 import { LeadSchema } from '@/lib/schemas/lead';
 import { estimateMonthlyPayment } from '@/lib/payment';
 import { parseFilters, serializeFilters } from '@/lib/filters';
@@ -473,25 +474,60 @@ const tsxFiles: [string, string][] = [
 ];
 
 // Tailwind's own text-lg/xl/2xl carry no font-weight, so a heading set in one
-// inherits body 400 and stops reading as a heading — while display-* sit at
-// 600. That mismatch flattened the hierarchy on every page below the title.
-for (const token of ['subhead', 'card-title']) {
+// inherits body 400 and stops reading as a heading. That mismatch flattened the
+// hierarchy on every page below the title. With the site on a single family
+// there is no serif-vs-sans signal left either, so the weight ladder IS the
+// hierarchy: 700 for the display tier, 600 for block and card headings, 400 for
+// body. Each rung has to be nailed down or the page goes flat.
+const WEIGHTS: [string, string][] = [
+  ['display-xl', '700'], ['display-lg', '700'], ['display-md', '700'],
+  ['subhead', '600'], ['card-title', '600'], ['eyebrow', '600'],
+];
+for (const [token, weight] of WEIGHTS) {
   const m = cfg.match(new RegExp(`'?${token}'?:\\s*\\[[^\\]]*\\]`));
-  check(`the ${token} heading token carries its own weight`,
-    !!m && /fontWeight:\s*'600'/.test(m[0]),
+  check(`the ${token} token carries its own weight (${weight})`,
+    !!m && new RegExp(`fontWeight:\\s*'${weight}'`).test(m[0]),
     '<- without it the heading renders at body weight');
 }
+
+// One family, site-wide. Two things have to stay true together, or the site
+// half-reverts without anything looking broken in review:
+//   * no `font-display` class survives — the family it named is gone, so the
+//     class is now a no-op that silently renders body weight;
+//   * tailwind.config.ts defines no `display` family to bring it back.
+const rootLayout = readFileSync(join(ROOT, 'app/layout.tsx'), 'utf8');
+check('no font-display class survives the move to one family',
+  !tsxFiles.some(([, src]) => src.includes('font-display')),
+  '<- font-display names a family that no longer exists; it renders as body 400');
+check('tailwind defines exactly one font family',
+  !/\bdisplay:\s*\[[^\]]*--font-display/.test(cfg) && /sans:\s*\['var\(--font-sans\)'/.test(cfg),
+  '<- the site runs Inter everywhere; a second family here re-splits the type');
+// Reads the import statement, not the file: the comment above it names
+// Fraunces on purpose, to say why it is gone.
+const fontImports = rootLayout.match(/import\s*\{([^}]*)\}\s*from\s*'next\/font\/google'/g) ?? [];
+check('layout.tsx loads exactly one webfont',
+  fontImports.length === 1 && /\{\s*Inter\s*\}/.test(fontImports[0]),
+  '<- a second next/font import is a second webfont on every page load');
 
 // Radix's Dialog.Title renders an <h2>, so it is a heading even though it does
 // not look like one in the source. The modal title shipped at body weight
 // because the first version of this check only matched literal <h2> tags.
 const SANCTIONED_HEADING = /text-(display-(xl|lg|md)|subhead|card-title|xs)\b/;
+
+// A <dt> that opens a definition grid is a heading, and three of them shipped
+// on a bare text-lg once. They used to be identified here by `font-display` —
+// the class that put them in the serif — but the site now runs one family and
+// that marker no longer exists. A regex looking for it would match nothing and
+// this guard would pass by doing nothing at all, which is the failure it was
+// written to prevent. So match what actually makes a <dt> a heading: heading
+// SCALE. A small label <dt> ("Sales", "Mon", "Amount financed") is not a
+// heading and is deliberately left alone.
+const HEADING_SCALE = /\btext-(lg|\d?xl|\[[\d.]+rem\])\b/;
 for (const [name, src] of tsxFiles) {
   const headings = [...(src.match(/<h[234][^>]*>/g) ?? []),
                     ...(src.match(/<Dialog\.Title[^>]*>/g) ?? []),
-                    // A <dt> set in the display face is a heading in every
-                    // grid on this site; three were sitting on bare text-lg/xl.
-                    ...(src.match(/<dt [^>]*font-display[^>]*>/g) ?? [])];
+                    ...(src.match(/<dt [^>]*>/g) ?? [])
+                      .filter((t) => HEADING_SCALE.test(t) || SANCTIONED_HEADING.test(t))];
   for (const tag of headings) {
     if (tag.includes('sr-only')) continue;
     check(`${name}: heading uses a sanctioned size token`,
@@ -546,6 +582,28 @@ const ogSrc = readFileSync(join(ROOT, 'app/opengraph-image.tsx'), 'utf8');
 check('the hero H1 comes from SITE.heroHeadline', /<h1[^>]*>\s*\{SITE\.heroHeadline\}/.test(heroFile2));
 check('the share image uses the same headline', ogSrc.includes('{SITE.heroHeadline}'),
   '<- a second copy of the H1 is how the old one shipped to every link preview');
+
+// Satori has no network and inherits nothing from the page, so the share image
+// renders in whatever font bytes this file hands it. It used to hand over
+// nothing and get Satori's built-in default, which only resembled Inter.
+check('the share image is set in real Inter',
+  /fonts:\s*\[/.test(ogSrc) && ogSrc.includes("fontFamily: 'Inter'"),
+  "<- fontFamily alone gets Satori's default face, not the site's");
+
+// Those font files are SUBSET — Latin-1 plus the punctuation this site sets —
+// to keep 41KB in the repo instead of 320KB. A character outside that range
+// renders as a tofu box in the one image every shared link shows, and the hero
+// headline already carries a U+2011 non-breaking hyphen, so this is not
+// hypothetical.
+const OG_SUBSET = /^[\u0020-\u007E\u00A0-\u00FF\u2010\u2011\u2013\u2014\u2018\u2019\u201C\u201D\u2022\u2026\u20AC]*$/;
+for (const [label, text] of [
+  ['the headline', SITE.heroHeadline],
+  ['the city line', `${SITE.address.city}, CA \u00B7 ${SITE.phone.display}`],
+]) {
+  check(`${label} stays inside the share image's font subset`,
+    OG_SUBSET.test(text),
+    `<- ${JSON.stringify(text)} has a character Inter-Regular/Bold.ttf were not subset for`);
+}
 
 // $5,000-$15,000 was invented for the demo. This is a real dealership, and the
 // brief gives no price band, so no claim is better than a wrong one.

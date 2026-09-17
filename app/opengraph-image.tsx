@@ -16,12 +16,24 @@ import { SITE } from '@/lib/site';
  * reliably, and its direct SVG support is partial. Reading the file rather
  * than duplicating the paths means the share image cannot drift from the logo
  * the site actually renders.
+ *
+ * The type is Inter, the same face as the site. Satori does not inherit the
+ * page's fonts and has no network — `fontFamily: 'sans-serif'` got you its
+ * built-in default, which merely resembled Inter. The two files below are
+ * Inter subset to Latin-1 plus the punctuation this site sets (41KB each
+ * rather than 320KB); scripts/checks.ts asserts nothing rendered here falls
+ * outside that range, because a missing glyph is a tofu box in the one image
+ * every shared link shows.
  */
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = `${SITE.name}, used cars in ${SITE.address.city}`;
 
-const LOGO = readFileSync(join(process.cwd(), 'public/brand/danvice-logo.svg'), 'utf8');
+const asset = (f: string) => readFileSync(join(process.cwd(), f));
+
+const LOGO = asset('public/brand/danvice-logo.svg').toString('utf8');
+const INTER_REGULAR = asset('app/fonts/Inter-Regular.ttf');
+const INTER_BOLD = asset('app/fonts/Inter-Bold.ttf');
 
 export default function OpengraphImage() {
   const logo = `data:image/svg+xml;base64,${Buffer.from(LOGO).toString('base64')}`;
@@ -38,7 +50,7 @@ export default function OpengraphImage() {
           // blue-900, the site's dark field.
           backgroundColor: '#12253A',
           padding: '72px 80px',
-          fontFamily: 'sans-serif',
+          fontFamily: 'Inter',
         }}
       >
         <div style={{ display: 'flex' }}>
@@ -52,7 +64,7 @@ export default function OpengraphImage() {
               fontSize: 68,
               fontWeight: 700,
               color: '#FFFFFF',
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.035em',
               lineHeight: 1.05,
             }}
           >
@@ -67,6 +79,12 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    {
+      ...size,
+      fonts: [
+        { name: 'Inter', data: INTER_REGULAR, weight: 400, style: 'normal' },
+        { name: 'Inter', data: INTER_BOLD, weight: 700, style: 'normal' },
+      ],
+    },
   );
 }

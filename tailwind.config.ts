@@ -67,13 +67,21 @@ const config: Config = {
         'accent-fg': 'rgb(var(--accent-fg) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
+        // One family, site-wide. There is no `display` family: the site ran
+        // Fraunces on headings and Inter on body, and now runs Inter on both.
+        // `text-display-*` below is a SIZE tier, not a family — the names are
+        // not related.
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display-xl': ['clamp(2.75rem,6vw,4.5rem)', { lineHeight: '0.98', letterSpacing: '-0.025em', fontWeight: '600' }],
-        'display-lg': ['clamp(2.25rem,4.5vw,3.25rem)', { lineHeight: '1.04', letterSpacing: '-0.02em', fontWeight: '600' }],
-        'display-md': ['clamp(1.75rem,3vw,2.25rem)', { lineHeight: '1.12', letterSpacing: '-0.015em', fontWeight: '600' }],
+        // Tracking and weight are set for Inter. Both were tuned for Fraunces
+        // before, which wanted looser tracking and held its own at 600 because
+        // being a serif already told you it was a heading. A single-family site
+        // has no such signal, so the display tier steps up to 700 and tracks
+        // tighter — at these sizes Inter's default spacing reads slack.
+        'display-xl': ['clamp(2.75rem,6vw,4.5rem)', { lineHeight: '1.0', letterSpacing: '-0.035em', fontWeight: '700' }],
+        'display-lg': ['clamp(2.25rem,4.5vw,3.25rem)', { lineHeight: '1.06', letterSpacing: '-0.03em', fontWeight: '700' }],
+        'display-md': ['clamp(1.75rem,3vw,2.25rem)', { lineHeight: '1.14', letterSpacing: '-0.025em', fontWeight: '700' }],
         // The two heading tiers below the display sizes. They exist because
         // Tailwind's own text-lg/xl/2xl carry no font-weight: every heading
         // using them inherited body 400 and read as prose, while the display
@@ -83,8 +91,8 @@ const config: Config = {
         //
         //   subhead    a titled block that owns a chunk of a page
         //   card-title a repeated grid item, or a widget title inside a card
-        subhead: ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '600' }],
-        'card-title': ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.005em', fontWeight: '600' }],
+        subhead: ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.018em', fontWeight: '600' }],
+        'card-title': ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.011em', fontWeight: '600' }],
         eyebrow: ['0.75rem', { lineHeight: '1', letterSpacing: '0.16em', fontWeight: '600' }],
         lede: ['1.125rem', { lineHeight: '1.6' }],
       },

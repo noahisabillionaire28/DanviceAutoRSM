@@ -65,7 +65,7 @@ export default function ServicePage() {
             <dl className="mt-10 space-y-8">
               {POINTS.map((p) => (
                 <div key={p.t}>
-                  <dt className="font-display text-card-title text-blue-900">{p.t}</dt>
+                  <dt className="text-card-title text-blue-900">{p.t}</dt>
                   <dd className="mt-2 leading-relaxed text-muted">{p.b}</dd>
                 </div>
               ))}
@@ -74,7 +74,7 @@ export default function ServicePage() {
 
           <div className="lg:col-span-7">
             <div className="rounded-card bg-blue-900 p-8 text-neutral-50 md:p-14">
-              <h2 className="font-display text-subhead">Book it in</h2>
+              <h2 className="text-subhead">Book it in</h2>
               <p className="mt-4 max-w-md leading-relaxed text-neutral-50/75">
                 Service is a phone call — tell us the car and what it is doing,
                 and we will tell you what it needs and when we can take it.
@@ -109,7 +109,7 @@ export default function ServicePage() {
 
       <section className="border-t border-blue-100 bg-neutral-100">
         <Container className="py-16 md:py-20">
-          <h2 className="font-display text-card-title text-blue-900">
+          <h2 className="text-card-title text-blue-900">
             Marques we sell and service
           </h2>
           <ul className="mt-6 flex flex-wrap gap-x-3 gap-y-2">

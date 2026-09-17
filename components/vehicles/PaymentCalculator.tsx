@@ -39,10 +39,10 @@ export function PaymentCalculator({
         className,
       )}
     >
-      <h3 className="font-display text-card-title text-blue-900">Estimate your payment</h3>
+      <h3 className="text-card-title text-blue-900">Estimate your payment</h3>
 
       <div className="mt-5 flex items-baseline gap-2">
-        <span className="tnum font-display text-4xl text-blue-900">
+        <span className="tnum text-4xl font-semibold tracking-tight text-blue-900">
           ${estimate.monthly}
         </span>
         <span className="text-muted">/month est.</span>

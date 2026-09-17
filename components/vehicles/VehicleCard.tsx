@@ -41,7 +41,7 @@ export function VehicleCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-card-title text-blue-900">
+        <h3 className="text-card-title text-blue-900">
           <Link href={`/inventory/${vehicle.slug}`} className="after:absolute after:inset-0">
             {title}
           </Link>
@@ -74,7 +74,7 @@ export function VehicleCard({
                 {formatPrice(vehicle.previous_price!)}
               </p>
             )}
-            <p className="tnum font-display text-2xl text-blue-900">
+            <p className="tnum text-2xl font-semibold tracking-tight text-blue-900">
               {formatPrice(vehicle.price)}
             </p>
           </div>

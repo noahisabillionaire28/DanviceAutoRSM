@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { ALLOW_INDEXING, SITE, SITE_URL } from '@/lib/site';
 import { autoDealerJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -7,15 +7,17 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import './globals.css';
 
-const display = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-display',
-  // Variable font: weight is fluid, so axes and an explicit weight list are
-  // mutually exclusive. SOFT/WONK/opsz give Fraunces its editorial character.
-  axes: ['SOFT', 'WONK', 'opsz'],
-});
-
+/**
+ * One family for the whole site, headings included.
+ *
+ * There used to be a second face here — Fraunces, a serif, on every heading and
+ * price — with Inter carrying only body copy. Running a single family means the
+ * hierarchy is carried by size and weight alone, which is why the display size
+ * tokens in tailwind.config.ts sit at 700 while the block headings sit at 600:
+ * with no family contrast left, weight has to do that work on its own.
+ *
+ * Dropping the second face also drops a webfont from every page load.
+ */
 const sans = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -61,7 +63,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body className="flex min-h-screen flex-col">
         <JsonLd data={autoDealerJsonLd()} />
 

@@ -65,7 +65,7 @@ export function MobileNavDrawer({ tone = 'dark' }: { tone?: 'dark' | 'light' }) 
               <li>
                 <Link
                   href="/"
-                  className="flex min-h-[56px] items-center rounded-md px-3 font-display text-[1.75rem] leading-tight text-blue-900 transition-colors hover:bg-blue-50"
+                  className="flex min-h-[56px] items-center rounded-md px-3 text-[1.75rem] font-semibold leading-tight tracking-tight text-blue-900 transition-colors hover:bg-blue-50"
                 >
                   Home
                 </Link>
@@ -74,7 +74,7 @@ export function MobileNavDrawer({ tone = 'dark' }: { tone?: 'dark' | 'light' }) 
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="flex min-h-[56px] items-center rounded-md px-3 font-display text-[1.75rem] leading-tight text-blue-900 transition-colors hover:bg-blue-50"
+                    className="flex min-h-[56px] items-center rounded-md px-3 text-[1.75rem] font-semibold leading-tight tracking-tight text-blue-900 transition-colors hover:bg-blue-50"
                   >
                     {item.label}
                   </Link>

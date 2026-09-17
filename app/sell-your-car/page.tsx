@@ -50,7 +50,7 @@ export default function SellYourCarPage() {
             <dl className="mt-10 space-y-8">
               {POINTS.map((p) => (
                 <div key={p.t}>
-                  <dt className="font-display text-card-title text-blue-900">{p.t}</dt>
+                  <dt className="text-card-title text-blue-900">{p.t}</dt>
                   <dd className="mt-2 leading-relaxed text-muted">{p.b}</dd>
                 </div>
               ))}
@@ -59,7 +59,7 @@ export default function SellYourCarPage() {
 
           <div className="lg:col-span-7">
             <div className="rounded-card bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
-              <h2 className="font-display text-subhead text-blue-900">Tell us about your car</h2>
+              <h2 className="text-subhead text-blue-900">Tell us about your car</h2>
               <p className="mt-2 text-muted">
                 The more you tell us, the closer our first number will be.
               </p>

@@ -69,7 +69,7 @@ export default function AboutPage() {
 
           <div className="lg:col-span-5">
             <div className="rounded-card bg-blue-900 p-8 text-neutral-50">
-              <h2 className="font-display text-card-title">Where we are</h2>
+              <h2 className="text-card-title">Where we are</h2>
               <address className="mt-4 not-italic leading-relaxed text-neutral-50/75">
                 {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
                 <br />
@@ -77,7 +77,7 @@ export default function AboutPage() {
               </address>
               <a
                 href={`tel:${SITE.phone.tel}`}
-                className="tnum mt-5 inline-block font-display text-2xl transition-colors hover:text-orange-400"
+                className="tnum mt-5 inline-block text-2xl font-semibold tracking-tight transition-colors hover:text-orange-400"
               >
                 {SITE.phone.display}
               </a>
@@ -93,7 +93,7 @@ export default function AboutPage() {
           <dl className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((v) => (
               <div key={v.t}>
-                <dt className="font-display text-card-title text-blue-900">{v.t}</dt>
+                <dt className="text-card-title text-blue-900">{v.t}</dt>
                 <dd className="mt-3 leading-relaxed text-muted">{v.b}</dd>
               </div>
             ))}

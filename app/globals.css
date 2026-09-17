@@ -27,10 +27,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 {
-    @apply font-display;
-  }
-
   /* Prices, mileage, specs must align in columns. */
   .tnum {
     font-variant-numeric: tabular-nums;

@@ -49,7 +49,7 @@ export function VehiclePlaceholder({
       </svg>
 
       {label && (
-        <p className="relative mt-4 max-w-[85%] text-center font-display text-sm text-blue-700">
+        <p className="relative mt-4 max-w-[85%] text-center text-sm font-medium text-blue-700">
           {label}
         </p>
       )}

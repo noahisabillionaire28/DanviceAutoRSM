@@ -17,7 +17,7 @@ export function SiteFooter() {
             </p>
             <a
               href={`tel:${SITE.phone.tel}`}
-              className="tnum mt-6 inline-block font-display text-2xl text-neutral-50 transition-colors hover:text-orange-400"
+              className="tnum mt-6 inline-block text-2xl font-semibold tracking-tight text-neutral-50 transition-colors hover:text-orange-400"
             >
               {SITE.phone.display}
             </a>

@@ -37,7 +37,7 @@ export default function ContactPage() {
       <Container className="py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <h2 className="font-display text-subhead text-blue-900">Visit the lot</h2>
+            <h2 className="text-subhead text-blue-900">Visit the lot</h2>
             <address className="mt-5 not-italic text-lg leading-relaxed text-blue-800">
               {SITE.address.street}{SITE.address.unit ? <>&nbsp;{SITE.address.unit}</> : null}
               <br />
@@ -46,7 +46,7 @@ export default function ContactPage() {
 
             <a
               href={`tel:${SITE.phone.tel}`}
-              className="tnum mt-6 inline-block font-display text-3xl text-blue-900 transition-colors hover:text-blue-600"
+              className="tnum mt-6 inline-block text-3xl font-semibold tracking-tight text-blue-900 transition-colors hover:text-blue-600"
             >
               {SITE.phone.display}
             </a>
@@ -57,7 +57,7 @@ export default function ContactPage() {
                 CallButton, and scripts/checks.ts enforces that. */}
             <a
               href={`tel:${SITE.servicePhone.tel}`}
-              className="tnum mt-5 inline-block font-display text-2xl text-blue-900 transition-colors hover:text-blue-600"
+              className="tnum mt-5 inline-block text-2xl font-semibold tracking-tight text-blue-900 transition-colors hover:text-blue-600"
             >
               {SITE.servicePhone.display}
             </a>
@@ -106,7 +106,7 @@ export default function ContactPage() {
               />
             </div>
 
-            <h2 className="mt-12 font-display text-subhead text-blue-900">Hours</h2>
+            <h2 className="mt-12 text-subhead text-blue-900">Hours</h2>
             <dl className="mt-5 divide-y divide-blue-100 border-y border-blue-100">
               {SITE.hours.map((h) => (
                 <div key={h.day} className="flex items-center justify-between py-3">
@@ -119,7 +119,7 @@ export default function ContactPage() {
 
           <div className="lg:col-span-7">
             <div className="rounded-card bg-surface p-6 shadow-card ring-1 ring-blue-100/70 md:p-8">
-              <h2 className="font-display text-subhead text-blue-900">Send us a message</h2>
+              <h2 className="text-subhead text-blue-900">Send us a message</h2>
               <p className="mt-2 text-muted">
                 We answer these ourselves, usually within a business hour.
               </p>
